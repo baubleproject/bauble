@@ -5,20 +5,11 @@ import { NavBar } from '@/components/common/NavBar';
 import { isSignedIn } from '@/lib/ClerkAuthTools';
 
 export default async function Home() {
-    const isIn = await isSignedIn()
     return (
         <main className="min-h-screen dark:bg-main flex-col items-center">
             <NavBar />
             <main className='p-10'>
-                <UserButton afterSignOutUrl='/' />
-                {
-                    isIn ? (
-                        <p>Hello there</p>
-                    ) : (
-                        null
-                    )
-                }
-            </main>
+           </main>
         </main>
     )
 }
