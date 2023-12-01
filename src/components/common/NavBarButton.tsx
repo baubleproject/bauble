@@ -14,23 +14,27 @@ export function NavBarButton() {
 
     useEffect(() => {
         const checkIfIsSigned = async () => {
-            const result = await isSignedIn()
-            setIsSigned(result)
+            try {
+                const result = await isSignedIn()
+                if (result) {
+                    setIsSigned(true)
+                }
+            }catch(e){
+
+            } finally {
+                setIsPending(false)
+            }
         }
-        checkIfIsSigned()
-        setIsPending(false)
+
+        checkIfIsSigned();
     }, [])
 
     const onSignIn = () => {
-        setIsPending(true)
         router.push("/signin")
-        setIsPending(false)
     }
 
     const onGoHome = () => {
-        setIsPending(true)
         router.push("/home")
-        setIsPending(false)
     }
 
     if (isPending) {
@@ -44,8 +48,8 @@ export function NavBarButton() {
     return (
         <div className="">
             {
-                !isSigned ?
-                    (<Button onClick={onGoHome} className="gap-2 flex items-center"><FaHome size={25} />Home</Button>)
+                isSigned ?
+                    (<Button onClick={onGoHome} className="gap-2 flex items-center">Dashboard</Button>)
                     :
                     (<Button onClick={onSignIn}>Sign In</Button>)
             }
