@@ -3,6 +3,7 @@ import { isSignedIn } from "@/lib/ClerkAuthTools";
 import { NavBarButton } from "./NavBarButton";
 import { ModeToggle } from '@/components/custom/themeToggle'
 import { useEffect, useState } from "react";
+import { UserButtonDropDown } from "./UserButton";
 
 type buttonClick = "signin" | "home"
 
@@ -27,7 +28,8 @@ export function NavBar() {
                     {isSigned ? <li className="hover:underline transition">Library</li> : null}
                 </ul>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
+                <UserButtonDropDown />
                 <ModeToggle />
                 <NavBarButton />
             </div>

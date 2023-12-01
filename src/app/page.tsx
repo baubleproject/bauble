@@ -6,7 +6,7 @@ import { isSignedIn } from '@/lib/ClerkAuthTools';
 
 export default async function Home() {
     return (
-        <main className="min-h-screen dark:bg-main flex-col items-center">
+        <main className="min-h-screen dark:bg-slate-400 flex-col items-center">
             <NavBar />
             <main className='p-10'>
            </main>
