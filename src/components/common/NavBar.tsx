@@ -1,10 +1,22 @@
 "use client"
+import { isSignedIn } from "@/lib/ClerkAuthTools";
 import { NavBarButton } from "./NavBarButton";
 import { ModeToggle } from '@/components/custom/themeToggle'
+import { useEffect, useState } from "react";
 
 type buttonClick = "signin" | "home"
 
 export function NavBar() {
+    const [isSigned, setIsSigned] = useState(false)
+    useEffect(() => {
+        const checkiIfSigned = async () => {
+            const isSigned = await isSignedIn()
+            if (isSigned) {
+                setIsSigned(true)
+            }
+        }
+        checkiIfSigned()
+    }, [])
     return (
         <nav className="hidden md:flex h-16 bg-slate-300 dark:bg-slate-700 justify-between items-center px-6">
             <div className="font-extrabold text-3xl -tracking-[0.13em]">Novus</div>
@@ -12,6 +24,7 @@ export function NavBar() {
                 <ul className="flex justify-center gap-3 font-light [&>*]:cursor-pointer [&>*]:-tracking-widest">
                     <li className="hover:underline transition">Explore</li>
                     <li className="hover:underline transition">Search</li>
+                    {isSigned ? <li className="hover:underline transition">Library</li> : null}
                 </ul>
             </div>
             <div className="flex gap-2">
