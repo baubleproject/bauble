@@ -20,4 +20,16 @@ model Profile {
     email           String   @db.Text
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
+
+    followedBy Follows[] @relation("follower")
+    following  Follows[] @relation("following")
+}
+
+model Follows {
+    follower    Profile @relation("follower", fields: [followerId], references: [id])
+    followerId  String
+    following   Profile @relation("following", fields: [followingId], references: [id])
+    followingId String
+
+    @@id([followerId, followingId])
 }
