@@ -7,8 +7,18 @@ import { UserButtonDropDown } from "./UserButton";
 
 type buttonClick = "signin" | "home"
 
-export function NavBar() {
+interface NavBarType {
+    transparent?:boolean
+    fixed?: boolean;
+}
+
+export function NavBar({
+    transparent = false,
+    fixed = false 
+    }:NavBarType) {
+
     const [isSigned, setIsSigned] = useState(false)
+
     useEffect(() => {
         const checkiIfSigned = async () => {
             const isSigned = await isSignedIn()
@@ -18,8 +28,9 @@ export function NavBar() {
         }
         checkiIfSigned()
     }, [])
+
     return (
-        <nav className="hidden md:flex h-16 bg-slate-300 dark:bg-slate-700 justify-between items-center px-6">
+        <nav className={`hidden md:flex h-16 w-full ${transparent ? "bg-transparent":"bg-slate-300 dark:bg-slate-700"} ${fixed ? "fixed":""} justify-between items-center px-6 z-30`}>
             <div className="font-extrabold text-3xl -tracking-[0.13em]">Novus</div>
             <div className="w-2/3">
                 <ul className="flex justify-center gap-3 font-light [&>*]:cursor-pointer [&>*]:-tracking-widest">

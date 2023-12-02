@@ -1,3 +1,4 @@
+import { NavBar } from "@/components/common/NavBar"
 
 export default function RootLayout({
     children,
@@ -6,13 +7,14 @@ export default function RootLayout({
 }) {
 
     //<div className='hidden md:flex h-full w-[72px] z-30 flex-col fixed inset-y-0'>
+    // <div className='hidden md:flex h-full z-30'>
+    // </div>
+    //<div className='h-full flex'>
+    //</div>
     return (
-        <div className='h-full flex'>
-            <div className='hidden md:flex h-full z-30'>
-            </div>
-            <main className=' h-full flex-1'>
-                {children}
-            </main>
-        </div>
+        <main className=' h-full flex-1'>
+            <NavBar transparent={true} fixed={true} />
+            {children}
+        </main>
     )
 }
