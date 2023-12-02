@@ -49,7 +49,7 @@ export function UserButtonDropDown() {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
                     Profile
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
