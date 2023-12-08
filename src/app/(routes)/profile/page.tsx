@@ -12,6 +12,12 @@ export default async function Home() {
     if (!profile) {
         return null;
     }
+    // <div className='-bottom-10 md:-bottom-12 lg:-bottom-16 lg:left-40 md:left-1/2 absolute w-24 h-24 md:h-28 md:w-28 lg:h-40 lg:w-40 rounded-full bg-contain bg-center border-white border-4'
+    //     style={{
+    //         backgroundImage: `url(${profile.profileImageUrl})`
+    //     }}
+    // />
+
     return (
         <main className="min-h-screen flex flex-col items-center bg-slate-200">
             <section className='h-64 w-full bg-contain bg-center relative rounded-b-[2rem]'
@@ -20,13 +26,13 @@ export default async function Home() {
                 }}>
 
 
-                <div className='-bottom-10 md:-bottom-12 lg:-bottom-16 lg:left-40 md:left-1/2 absolute w-24 h-24 md:h-28 md:w-28 lg:h-40 lg:w-40 rounded-full bg-contain bg-center border-white border-4'
-                    style={{
-                        backgroundImage: `url(${profile.profileImageUrl})`
-                    }}
-                >
-                </div>
+
             </section>
+            <div className='-bottom-10 md:-bottom-12 lg:-bottom-16 lg:left-40 md:left-1/2 w-24 h-24 md:h-28 md:w-28 lg:h-40 lg:w-40 rounded-full bg-contain bg-center border-white border-4'
+                style={{
+                    backgroundImage: `url(${profile.profileImageUrl})`
+                }}
+            />
             <section className='w-full h-40 '>
                 <div className='w-5/6 h-full flex flex-col lg:flex-row mx-auto '>
                     <div className='h-full lg:w-2/5 flex flex-col justify-center items-center lg:items-start '>
