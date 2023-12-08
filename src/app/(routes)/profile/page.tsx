@@ -1,10 +1,11 @@
-import { NavBar } from '@/components/common/NavBar';
 import { LibrarySection } from '@/components/custom/profile/LibrarySection';
 import { SavedSection } from '@/components/custom/profile/SavedSection';
+//import { ModalType, useModal } from '@/hooks/useModal';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/tabs';
 import { initialUserCreation } from '@/lib/ClerkAuthTools';
 import { FaBell } from "react-icons/fa6";
+import { EditProfileButton } from '@/components/custom/modals/EditProfile';
 
 export default async function Home() {
     const profile = await initialUserCreation()
@@ -18,12 +19,12 @@ export default async function Home() {
                     backgroundImage: `url(${profile.headerImageUrl})`
                 }}>
 
-                <div className=' -z-10 -bottom-10 md:-bottom-12 lg:-bottom-16 lg:left-40 md:left-1/2 absolute w-24 h-24 md:h-28 md:w-28 lg:h-40 lg:w-40 rounded-full bg-contain bg-center border-white border-4'
+
+                <div className='-bottom-10 md:-bottom-12 lg:-bottom-16 lg:left-40 md:left-1/2 absolute w-24 h-24 md:h-28 md:w-28 lg:h-40 lg:w-40 rounded-full bg-contain bg-center border-white border-4'
                     style={{
                         backgroundImage: `url(${profile.profileImageUrl})`
                     }}
                 >
-
                 </div>
             </section>
             <section className='w-full h-40 '>
@@ -43,7 +44,7 @@ export default async function Home() {
                     </div>
                     <div className='flex-1 flex justify-end'>
                         <div className='lg:m-8 m-6 flex gap-2'>
-                            <Button className=''>Edit Profile</Button>
+                            <EditProfileButton />
                             <Button>
                                 <FaBell />
                             </Button>
