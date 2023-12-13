@@ -13,13 +13,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ModalType } from "@/hooks/useModal"
+import { Profile } from "@prisma/client"
 
 export function EditProfile() {
-    const {isOpen , type  , onClose} = useModal()
+    const { isOpen, type, onClose , data } = useModal()
     const isModalOpen = isOpen && type == "editProfile"
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>
-           <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>
@@ -31,13 +32,13 @@ export function EditProfile() {
                         <Label htmlFor="name" className="text-right">
                             Name
                         </Label>
-                        <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                        <Input id="name" value={data.profile?.name} className="col-span-3" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username" className="text-right">
-                            Username
+                            Bio
                         </Label>
-                        <Input id="username" value="@peduarte" className="col-span-3" />
+                        <Input id="username" value={data.profile?.bio!} className="col-span-3" />
                     </div>
                 </div>
                 <DialogFooter>
@@ -48,14 +49,17 @@ export function EditProfile() {
     )
 }
 
-export function EditProfileButton(){
-    const {onOpen} = useModal()
-    const editProfile = (e:React.MouseEvent , action:ModalType) => {
+interface ProfileIT {
+    profile: Profile
+}
+
+export function EditProfileButton({ profile }: ProfileIT) {
+    const { onOpen } = useModal()
+    const editProfile = (e: React.MouseEvent, action: ModalType) => {
         e.stopPropagation()
-        onOpen(action)
+        onOpen(action , {profile})
     }
- 
-    return(
-        <Button className='' onClick={e => editProfile(e , "editProfile")}>Edit Profile</Button>
+    return (
+        <Button className='' onClick={() => onOpen("editProfile" , {profile})}>Edit Profile</Button>
     )
 }

@@ -1,6 +1,11 @@
 "use client"
+import { Profile } from "@prisma/client"
 import { create } from "zustand"
 
+interface ModalData {
+    content?: string
+    profile?: Profile
+}
 
 export type ModalType =
     | "editProfile"
@@ -8,17 +13,19 @@ export type ModalType =
 interface ModalStore {
     type: ModalType | null,
     isOpen: boolean
-    onOpen: (type: ModalType) => void
+    data: ModalData
+    onOpen: (type: ModalType , data?:ModalData) => void
     onClose: () => void
 }
 
 export const useModal = create<ModalStore>(set => ({
     type: null,
+    data: {},
     isOpen: false,
-    onOpen(type) {
-        set({ isOpen: true , type })
+    onOpen(type , data = {}) {
+        set({ isOpen: true, type, data })
     },
     onClose() {
-        set({ isOpen: false })
+        set({ isOpen: false, type: null })
     }
 }))
