@@ -8,16 +8,16 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ModalType } from "@/hooks/useModal"
 import { Profile } from "@prisma/client"
 
 export function EditProfile() {
-    const { isOpen, type, onClose , data } = useModal()
+    const { isOpen, type, onClose, data } = useModal()
     const isModalOpen = isOpen && type == "editProfile"
+
+
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
@@ -55,11 +55,7 @@ interface ProfileIT {
 
 export function EditProfileButton({ profile }: ProfileIT) {
     const { onOpen } = useModal()
-    const editProfile = (e: React.MouseEvent, action: ModalType) => {
-        e.stopPropagation()
-        onOpen(action , {profile})
-    }
     return (
-        <Button className='' onClick={() => onOpen("editProfile" , {profile})}>Edit Profile</Button>
+        <Button className='' onClick={() => onOpen("editProfile", { profile })}>Edit Profile</Button>
     )
 }
