@@ -1,4 +1,4 @@
-//"use client"
+"use client"
 import { Button } from "@/components/ui/button";
 import { Medal } from "lucide-react";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { poppins as textFont } from "@/lib/font";
 import { initialProfile } from "@/actions/InitialProfile";
-import { ModeToggle } from "@/components/ui/theme-toggle";
+import { redirect} from "next/navigation";
 
 //svgs
 // import avatar1 from "../../public/images/avatar1.svg";
@@ -23,9 +23,12 @@ export default async function Home() {
 
     const profile = await initialProfile()
 
+    if(profile){
+        return redirect("/dashboard")
+    }
+
     return (
         <main className="relative flex items-center flex-col justify-center overflow-hidden">
-        <ModeToggle />
             <div
                 className={cn(
                     "flex items-center justify-center flex-col relative z-10 ",

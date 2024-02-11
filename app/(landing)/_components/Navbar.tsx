@@ -21,16 +21,15 @@ export const Navbar = async () => {
                         size="sm"
                         asChild
                     >
-                        <Link href="/signup">
+                        <Link href={profile ? "/dashboard" : "/signup"}>
                             {profile ? ("Go to Dashboard") : ("Get Bauble for free")}
                         </Link>
                     </Button>
-                    {
+                    {/*
                         !profile ? (null) : (
                                 <UserButton />
                         )
-                    }
-                    <DropdownMenuDemo />
+                     */}
                     {profile ? (null) : (
                         <Button size="sm" variant="outline" asChild>
                             <Link href="/signin">Login</Link>
