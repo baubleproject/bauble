@@ -1,3 +1,4 @@
+//"use client"
 import { Button } from "@/components/ui/button";
 import { Medal } from "lucide-react";
 import Link from "next/link";
@@ -24,6 +25,7 @@ export default async function Home() {
 
     return (
         <main className="relative flex items-center flex-col justify-center overflow-hidden">
+        <ModeToggle />
             <div
                 className={cn(
                     "flex items-center justify-center flex-col relative z-10 ",
