@@ -1,5 +1,4 @@
 "use client"
-import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,14 +17,34 @@ import { useClerk } from "@clerk/clerk-react";
 import { useRouter } from 'next/navigation'
 
 import { } from "@clerk/nextjs"
-import Image from "next/image";
 import { initialProfile } from "@/actions/InitialProfile";
+import { useEffect, useState } from "react";
+import { Profile } from "@prisma/client";
+import { cn } from "@/lib/utils";
 
-export async function UserButton() {
+interface UserButtonProps {
+    Triggerclass: string
+}
 
-    const { signOut } = useClerk();
+export function UserButton({ Triggerclass }: UserButtonProps) {
+
+    const [profile, setProfile] = useState<Profile | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const userProfile = await initialProfile();
+                setProfile(userProfile);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+        fetchProfile();
+    }, []);
+
+
     const router = useRouter()
-    const profile = await initialProfile()
+    const { signOut } = useClerk();
     const onSignOut = () => {
         signOut(() => {
             router.push("/signout")
@@ -35,7 +54,7 @@ export async function UserButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                    <div className="cursor-pointer rounded-full w-9 h-9 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
+                <div className="cursor-pointer rounded-full w-7 h-7 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

@@ -1,16 +1,33 @@
 "use client"
 //import { Logo } from "@/components/logo";
 import { initialProfile } from "@/actions/InitialProfile";
-import { DropdownMenuDemo } from "@/components/custom/Demo";
 import Logo from "@/components/custom/Logo";
 import { UserButton } from "@/components/custom/UserButton";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/theme-toggle";
+import { Profile } from "@prisma/client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export const Navbar = async () => {
-    const profile = await initialProfile()
+export const Navbar = () => {
+
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const userProfile = await initialProfile();
+                setProfile(userProfile);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+        fetchProfile();
+    }, []);
+
+
+
+
     return (
         <div className="fixed top-0 w-full h-14 px-4 border-b border-transparent shadow-sm dark:bg-black bg-white flex items-center">
             <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between ">
@@ -25,11 +42,11 @@ export const Navbar = async () => {
                             {profile ? ("Go to Dashboard") : ("Get Bauble for free")}
                         </Link>
                     </Button>
-                    {/*
+                    {
                         !profile ? (null) : (
-                                <UserButton />
+                            <UserButton />
                         )
-                     */}
+                    }
                     {profile ? (null) : (
                         <Button size="sm" variant="outline" asChild>
                             <Link href="/signin">Login</Link>

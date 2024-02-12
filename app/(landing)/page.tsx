@@ -6,7 +6,9 @@ import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { poppins as textFont } from "@/lib/font";
 import { initialProfile } from "@/actions/InitialProfile";
-import { redirect} from "next/navigation";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Profile } from "@prisma/client";
 
 //svgs
 // import avatar1 from "../../public/images/avatar1.svg";
@@ -19,13 +21,25 @@ const headingFont = localFont({
 });
 
 
-export default async function Home() {
+export default function Home() {
 
-    const profile = await initialProfile()
+    const [profile, setProfile] = useState<Profile | null>(null);
 
-    if(profile){
-        return redirect("/dashboard")
-    }
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const userProfile = await initialProfile();
+                setProfile(userProfile);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+        fetchProfile();
+    }, []);
+
+    // if(profile){
+    //     return redirect("/dashboard")
+    // }
 
     return (
         <main className="relative flex items-center flex-col justify-center overflow-hidden">
