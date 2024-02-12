@@ -23,7 +23,7 @@ import { Profile } from "@prisma/client";
 import { cn } from "@/lib/utils";
 
 interface UserButtonProps {
-    Triggerclass: string
+    Triggerclass?: string
 }
 
 export function UserButton({ Triggerclass }: UserButtonProps) {
