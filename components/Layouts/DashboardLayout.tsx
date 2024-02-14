@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import TopBar from './TopBar'
 import MainDashBoardLayout from './MainBar'
 
-export default function DashboardLayout({ children, classname }: { children: React.ReactNode, classname: string }) {
+export default function DashboardLayout({ children, classname }: { children: React.ReactNode, classname?: string }) {
     return (
         <main className={cn('w-full h-full flex', classname)}>
             <SideBar />
