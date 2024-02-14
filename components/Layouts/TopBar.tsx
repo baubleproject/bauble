@@ -13,7 +13,7 @@ export default function TopBar() {
             <ToggleSideBar />
             <UserButton />
             <ModeToggle />
-            <Button className='hidden md:flex font-semibold px-3 gap-0.5 items-center justify-center'><MdOutlineAdd className='text-xl font-bold' /> Create a New Organization</Button>
+            <Button className='hidden md:flex font-semibold px-3 gap-0.5 items-center justify-center'><MdOutlineAdd className='text-xl font-bold' /> Create Organization</Button>
         </nav>
     )
 }
