@@ -2,21 +2,17 @@ import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Bauble :: Dashboard",
-    description: "accelerate university projects",
-}
+  title: "Dashboard",
+};
 
 export default function DashboardMainLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <section className="h-full w-full">
-            <DashboardLayout>
-                {children}
-            </DashboardLayout>
-        </section>
-    );
+  return (
+    <section className="h-full w-full">
+      <DashboardLayout>{children}</DashboardLayout>
+    </section>
+  );
 }
-
