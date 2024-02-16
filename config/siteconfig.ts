@@ -1,4 +1,4 @@
 export const SiteConfig = {
-  title: "Dashboard",
+  title: "bauble",
   description: "accelerate university projects",
 };
