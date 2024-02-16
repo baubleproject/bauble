@@ -4,12 +4,22 @@ import "./globals.css";
 import Provider from "@/providers/Provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/ui/theme-toggle";
+import { SiteConfig } from "@/config/siteconfig";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bauble",
-  description: "accelerate university projects",
+  title: {
+    default: SiteConfig.title,
+    template: `%s :: ${SiteConfig.title}`,
+  },
+  description: SiteConfig.description,
+  icons: [
+    {
+      url: "/logo.svg",
+      href: "/logo.svg",
+    },
+  ],
 };
 
 export default function RootLayout({
