@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react"
 import { ThemeProvider } from "./theme-provider"
+import { ModalProvider } from "./ModalProvider"
 
 interface ProviderProps {
     children: ReactNode
@@ -15,6 +16,7 @@ export default function Provider({ children }: ProviderProps) {
             enableSystem
             disableTransitionOnChange
         >
+            <ModalProvider />
             {children}
         </ThemeProvider>
     </>

@@ -5,6 +5,7 @@ import { ModeToggle } from '../ui/theme-toggle'
 import { Button } from '../ui/button'
 import { MdOutlineAdd } from "react-icons/md";
 import ToggleSideBar from './_components/ToggleSidebar'
+import useSidebarStore from '@/store/SideBarStore'
 
 export default function TopBar() {
     return (
