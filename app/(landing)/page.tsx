@@ -41,10 +41,10 @@ export default function Home() {
   // }
 
   return (
-    <main className="relative flex items-center flex-col justify-center overflow-hidden">
+    <main className="h-full  flex items-center flex-col justify-center overflow-hidden">
       <div
         className={cn(
-          "flex items-center justify-center flex-col relative z-10 mb-4",
+          "flex items-center justify-center flex-col mb-4",
           headingFont.className
         )}
       >

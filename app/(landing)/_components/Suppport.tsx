@@ -10,9 +10,9 @@ export default function Support() {
   return (
     <section id="why" className="md:max-w-screen-2xl items-center w-full">
       <h2 className="text-text-color text-2xl hidden px-4 md:block ">
-        Why Bauble?
+        {/*Why Bauble?*/}
       </h2>
-      <div className="w-full overflow-hidden p-4 md:p-10 box-border">
+      <div className="w-full overflow-hidden pl-4 md:p-10 box-border">
         <Carousel plugins={[Autoplay({ delay: 3000 })] /* Enable autoplay */}>
           <CarouselContent className="w-full">
             <CarouselItem className="md:basis-1/3">
@@ -30,7 +30,7 @@ export default function Support() {
                 </p>
               </article>
             </CarouselItem>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="md:basis-1/3">
               <article className=" h-full rounded-2xl p-16 flex flex-col gap-5 font-outfit bg-black text-white">
                 <small className="text-white text-xs">WE OFFER</small>
                 <h4 className="text-lg font-medium">Task Management</h4>
@@ -41,7 +41,7 @@ export default function Support() {
                 </p>
               </article>
             </CarouselItem>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="md:basis-1/3">
               <article className=" h-full rounded-2xl p-16 flex flex-col gap-5 font-outfit bg-purple-300">
                 <small className="text-black opacity-50 text-xs">
                   WE OFFER
@@ -56,7 +56,7 @@ export default function Support() {
                 </p>
               </article>
             </CarouselItem>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="md:basis-1/3">
               <article className=" h-full rounded-2xl p-16 flex flex-col gap-5 font-outfit bg-yellow-300">
                 <small className="text-black opacity-50 text-xs">WE ARE</small>
                 <h4 className="text-lg font-medium">Open Source</h4>
@@ -67,7 +67,7 @@ export default function Support() {
                 </p>
               </article>
             </CarouselItem>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="md:basis-1/3">
               <article className=" h-full rounded-2xl p-16 flex flex-col gap-5 font-outfit bg-green-300">
                 <small className="text-black opacity-50 text-xs">
                   WE OFFER
@@ -79,7 +79,7 @@ export default function Support() {
                 </p>
               </article>
             </CarouselItem>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="md:basis-1/3">
               <article className=" h-full rounded-2xl p-16 flex flex-col gap-5 font-outfit bg-blue-300">
                 <small className="text-black opacity-50 text-xs">
                   WE OFFER
