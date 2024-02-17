@@ -5,7 +5,7 @@
 - [x] get a dashboard layout
 - [x] fix landing page layout
 - [x] map carousel data
-- [ ] carousel dark mode fix
+- [x] carousel dark mode fix
 - [ ] custom error page
 - [ ] terms and condition page
 - [ ] Privacy policy page

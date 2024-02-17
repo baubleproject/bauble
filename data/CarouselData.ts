@@ -2,7 +2,7 @@ export const carouselData = [
     {
         title: "Collaborative Project Spaces",
         description: "Create collaborative spaces for each project where team members can share resources, communicate, and work together seamlessly.",
-        bgColor: "bg-green-300 dark:bg-primary",
+        bgColor: "bg-green-300 ",
     },
     {
         title: "Task Management",

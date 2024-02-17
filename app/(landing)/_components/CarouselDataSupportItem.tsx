@@ -13,10 +13,10 @@ interface Props {
 
 export const CarouselDataSupportItem = ({ title, description, classnames }: Props) => (
     <CarouselItem className="md:basis-1/3">
-        <article className={cn(`h-full rounded-2xl p-8 md:p-12 lg:p-16 flex flex-col gap-5 font-outfit text-white`, classnames)}>
+        <article className={cn(`h-full rounded-2xl p-8 md:p-12 lg:p-12 flex flex-col gap-5 font-outfit text-white`, classnames)}>
             <small className="text-neutral-600 text-xs">WE OFFER</small>
-            <h4 className="text-lg font-semibold">{title}</h4>
-            <p className="text-sm font-normal text-neutral-700">{description}</p>
+            <h4 className="text-lg font-semibold dark:text-neutral-900 ">{title}</h4>
+            <p className="text-sm font-normal text-neutral-700 dark:text-neutral-900">{description}</p>
         </article>
     </CarouselItem>
 );
