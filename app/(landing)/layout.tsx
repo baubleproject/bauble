@@ -5,20 +5,20 @@ import { Footer } from "./_components/Footer";
 import { ModeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
-    title: "Bauble | Task Management",
+  title: "Bauble | Task Management",
 };
 
 export default function LandingLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <div className="h-full dark:bg-black bg-slate-100 ">
-            <Navbar />
-            <Advert />
-            <main className="pt-56 pb-20 bg-transparent">{children}</main>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="h-full dark:bg-black bg-slate-100 ">
+      <Navbar />
+      <Advert />
+      <main className="pt-40 h-full pb-10 bg-transparent">{children}</main>
+      <Footer />
+    </div>
+  );
 }
