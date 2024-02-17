@@ -26,7 +26,7 @@ export default function Home() {
     // }
 
     return (
-        <main className="flex items-center flex-col justify-center">
+        <main className="flex items-center flex-col justify-center space-y-16 md:space-y-3">
             <Land profile={profile} />
             <Support />
         </main>
