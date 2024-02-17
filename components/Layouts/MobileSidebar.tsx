@@ -15,8 +15,13 @@ import { useMobile } from '@/hooks/useMobile'
 
 export default function MobileSideBar() {
     const { isMobileCollapsed, toggleMobileSidebarCollapse } = useSidebarStore()
-    //const isMobile = useMobile()
+    const isMobile = useMobile()
     const isOpen = !isMobileCollapsed
+
+    if (!isMobile) {
+        return null
+    }
+
     return (
         <Sheet open={!isOpen} onOpenChange={toggleMobileSidebarCollapse} >
             <SheetContent side={"left"} className='w-72 block md:hidden'>
