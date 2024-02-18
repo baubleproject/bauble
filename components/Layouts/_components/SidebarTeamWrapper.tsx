@@ -32,7 +32,7 @@ export default function SidebarTeamWrapper() {
             }
             <ScrollArea className="">
                 {teams?.map((team) => (
-                    <SidebarTeamItem classname="mb-1" team={team} />
+                    <SidebarTeamItem classname="mb-1" team={team} key={team.id} />
                 ))}
             </ScrollArea>
         </div>
