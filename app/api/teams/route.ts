@@ -28,7 +28,31 @@ export async function POST(req: Request) {
         })
         return NextResponse.json(team)
     } catch (err) {
-        console.log("[SERVER POST ENDPOINT:]", err)
+        console.log("[TEAMS POST ENDPOINT:]", err)
+        return new NextResponse("Internal Error", { status: 500 })
+    }
+}
+
+export async function GET(_req: Request) {
+    try {
+        const profile = await currentProfile()
+        if (!profile) {
+            return new NextResponse("Unauthorized", { status: 401 })
+        }
+        const teams = await db.team.findMany({
+            where: {
+                members: {
+                    some: {
+                        profileId: profile?.id,
+
+
+                    }
+                }
+            },
+        })
+        return NextResponse.json(teams)
+    } catch (err) {
+        console.log("[TEAMS POST ENDPOINT:]", err)
         return new NextResponse("Internal Error", { status: 500 })
     }
 }
