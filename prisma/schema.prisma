@@ -20,4 +20,40 @@ model Profile {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    members Member[]
+}
+
+enum MemberRole {
+    ADMIN
+    GUEST
+}
+
+model Member {
+    id        String     @id @default(uuid())
+    role      MemberRole @default(GUEST)
+    profileId String
+    profile   Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId String
+
+    @@index([profileId])
+    @@index([teamId])
+}
+
+model Team {
+    id          String   @id @default(uuid())
+    name        String
+    imageUrl    String   @default("https://example.com/default-image.jpg") // Default image for the team
+    inviteCode  String   @unique
+    description String? // Description of the team
+    createdBy   String // ID of the user who created the team
+    members     Member[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
