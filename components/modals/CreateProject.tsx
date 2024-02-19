@@ -27,7 +27,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner"
-import { useModal } from '@/hooks/useModaStore';
+import { useModal } from '@/hooks/useModalStore';
 
 
 const formSchema = z.object({
@@ -37,9 +37,9 @@ const formSchema = z.object({
     description: z.string().optional()
 });
 
-export default function CreateTeamModal() {
+export default function CreateProjectModal() {
     const { isOpen, onClose, type } = useModal(); // hook to handle modal management with zustand
-    const isModalOpen = isOpen && type === 'createTeam'; // is it open ? is to create a server ?
+    const isModalOpen = isOpen && type === 'createProject'; // is it open ? is to create a server ?
 
     const router = useRouter(); // initialize router
 
@@ -57,7 +57,7 @@ export default function CreateTeamModal() {
     ) => {
         //console.log(values);
         try {
-            await axios.post('/api/teams', values);
+            await axios.post('/api/projects', values);
             form.reset();
             toast.success("Team has been created")
             router.refresh();
@@ -139,7 +139,7 @@ export default function CreateTeamModal() {
                                 variant="default"
                                 disabled={loading}
                             >
-                                Create
+                                Create Project
                             </Button>
                         </DialogFooter>
                     </form>

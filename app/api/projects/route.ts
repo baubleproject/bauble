@@ -13,7 +13,9 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
-        const team = await db.team.create({
+        console.log(name, description)
+
+        const project = await db.project.create({
             data: {
                 createdBy: profile.id,
                 name,
@@ -26,7 +28,8 @@ export async function POST(req: Request) {
                 }
             }
         })
-        return NextResponse.json(team)
+        console.log("Created", project)
+        return NextResponse.json(project)
     } catch (err) {
         console.log("[TEAMS POST ENDPOINT:]", err)
         return new NextResponse("Internal Error", { status: 500 })
@@ -39,7 +42,7 @@ export async function GET(_req: Request) {
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
-        const teams = await db.team.findMany({
+        const projects = await db.project.findMany({
             where: {
                 members: {
                     some: {
@@ -50,7 +53,7 @@ export async function GET(_req: Request) {
                 }
             },
         })
-        return NextResponse.json(teams)
+        return NextResponse.json(projects)
     } catch (err) {
         console.log("[TEAMS POST ENDPOINT:]", err)
         return new NextResponse("Internal Error", { status: 500 })

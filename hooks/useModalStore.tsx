@@ -1,13 +1,13 @@
 'use client'
 
-import { Team } from '@prisma/client';
+import { Project } from '@prisma/client';
 import { create } from 'zustand';
 
 export type ModalType =
-    | 'createTeam'
+    | 'createProject'
 
 interface ModalData {
-    room?: Team
+    room?: Project
     roomId?: string
 }
 

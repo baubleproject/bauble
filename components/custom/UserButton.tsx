@@ -21,14 +21,19 @@ import { initialProfile } from "@/actions/InitialProfile";
 import { useEffect, useState } from "react";
 import { Profile } from "@prisma/client";
 import { cn } from "@/lib/utils";
+import { useModal } from "@/hooks/useModalStore";
 
 interface UserButtonProps {
     Triggerclass?: string
 }
 
 export function UserButton({ Triggerclass }: UserButtonProps) {
-
+    const { onOpen } = useModal()
     const [profile, setProfile] = useState<Profile | null>(null);
+
+    // if (!profile) {
+    //     return null
+    // }
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -51,55 +56,54 @@ export function UserButton({ Triggerclass }: UserButtonProps) {
         })
     }
 
+    const ProfileOnClick = () => {
+        router.push(`/profile/${profile?.id}`)
+    }
+
+    const CreateProject = () => {
+        onOpen("createProject")
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className="cursor-pointer rounded-full w-7 h-7 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <div className="w-full h-32 flex flex-col items-center justify-center">
+                    <div className="cursor-pointer rounded-full w-9 h-9 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
+                    <p className="font-normal text-sm">My Account</p>
+                    <p className="font-light text-xs">{profile?.email}</p>
+                </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={ProfileOnClick}>
                         Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuItem>Project</DropdownMenuItem>
+                    <DropdownMenuItem onClick={CreateProject}>
+                        Create new Project
+                    </DropdownMenuItem>
+
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
                                 <DropdownMenuItem>Email</DropdownMenuItem>
-                                <DropdownMenuItem>Message</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>More...</DropdownMenuItem>
+                                <DropdownMenuItem>Invite code</DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>
-                    <DropdownMenuItem>
-                        New Team
-                        <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>GitHub</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuItem disabled>API</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onSignOut}>
+                <DropdownMenuItem onClick={onSignOut} className="cursor-pointer hover:bg-red-300 dark:hover:bg-red-300 dark:hover:text-zinc-900">
                     Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

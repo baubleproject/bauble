@@ -38,20 +38,20 @@ model Member {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-    teamId String
+    project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    projectId String
 
     @@index([profileId])
-    @@index([teamId])
+    @@index([projectId])
 }
 
-model Team {
+model Project {
     id          String   @id @default(uuid())
     name        String
     imageUrl       String   @default("https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") @db.Text
     inviteCode  String   @unique
-    description String? // Description of the team
-    createdBy   String // ID of the user who created the team
+    description String? // Description of the project
+    createdBy   String // ID of the user who created the project
     members     Member[]
 
     createdAt DateTime @default(now())
