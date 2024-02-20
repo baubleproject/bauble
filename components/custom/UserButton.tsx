@@ -73,7 +73,7 @@ export function UserButton({ Triggerclass }: UserButtonProps) {
                 <div className="w-full h-32 flex flex-col items-center justify-center">
                     <div className="cursor-pointer rounded-full w-9 h-9 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
                     <p className="font-normal text-sm">My Account</p>
-                    <p className="font-light text-xs"> {truncateText(profile?.email!, 22)}</p>
+                    <p className="font-light text-xs"> {profile?.email ? (truncateText(profile?.email, 22)) : null}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
