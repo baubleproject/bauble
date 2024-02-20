@@ -54,7 +54,7 @@ export function Land({ profile }: Props) {
                 size="sm"
                 asChild
             >
-                <Link href={profile ? "/dashboard" : "/signin"}>
+                <Link href={profile ? "/home" : "/signin"}>
                     {profile ? "Welcome to Bauble" : "Get Bauble for free"}
                 </Link>
             </Button>

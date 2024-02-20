@@ -38,7 +38,7 @@ export const Navbar = () => {
                         size="sm"
                         asChild
                     >
-                        <Link href={profile ? "/dashboard" : "/signup"}>
+                        <Link href={profile ? "/home" : "/signup"}>
                             {profile ? ("Go to Dashboard") : ("Get Bauble for free")}
                         </Link>
                     </Button>
