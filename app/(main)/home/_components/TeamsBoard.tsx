@@ -5,28 +5,25 @@ import { Project } from '@prisma/client';
 import React from 'react'
 import { GrAddCircle } from "react-icons/gr";
 import { HTMLAttributes } from 'react';
+import { formatDate, truncateText } from '@/lib/utils';
 
-interface TeamsBoardProps extends HTMLAttributes<HTMLDivElement> {
-    // Define any additional props specific to TeamsBoard component
-}
+interface TeamsBoardProps extends HTMLAttributes<HTMLDivElement> { }
 
 export default async function TeamsBoard({ className, ...props }: TeamsBoardProps) {
     const projects = await getProjects({ limit: 4 })
     return (
         <div className={`w-full h-full bg-zinc-950 ${className}`} {...props}>
             <p className={`p-3 text-xl font-light -tracking-wide ${dmsans.className}`}>Projects</p>
-            <div className='p-3 bg-red-400 w-full h-full gap-4 items-center justify-center flex flex-col md:grid grid-cols-2 md:grid-cols-3 grid-rows-2 md:grid-rows-3'>
-                <div className='w-full h-full bg-zinc-800 transition-colors duration-300 hover:bg-zinc-600 border-zinc-500 border-dashed border-2 flex items-center justify-center'>
-                    <GrAddCircle className='text-5xl' />
+            <div className='w-full h-full flex flex-wrap items-start gap-2 justify-start p-3'>
+                <div className='md:w-1/3 h-1/4 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 cursor-pointer flex justify-center items-center gap-2 px-2 rounded-xl border-2 border-zinc-600 border-dashed'>
+                    <GrAddCircle className='font-light text-xl' />
+                    <p>Create project</p>
                 </div>
-                <div className='bg-green-400 h-40 md:h-full w-full'></div>
-                <div className='bg-green-400 h-40 md:h-full w-full'></div>
-                <div className='bg-green-400 h-40 md:h-full w-full'></div>
-                {/*
+                {
                     projects?.map((project) => (
-                        <ProjectsCard project={project} key={project.id} />
+                        <ProjectsCard key={project.id} project={project} />
                     ))
-                */}
+                }
             </div>
         </div>
     )
@@ -39,10 +36,23 @@ interface ProjectsCardProps {
 
 function ProjectsCard({ project }: ProjectsCardProps) {
     return (
-        <div style={{ backgroundImage: `url(${project?.imageUrl})` }} className="bg-cover bg-center h-full w-full ">
-            <p className='font-semibold text-black'>
-                {project.name}
-            </p>
+        <div className='flex items-center justify-center h-1/4 min-w-48 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 px-3 rounded-xl gap-2 cursor-pointer'>
+            <div style={{ backgroundImage: `url(${project?.imageUrl})` }} className="bg-cover bg-center h-10 w-10 rounded-full ">
+            </div>
+            <div className='flex-1 h-full flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center'>
+                    <p className='font-light text-sm -tracking-wide text-white truncate'>
+                        {
+                            truncateText(project?.name, 16)
+                        }
+                    </p>
+                    <p className='flex-1 font-light text-xs -tracking-wide text-white truncate'>
+                        {
+                            truncateText(formatDate(project?.createdAt), 20)
+                        }
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }

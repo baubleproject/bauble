@@ -23,20 +23,18 @@ export default async function page() {
                 <p className="text-xl md:text-2xl font-normal">Good {timeOfDay}, {profile?.lastname}{" "}{profile?.firstname}</p>
             </section>
 
-
-
             {/* WTF: */}
-            <section className="bg-yellow-800  gap-1 min-h-[40%] w-full md:w-11/12 mx-auto flex flex-col md:flex-row flex-wrap">
-                <div className="w-full md:w-1/2 overflow-auto">
-                    <TeamsBoard className="h-full" />
+            <section className="md:w-2/3 mx-auto flex flex-col md:grid-cols-2 md:grid w-full gap-3">
+                <div className="w-full h-72 overflow-hidden rounded-2xl border-[0.06px] hover:border-[1px] border-zinc-700">
+                    <TeamsBoard className="min-h-full" />
                 </div>
-                <div className="w-full h-72 bg-yellow-800 md:w-1/2 overflow-auto">
+                <div className="w-full h-72 bg-yellow-800  overflow-auto">
                     <TaskBoard className="h-full" />
                 </div>
-                <div className="w-full md:w-1/2 h-96 overflow-auto sm:w-full bg-purple-900">
+                <div className="w-full  h-96 overflow-auto sm:w-full bg-purple-900">
                     {/* Content for the third item */}
                 </div>
-                <div className="w-full md:w-1/2 h-56 overflow-auto sm:w-full bg-red-900">
+                <div className="w-full   overflow-auto sm:w-full bg-red-900">
                     {/* Content for the fourth item */}
                 </div>
             </section>
