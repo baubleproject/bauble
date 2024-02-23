@@ -26,7 +26,7 @@ const links = [
 export default function SidebarNavigation() {
     const { isCollapsed } = useSidebarStore()
     return (
-        <div className='h-1/5 w-full'>
+        <div className=' w-full'>
             {
                 isCollapsed || 1 ? (null) : (
                     <p className="font-semibold text-zinc-600 dark:text-zinc-300 mb-1.5 tracking-tight">Navigation</p>

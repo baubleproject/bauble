@@ -13,8 +13,11 @@ export default function SideBarContent() {
             <Separator className='my-3' />
             <SidebarNavigation />
             <Separator className='my-3' />
+            {/*
+                IDGAF: do what you want nigga
             <SidebarTeamWrapper />
             <Separator className='my-3' />
+                */}
             <UserSidebarButton />
         </div>
     )

@@ -34,9 +34,12 @@ export default function TeamsBoard({ className, ...props }: TeamsBoardProps) {
         <div className={`w-full h-full bg-zinc-950 ${className}`} {...props}>
             <p className={`border-b-[0.05px] border-zinc-600 p-3 text-xl font-light -tracking-wide ${dmsans.className}`}>Projects</p>
             <div className='w-full h-full flex flex-wrap gap-2 p-3 '>
-                <div onClick={createProjectModalOpen} className='md:w-1/4 h-1/4 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 cursor-pointer flex justify-center items-center gap-2 px-2 rounded-xl border-2 border-zinc-600 border-dashed'>
+                <div onClick={createProjectModalOpen} className='md:w-1/6 h-1/4 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 cursor-pointer flex justify-center items-center gap-2 px-2 rounded-xl border-2 border-zinc-600 border-dashed'>
                     <GrAddCircle className='font-light text-xl' />
+                    {/*
+
                     <p className='text-sm font-light'>Create project</p>
+                        */}
                 </div>
                 {
                     projects?.map((project) => (

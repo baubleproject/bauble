@@ -17,7 +17,9 @@ export default async function page() {
     }
     return (
         <main className={`w-full min-h-full space-y-4 ${dmsans.className}`}>
+            {/*WTF: i'm contemplating hiding the page title or not
             <h1 className='text-sm md:text-lg -tracking-wider font-light'>Home</h1>
+            */}
             <section className="w-full flex md:items-center flex-col space-y-2 py-2">
                 <p className="text-md md:text-xl font-extralight">{todaytime}</p>
                 <p className="text-xl md:text-2xl font-normal">Good {timeOfDay}, {profile?.lastname}{" "}{profile?.firstname}</p>
@@ -31,12 +33,12 @@ export default async function page() {
                 <div className="w-full h-72 bg-yellow-800  overflow-auto">
                     <TaskBoard className="h-full" />
                 </div>
-                <div className="w-full  h-96 overflow-auto sm:w-full bg-purple-900">
-                    {/* Content for the third item */}
+                {/*
+                <div className="w-full  h-96 overflow-auto sm:w-full bg-mySecondary">
                 </div>
-                <div className="w-full   overflow-auto sm:w-full bg-red-900">
-                    {/* Content for the fourth item */}
+                <div className="w-full   overflow-auto sm:w-full bg-myPrimary">
                 </div>
+                    */}
             </section>
 
         </main>
