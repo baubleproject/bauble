@@ -59,7 +59,7 @@ export default function CreateProjectModal() {
         try {
             await axios.post('/api/projects', values);
             form.reset();
-            toast.success("Team has been created")
+            toast.success("Project has been created")
             router.refresh();
             onClose();
         } catch (error) {
@@ -79,7 +79,7 @@ export default function CreateProjectModal() {
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>Create a Team!</DialogTitle>
+                    <DialogTitle>Create a Project!</DialogTitle>
                     <DialogDescription>
                         Give your server a personality with a name and an image,
                         you can always change it later.
@@ -97,7 +97,7 @@ export default function CreateProjectModal() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="uppercase text-xs font-bold text-slate-700 dark:text-slate-100">
-                                            Team name
+                                            Project name
                                         </FormLabel>
                                         <FormControl>
                                             <Input
