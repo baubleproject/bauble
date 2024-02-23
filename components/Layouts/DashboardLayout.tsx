@@ -7,7 +7,7 @@ import MainDashBoardLayout from './MainBar'
 
 export default function DashboardLayout({ children, classname }: { children: React.ReactNode, classname?: string }) {
     return (
-        <main className={cn('w-full h-full flex', classname)}>
+        <main className={cn('overflow-hidden w-full h-full flex', classname)}>
             <SideBar />
             <section className='flex-grow'>
                 <TopBar />

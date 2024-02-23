@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     description: "accelerate university projects",
 }
 
-export default function HomeMainLayout({
+export default function MainLayout({
     children,
 }: {
     children: React.ReactNode;
