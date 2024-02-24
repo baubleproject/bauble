@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { IconType } from 'react-icons'
 import useSidebarStore from '@/store/SideBarStore'
 import { useRouter } from "next/navigation"
-import { capitalizeFirstLetter, cn, truncateText } from '@/lib/utils'
+import { capitalizeFirstLetter, cn } from '@/lib/utils'
+import { useMobile } from '@/hooks/useMobile'
 
 interface Link {
     name: string,
@@ -20,19 +21,26 @@ export default function NavigationItem({ link, classname }: Props) {
     const [isVisible, setIsVisible] = useState(false); // State to control visibility
     const { isCollapsed, isMobileCollapsed } = useSidebarStore()
     const router = useRouter()
+    const isMobile = useMobile()
 
     useEffect(() => {
 
-        if (!isMobileCollapsed) {
-            //setIsVisible(false)
-            //const timeout = setTimeout(() => {
-            setIsVisible(true);
-            //}, 300); // Adjust the delay time as needed
-            //return () => clearTimeout(timeout);
+        if (isMobile) {
+            if (!isMobileCollapsed) {
+                setIsVisible(false)
+                const timeout = setTimeout(() => {
+                    setIsVisible(true);
+                }, 200); // Adjust the delay time as needed
+                return () => clearTimeout(timeout);
+            }
+
+            if (!isMobileCollapsed) {
+                setIsVisible(false)
+            }
+
         }
 
-
-    }, [isMobileCollapsed])
+    }, [isMobileCollapsed, isMobile])
 
     useEffect(() => {
         if (!isCollapsed) {
