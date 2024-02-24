@@ -52,7 +52,7 @@ import { useRouter } from "next/navigation"
 
 export default function UserSidebarButton() {
     const router = useRouter()
-    const { isCollapsed } = useSidebarStore();
+    const { isCollapsed, isMobileCollapsed } = useSidebarStore();
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(false); // State to control visibility
@@ -70,6 +70,12 @@ export default function UserSidebarButton() {
         };
         fetchProfile();
     }, []);
+
+    useEffect(() => {
+        if (!isMobileCollapsed) {
+            setIsVisible(true)
+        }
+    }, [isMobileCollapsed])
 
     useEffect(() => {
         // Delay setting visibility to true after a short delay
@@ -90,7 +96,7 @@ export default function UserSidebarButton() {
     return (
         <div onClick={routeToProfile} className='w-full flex items-center justify-center gap-2 px-0 cursor-pointer bg-zinc-300 dark:bg-zinc-900 hover:bg-zinc-400 dark:hover:bg-zinc-800 transition-colors duration-300 py-1.5 rounded-md'>
             <div className="rounded-full w-10 h-10 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
-            <div className={`${isVisible && !isCollapsed ? "block" : "hidden"} flex flex-col gap-1 transition-opacity duration-300`}>
+            <div className={`${isVisible && (!isCollapsed || !isMobileCollapsed )? "block" : "hidden"} flex flex-col gap-1 transition-opacity duration-300`}>
                 <p className='text-xs font-semibold'>{truncateText(`${profile?.lastname}${" "}${profile?.firstname}`, 18)}</p>
                 <p className='text-xs font-light'>{truncateText(profile?.email!, 18)}</p>
             </div>

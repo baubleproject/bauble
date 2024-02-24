@@ -1,6 +1,6 @@
 "use client"
 import useSidebarStore from '@/store/SideBarStore'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideBarContent from './SidebarContent'
 import {
     Sheet,
@@ -20,6 +20,8 @@ export default function MobileSideBar() {
     if (!isMobile) {
         return null
     }
+
+    useEffect(() => {},[isMobileCollapsed])
 
     return (
         <Sheet open={!isMobileCollapsed} onOpenChange={toggleMobileSidebarCollapse} >

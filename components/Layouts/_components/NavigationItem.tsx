@@ -18,9 +18,21 @@ interface Props {
 
 export default function NavigationItem({ link, classname }: Props) {
     const [isVisible, setIsVisible] = useState(false); // State to control visibility
-    const { isCollapsed } = useSidebarStore()
+    const { isCollapsed, isMobileCollapsed } = useSidebarStore()
     const router = useRouter()
 
+    useEffect(() => {
+
+        if (!isMobileCollapsed) {
+            //setIsVisible(false)
+            //const timeout = setTimeout(() => {
+            setIsVisible(true);
+            //}, 300); // Adjust the delay time as needed
+            //return () => clearTimeout(timeout);
+        }
+
+
+    }, [isMobileCollapsed])
 
     useEffect(() => {
         if (!isCollapsed) {
