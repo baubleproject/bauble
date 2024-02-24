@@ -21,11 +21,11 @@ export default function MobileSideBar() {
         return null
     }
 
-    useEffect(() => {},[isMobileCollapsed])
+    //useEffect(() => {},[isMobileCollapsed])
 
     return (
         <Sheet open={!isMobileCollapsed} onOpenChange={toggleMobileSidebarCollapse} >
-            <SheetContent side={"left"} className='w-52 block md:hidden'>
+            <SheetContent side={"left"} className='w-64 block md:hidden'>
                 <SideBarContent />
             </SheetContent>
         </Sheet>

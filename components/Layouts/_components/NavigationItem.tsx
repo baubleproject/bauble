@@ -57,12 +57,13 @@ export default function NavigationItem({ link, classname }: Props) {
     }
 
 
+    //<div className={`${(isCollapsed || isMobileCollapsed )&& !isVisible ? ("hidden") : ("col-span-5 flex flex-col  items-center  justify-start")}`}>
     return (
         <div onClick={routeToProfile} className={cn(`py-2 justify-center items-center dark:bg-zinc-900 dark:hover:bg-zinc-800 bg-zinc-300 hover:bg-zinc-400 transition-colors duration-300 rounded-md cursor-pointer ${isCollapsed ? ("w-5/6 flex") : ("w-full px-2 grid grid-cols-6")}`, classname)}>
             <link.icon className='w-5 h-5 col-span-1' />
             {
                 isVisible ? (
-                    <div className={`${isCollapsed && !isVisible ? ("hidden") : ("col-span-5 flex flex-col  items-center  justify-start")}`}>
+                    <div className={"col-span-5 flex flex-col  items-center  justify-start"}>
                         <p className='text-xs text-start w-full font-light'>{capitalizeFirstLetter(link.name)}</p>
                     </div>
                 ) : (null)
