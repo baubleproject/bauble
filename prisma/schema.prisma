@@ -57,3 +57,37 @@ model Project {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+// model Task {
+//     id          String   @id @default(uuid())
+//     name             String
+//     description      String?
+//     priority         Priority
+//     start            DateTime?
+//     end              DateTime?
+//     progress         Int?
+//     dependencies     Task[]   // List of tasks this task depends on
+//     assignedTo       Member?   // Member of the project to whom this task is assigned
+//     status           TaskStatus @default(OPEN)
+//     project          Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+//     projectId        String
+//
+//     createdAt        DateTime   @default(now())
+//     updatedAt        DateTime   @updatedAt
+//
+//     @@index([projectId])
+// }
+
+enum Priority {
+    LOW
+    MEDIUM
+    HIGH
+    URGENT
+}
+
+enum TaskStatus {
+    OPEN
+    IN_PROGRESS
+    COMPLETED
+}
+
