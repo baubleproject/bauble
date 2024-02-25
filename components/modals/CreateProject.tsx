@@ -39,7 +39,7 @@ const formSchema = z.object({
 
 export default function CreateProjectModal() {
     const { isOpen, onClose, type } = useModal(); // hook to handle modal management with zustand
-    const isModalOpen = isOpen && type === 'createProject'; // is it open ? is to create a server ?
+    const isModalOpen = isOpen && type === 'createProject'; // is it open ? is to create a project ?
 
     const router = useRouter(); // initialize router
 
@@ -52,7 +52,7 @@ export default function CreateProjectModal() {
     });
 
     const onSubmit = async (
-        // what happens when we submit our create server form
+        // what happens when we submit our create project form
         values: z.infer<typeof formSchema>
     ) => {
         //console.log(values);
@@ -81,8 +81,7 @@ export default function CreateProjectModal() {
                 <DialogHeader>
                     <DialogTitle>Create a Project!</DialogTitle>
                     <DialogDescription>
-                        Give your server a personality with a name and an image,
-                        you can always change it later.
+                        Add a project name and description.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -102,7 +101,7 @@ export default function CreateProjectModal() {
                                         <FormControl>
                                             <Input
                                                 disabled={loading}
-                                                placeholder="Enter server name."
+                                                placeholder=""
                                                 className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
                                             />
@@ -122,7 +121,7 @@ export default function CreateProjectModal() {
                                         <FormControl>
                                             <Input
                                                 disabled={loading}
-                                                placeholder="Enter server name."
+                                                placeholder=""
                                                 className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
                                             />

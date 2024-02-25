@@ -30,7 +30,7 @@ export default async function page() {
                 <div className="w-full h-72 overflow-hidden rounded-2xl border-[0.06px] hover:border-[1px] border-zinc-700">
                     <TeamsBoard className="min-h-full" />
                 </div>
-                <div className="w-full h-72 bg-yellow-800  overflow-auto">
+                <div className="w-full h-72 overflow-hidden rounded-2xl border-[0.06px] hover:border-[1px] border-zinc-700">
                     <TaskBoard className="h-full" />
                 </div>
                 {/*

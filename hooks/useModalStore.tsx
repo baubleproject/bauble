@@ -5,10 +5,11 @@ import { create } from 'zustand';
 
 export type ModalType =
     | 'createProject'
+    | 'createTask'
 
 interface ModalData {
-    room?: Project
-    roomId?: string
+    project?: Project
+    projectId?: string
 }
 
 interface ModalStore {
