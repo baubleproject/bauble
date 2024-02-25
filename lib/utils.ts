@@ -30,6 +30,6 @@ export function getTimeOfDay(currentDate: Date) {
     } else if (hour >= 17 && hour < 21) {
         return 'evening';
     } else {
-        return 'night';
+        return 'evening';
     }
 }
