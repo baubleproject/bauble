@@ -38,8 +38,10 @@ model Member {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
     projectId String
+
+    tasks Task[] @relation("AssignedToMember")
 
     @@index([profileId])
     @@index([projectId])
@@ -48,35 +50,38 @@ model Member {
 model Project {
     id          String   @id @default(uuid())
     name        String
-    imageUrl       String   @default("https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") @db.Text
+    imageUrl    String   @default("https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") @db.Text
     inviteCode  String   @unique
     description String? // Description of the project
     createdBy   String // ID of the user who created the project
     members     Member[]
+    tasks       Task[]   @relation("ProjectTasks")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Task {
+    id          String     @id @default(uuid())
+    name        String
+    description String?
+    priority    Priority
+    start       DateTime?
+    end         DateTime?
+    progress    Int?
+    status      TaskStatus @default(OPEN)
+    project     Project    @relation("ProjectTasks", fields: [projectId], references: [id])
+    projectId   String
+
+    assignedTo Member? @relation("AssignedToMember", fields: [memberId], references: [id], map: "assignedToMap")
+    memberId   String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-}
 
-// model Task {
-//     id          String   @id @default(uuid())
-//     name             String
-//     description      String?
-//     priority         Priority
-//     start            DateTime?
-//     end              DateTime?
-//     progress         Int?
-//     dependencies     Task[]   // List of tasks this task depends on
-//     assignedTo       Member?   // Member of the project to whom this task is assigned
-//     status           TaskStatus @default(OPEN)
-//     project          Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
-//     projectId        String
-//
-//     createdAt        DateTime   @default(now())
-//     updatedAt        DateTime   @updatedAt
-//
-//     @@index([projectId])
-// }
+    taskId String?
+
+    @@index([projectId])
+}
 
 enum Priority {
     LOW
@@ -89,5 +94,5 @@ enum TaskStatus {
     OPEN
     IN_PROGRESS
     COMPLETED
+    CANCELED
 }
-
