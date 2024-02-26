@@ -77,7 +77,7 @@ export default function CreateProjectModal() {
 
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-            <DialogContent className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-slate-50 overflow-hidden">
+            <DialogContent className="bg-white text-zinc-950 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
                     <DialogTitle>Create a Project!</DialogTitle>
                     <DialogDescription>

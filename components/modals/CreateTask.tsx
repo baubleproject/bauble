@@ -14,6 +14,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
+    DialogFooter
 } from '@/components/ui/dialog';
 
 import {
@@ -26,6 +27,13 @@ import {
     FormDescription
 } from '@/components/ui/form';
 
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
+import { Calendar } from "@/components/ui/calendar"
 
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -35,18 +43,37 @@ import { Project } from '@prisma/client';
 import { useModal } from "@/hooks/useModalStore";
 import React, { useEffect, useState } from 'react'
 import { getProjects } from '@/actions/ProjectsActions'
+import { addDays, format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { DateRange } from "react-day-picker"
 import { Button } from '../ui/button';
-import { toast } from 'sonner';
-import Loader from "../Loaders/Loader";
+import { Priority } from "@prisma/client";
+//import { toast } from 'sonner';
+//import Loader from "../Loaders/Loader";
+import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
     projectId: z.string({}).email().optional(),
+    name: z.string({
+        required_error: "The task name is required"
+    }),
+    description: z.string().optional(),
+    priority: z.string({
+        required_error: "The task priority is required"
+    })
+
 })
 
 export default function CreateTask() {
     //INFO: state
     const [projects, setProjects] = useState<Project[] | null>(null)
+    const [date, setDate] = React.useState<DateRange | undefined>({
+        from: new Date(2022, 0, 20),
+        to: addDays(new Date(2022, 0, 20), 20),
+    })
 
+    type PriorityValues = keyof typeof Priority;
+    const priorityArray: PriorityValues[] = Object.values(Priority) as PriorityValues[];
 
     //INFO: modal stuff
     const { isOpen, onClose, type, data } = useModal(); // hook to handle modal management with zustand
@@ -77,21 +104,16 @@ export default function CreateTask() {
         if (projectPassedIn) {
             data.projectId = projectPassedIn
         }
-        console.log(data)
+        console.log(data, date)
     }
 
     const handleClose = () => {
         onClose();
     };
 
-    // if (!projects) {
-    //     return <Loader />
-    // }
-    //
-
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-            <DialogContent className='min-h-60 md:min-h-[40rem]'>
+            <DialogContent className='min-h-52 md:min-h-[25rem]'>
                 <DialogHeader>
                     <DialogTitle>Create a task</DialogTitle>
                     <DialogDescription>
@@ -133,9 +155,86 @@ export default function CreateTask() {
                                 />
                             ) : (null)
                         }
+                        {
+                            //INFO: the fucking select component
+                            <FormField
+                                control={form.control}
+                                name="priority"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Priority</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select an intensity degree" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {
+                                                    priorityArray?.map((priority, idx) => (
+                                                        <SelectItem key={idx} value={priority}>{priority}</SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                        <FormDescription>
+                                            How urgent should this task be completed
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        }
 
+                        {
+                            //INFO: datepicker
+                            <div className={cn("grid gap-2")}>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            id="date"
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-[300px] justify-start text-left font-normal",
+                                                !date && "text-muted-foreground"
+                                            )}
+                                        >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {date?.from ? (
+                                                date.to ? (
+                                                    <>
+                                                        {format(date.from, "LLL dd, y")} -{" "}
+                                                        {format(date.to, "LLL dd, y")}
+                                                    </>
+                                                ) : (
+                                                    format(date.from, "LLL dd, y")
+                                                )
+                                            ) : (
+                                                <span>Pick a date</span>
+                                            )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="range"
+                                            defaultMonth={date?.from}
+                                            selected={date}
+                                            onSelect={setDate}
+                                            numberOfMonths={2}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        }
+
+                        {
+                            <DialogFooter>
+                                <Button type="submit">Create a new task</Button>
+                            </DialogFooter>
+                        }
                     </form>
                 </Form>
+
             </DialogContent>
         </Dialog>
     )
