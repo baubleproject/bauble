@@ -118,7 +118,7 @@ export default function CreateTask() {
                                                 <SelectContent>
                                                     {
                                                         projects?.map((project) => (
-                                                            <SelectItem value={project.id}>{project.name}</SelectItem>
+                                                            <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
                                                         ))
                                                     }
                                                 </SelectContent>
