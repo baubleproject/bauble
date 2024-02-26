@@ -81,7 +81,6 @@ export default function CreateTask() {
 
     //INFO: was the projectId passed, if it was then we dont need to show the select input to choose the project.
     const projectPassedIn = data?.projectId
-    console.log(projectPassedIn)
 
     //INFO: useeffect stuff
     useEffect(() => {
@@ -121,7 +120,7 @@ export default function CreateTask() {
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         {
                             //INFO: the fucking select component
                             !projectPassedIn ? (
