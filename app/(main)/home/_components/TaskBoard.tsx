@@ -14,7 +14,7 @@ interface TaskBoardProps extends HTMLAttributes<HTMLDivElement> { }
 
 export default function TaskBoard({ className, ...props }: TaskBoardProps) {
 
-    const { onOpen, data } = useModal()
+    const { onOpen } = useModal()
 
     const createTaskModalOpen = () => {
         onOpen("createTask")
