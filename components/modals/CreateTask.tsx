@@ -53,7 +53,7 @@ import { Priority } from "@prisma/client";
 import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
-    projectId: z.string({}).email().optional(),
+    projectId: z.string({}).optional(),
     name: z.string({
         required_error: "The task name is required"
     }),
