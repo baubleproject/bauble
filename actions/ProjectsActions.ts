@@ -29,3 +29,4 @@ export async function getProjects({ limit }: ProjectsProps): Promise<Project[] |
     })
     return projects
 }
+

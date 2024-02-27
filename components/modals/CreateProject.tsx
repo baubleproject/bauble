@@ -12,6 +12,7 @@ import {
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -28,6 +29,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner"
 import { useModal } from '@/hooks/useModalStore';
+import { Textarea } from '../ui/textarea';
 
 
 const formSchema = z.object({
@@ -77,7 +79,7 @@ export default function CreateProjectModal() {
 
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-            <DialogContent className="bg-white text-zinc-950 dark:text-slate-50 overflow-hidden">
+            <DialogContent className="overflow-hidden">
                 <DialogHeader>
                     <DialogTitle>Create a Project!</DialogTitle>
                     <DialogDescription>
@@ -95,17 +97,21 @@ export default function CreateProjectModal() {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="uppercase text-xs font-bold text-slate-700 dark:text-slate-100">
+                                        <FormLabel>
                                             Project name
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 disabled={loading}
                                                 placeholder=""
-                                                className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
+                                                //className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
                                             />
                                         </FormControl>
+
+                                        <FormDescription>
+                                            what will your project be called
+                                        </FormDescription>
                                         <FormMessage className="font-semibold text-red-500" />
                                     </FormItem>
                                 )}
@@ -115,22 +121,21 @@ export default function CreateProjectModal() {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="uppercase text-xs font-bold text-slate-700 dark:text-slate-100">
-                                            Description
-                                        </FormLabel>
+                                        <FormLabel>Task Description</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                disabled={loading}
-                                                placeholder=""
-                                                className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
+                                            <Textarea
+                                                className="resize-none"
                                                 {...field}
                                             />
                                         </FormControl>
+
+                                        <FormDescription>
+                                            Tell us a little bit about your project
+                                        </FormDescription>
                                         <FormMessage className="font-semibold text-red-500" />
                                     </FormItem>
                                 )}
                             ></FormField>
-
                         </div>
                         <DialogFooter>
                             <Button
