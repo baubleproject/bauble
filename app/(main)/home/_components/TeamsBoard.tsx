@@ -15,6 +15,7 @@ interface TeamsBoardProps extends HTMLAttributes<HTMLDivElement> { }
 export default function TeamsBoard({ className, ...props }: TeamsBoardProps) {
     const [projects, setProjects] = useState<Project[] | null>(null)
     const { onOpen } = useModal()
+
     useEffect(() => {
         const fetchProjects = async () => {
             const projects = await getProjects({ limit: 4 })
@@ -22,6 +23,7 @@ export default function TeamsBoard({ className, ...props }: TeamsBoardProps) {
         }
         fetchProjects()
     }, [])
+
     const createProjectModalOpen = () => {
         onOpen("createProject")
     }

@@ -53,6 +53,9 @@ import { Priority } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
     projectId: z.string({}).optional(),
@@ -100,15 +103,26 @@ export default function CreateTask() {
         resolver: zodResolver(FormSchema),
     })
 
+    const router = useRouter(); // initialize router
 
     //INFO: events, submit, close, etc
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        // console.log("SUMBIT EVENT WORKS FOR FUCK SAKE")
-        if (projectPassedIn) {
-            data.projectId = projectPassedIn
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        try {
+            if (projectPassedIn) {
+                data.projectId = projectPassedIn
+            }
+            const values = { to: date?.to, from: date?.from, ...data }
+            await axios.post('/api/tasks', values);
+            console.log(values)
+            toast.success("Project has been created")
+            form.reset();
+            router.refresh();
+            onClose();
+
+        } catch (error) {
+            console.log(error);
+            toast("failed to create task")
         }
-        console.log("SUMBIT EVENT WORKS FOR FUCK SAKE")
-        console.log(data, date)
     }
 
     const handleClose = () => {
@@ -279,8 +293,3 @@ export default function CreateTask() {
         </Dialog>
     )
 }
-/*
-
-
- 
-    */
