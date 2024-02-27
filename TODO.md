@@ -12,3 +12,12 @@
 - [ ] Privacy policy page
 - [x] mobile sidebar
 - [ ] when users signout and sign back in, it routes them to /signout
+
+
+## Create task modal
+    name: String
+    priority: Priority (enum)
+    project: Project (relation)
+    projectId: String (corresponding to the id field in the Project model)
+    assignedTo: Member (relation)
+    memberId: String (corresponding to the id field in the Member model)

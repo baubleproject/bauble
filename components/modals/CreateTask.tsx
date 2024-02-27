@@ -35,7 +35,7 @@ import {
 
 import { Calendar } from "@/components/ui/calendar"
 
-import Link from "next/link"
+//import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -51,6 +51,8 @@ import { Priority } from "@prisma/client";
 //import { toast } from 'sonner';
 //import Loader from "../Loaders/Loader";
 import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 const FormSchema = z.object({
     projectId: z.string({}).optional(),
@@ -61,14 +63,15 @@ const FormSchema = z.object({
     priority: z.string({
         required_error: "The task priority is required"
     })
-
 })
 
+/*
+*/
 export default function CreateTask() {
     //INFO: state
     const [projects, setProjects] = useState<Project[] | null>(null)
     const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2022, 0, 20),
+        from: new Date(),
         to: addDays(new Date(2022, 0, 20), 20),
     })
 
@@ -99,10 +102,12 @@ export default function CreateTask() {
 
 
     //INFO: events, submit, close, etc
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    const onSubmit = (data: z.infer<typeof FormSchema>) => {
+        // console.log("SUMBIT EVENT WORKS FOR FUCK SAKE")
         if (projectPassedIn) {
             data.projectId = projectPassedIn
         }
+        console.log("SUMBIT EVENT WORKS FOR FUCK SAKE")
         console.log(data, date)
     }
 
@@ -120,7 +125,50 @@ export default function CreateTask() {
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Task Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            //disabled={loading}
+                                            placeholder=""
+                                            //className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Name of the task please
+                                    </FormDescription>
+                                    <FormMessage className="font-semibold text-red-500" />
+                                </FormItem>
+                            )}
+                        ></FormField>
+
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Task Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormDescription>
+                                        Tell us a little bit about the task
+                                    </FormDescription>
+                                    <FormMessage className="font-semibold text-red-500" />
+                                </FormItem>
+                            )}
+                        ></FormField>
+
                         {
                             //INFO: the fucking select component
                             !projectPassedIn ? (
@@ -129,7 +177,7 @@ export default function CreateTask() {
                                     name="projectId"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Project</FormLabel>
+                                            <FormLabel>Task Project</FormLabel>
                                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                 <FormControl>
                                                     <SelectTrigger>
@@ -145,8 +193,7 @@ export default function CreateTask() {
                                                 </SelectContent>
                                             </Select>
                                             <FormDescription>
-                                                You can manage email addresses in your{" "}
-                                                <Link href="/examples/forms">email settings</Link>.
+                                                Which of these projects do you want to create a project for
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -154,83 +201,77 @@ export default function CreateTask() {
                                 />
                             ) : (null)
                         }
-                        {
-                            //INFO: the fucking select component
-                            <FormField
-                                control={form.control}
-                                name="priority"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Priority</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select an intensity degree" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {
-                                                    priorityArray?.map((priority, idx) => (
-                                                        <SelectItem key={idx} value={priority}>{priority}</SelectItem>
-                                                    ))
-                                                }
-                                            </SelectContent>
-                                        </Select>
-                                        <FormDescription>
-                                            How urgent should this task be completed
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        }
 
-                        {
-                            //INFO: datepicker
-                            <div className={cn("grid gap-2")}>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            id="date"
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[300px] justify-start text-left font-normal",
-                                                !date && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date?.from ? (
-                                                date.to ? (
-                                                    <>
-                                                        {format(date.from, "LLL dd, y")} -{" "}
-                                                        {format(date.to, "LLL dd, y")}
-                                                    </>
-                                                ) : (
-                                                    format(date.from, "LLL dd, y")
-                                                )
+                        <FormField
+                            control={form.control}
+                            name="priority"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Task Priority</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select an intensity degree" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {
+                                                priorityArray?.map((priority, idx) => (
+                                                    <SelectItem key={idx} value={priority}>{priority}</SelectItem>
+                                                ))
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                    <FormDescription>
+                                        How urgent should this task be completed
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <div className={cn("grid gap-2")}>
+                            <FormLabel>Task Start and End date</FormLabel>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        id="date"
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-center text-center font-normal",
+                                            !date && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date?.from ? (
+                                            date.to ? (
+                                                <>
+                                                    {format(date.from, "LLL dd, y")} -{" "}
+                                                    {format(date.to, "LLL dd, y")}
+                                                </>
                                             ) : (
-                                                <span>Pick a date</span>
-                                            )}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="range"
-                                            defaultMonth={date?.from}
-                                            selected={date}
-                                            onSelect={setDate}
-                                            numberOfMonths={2}
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-                        }
+                                                format(date.from, "LLL dd, y")
+                                            )
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                        mode="range"
+                                        defaultMonth={date?.from}
+                                        selected={date}
+                                        onSelect={setDate}
+                                        numberOfMonths={2}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
 
-                        {
-                            <DialogFooter>
-                                <Button type="submit">Create a new task</Button>
-                            </DialogFooter>
-                        }
+                        <DialogFooter>
+                            <Button type="submit">Create a new Task</Button>
+                        </DialogFooter>
                     </form>
                 </Form>
 
@@ -238,3 +279,8 @@ export default function CreateTask() {
         </Dialog>
     )
 }
+/*
+
+
+ 
+    */
