@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     try {
         const response = await req.json()
         console.log(response)
-        const { name, description, projectId, priority, to, from }  = response
+        const { name, description, projectId, priority, to, from, memberId } = response
 
         const profile = await currentProfile()
 
@@ -35,6 +35,11 @@ export async function POST(req: Request) {
                 priority,
                 start: to,
                 end: from,
+                // assignedTo: {
+                //     connect: {
+                //         id: memberId ? memberId.toString : null
+                //     }
+                // },
                 project: {
                     connect: {
                         id: projectId
@@ -43,7 +48,7 @@ export async function POST(req: Request) {
             }
         })
 
-        return NextResponse.json({status:200})
+        return NextResponse.json({ status: 200 })
     } catch (err) {
         console.log("[ROUTE POST ENDPOINT:]", err)
         return new NextResponse("Internal Error", { status: 500 })

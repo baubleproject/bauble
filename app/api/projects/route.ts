@@ -47,11 +47,19 @@ export async function GET(_req: Request) {
                 members: {
                     some: {
                         profileId: profile?.id,
-
-
                     }
                 }
             },
+            include:{
+                members:{
+                    include:{
+                        profile:true
+                    },
+                    orderBy:{
+                        createdAt:"desc"
+                    }
+                }
+            }
         })
         return NextResponse.json(projects)
     } catch (err) {

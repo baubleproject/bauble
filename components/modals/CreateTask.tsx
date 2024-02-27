@@ -39,7 +39,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Project } from '@prisma/client';
+import { Member, Project } from '@prisma/client';
 import { useModal } from "@/hooks/useModalStore";
 import React, { useEffect, useState } from 'react'
 import { getProjects } from '@/actions/ProjectsActions'
@@ -68,11 +68,13 @@ const FormSchema = z.object({
     })
 })
 
-/*
-*/
+
+//type ProjectAndMembersResponse = Project[] | null & Member[] | null
+
 export default function CreateTask() {
     //INFO: state
     const [projects, setProjects] = useState<Project[] | null>(null)
+    const [members, setMembers] = useState<Member[] | null>(null)
     const [date, setDate] = React.useState<DateRange | undefined>({
         from: new Date(),
         to: addDays(new Date(2022, 0, 20), 20),
@@ -92,10 +94,12 @@ export default function CreateTask() {
     useEffect(() => {
         const fetchProjects = async () => {
             const projects = await getProjects({ limit: 4 })
+            //const response = await axios.get("/api/projects")
             setProjects(projects)
         }
         fetchProjects()
-    }, [])
+    }, [isModalOpen])
+
 
 
     //INFO: form stuff

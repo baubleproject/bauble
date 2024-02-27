@@ -1,0 +1,3 @@
+
+return an array of 3 projects
+    project has everything complete but with a filled 
