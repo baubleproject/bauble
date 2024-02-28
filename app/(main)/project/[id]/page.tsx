@@ -7,15 +7,9 @@ import Loader from "@/components/Loaders/Loader";
 import { useState } from "react";
 
 
-export default function page(props: any) {
+export default function Page(props: any) {
     const [loading, setLoading] = useState(false)
     const id = props.params.id;
-    // const project = await prisma?.project.findFirst({
-    //     where: {
-    //         id
-    //     }
-    // })
-
 
     if (loading)
         return (
