@@ -17,9 +17,11 @@ export default function page(props: any) {
     // })
 
 
-    if (loading) return (
-        <Loader className="w-full h-full" />
-    )
+    if (loading)
+        return (
+            <Loader className="w-full h-full" />
+        )
+
     return (
         <div className={`${dmsans.className} w-full space-y-5`}>
             <div>
