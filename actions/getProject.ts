@@ -8,14 +8,14 @@ interface ProjectMembers {
     task?: boolean
 }
 
-export async function getProjectTasks({ id, task = false }: ProjectMembers) {
+export async function getProject({ id, task = false }: ProjectMembers) {
     try {
-        const tasks = await prisma?.task.findMany({
+        const project = await db.project.findUnique({
             where: {
-                projectId: id
+                id
             }
         })
-        return tasks
+        return project
     } catch (err) {
         console.log(err)
         return null

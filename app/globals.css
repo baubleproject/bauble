@@ -71,6 +71,10 @@ html {
   }
 }
 
+.bar-label {
+    background-color: red
+}
+
 @layer base {
   * {
     @apply border-border;
