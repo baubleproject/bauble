@@ -4,7 +4,6 @@ import { Task } from '@prisma/client'
 import { useEffect, useRef } from 'react'
 import Gantt from 'frappe-gantt'
 import React, { HTMLAttributes } from 'react'
-import 'frappe-gantt/dist/frappe-gantt.css'
 
 interface GanttBoardProps extends HTMLAttributes<HTMLDivElement> {
     tasks: Task[]
@@ -25,8 +24,9 @@ export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
 
         if (ganttContainerRef.current) {
             const gantt = new Gantt(ganttContainerRef.current, mappedTasks ? mappedTasks : [], {
-                view_mode: "Week",
+                view_mode: "Month",
                 date_format: "MM/DD/YYYY",
+
             });
 
             return () => {
@@ -36,8 +36,10 @@ export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
     }, [tasks]);
 
     return (
-        <section {...props} className={cn(" overflow-x-auto", className)}>
-            <div className='max-w-full' ref={ganttContainerRef} />
+        <section {...props} className={cn("", className)}>
+            <div className='max-w-[95%] mx-auto overflow-x-auto'>
+                <div className='max-w-full' ref={ganttContainerRef} />
+            </div>
         </section>
     );
 }

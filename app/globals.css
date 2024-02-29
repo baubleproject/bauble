@@ -71,6 +71,13 @@ html {
   }
 }
 
+/*
+    Gant chart stuff
+*/
+.bar-group bar{
+    background-color: gray;
+}
+
 .bar-label {
     background-color: red
 }
@@ -92,3 +99,4 @@ html {
 .cl-internal-b3fm6y {
   display: none;
 }
+
