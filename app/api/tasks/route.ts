@@ -14,7 +14,7 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
-        const project = await prisma?.project.findUnique({
+        const project = await db?.project.findUnique({
             where: {
                 id: projectId
             }
