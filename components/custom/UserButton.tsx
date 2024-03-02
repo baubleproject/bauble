@@ -91,15 +91,17 @@ export function UserButton({ Triggerclass }: UserButtonProps) {
                         Create new Project
                     </DropdownMenuItem>
 
+                    {/*
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
                                 <DropdownMenuItem>Email</DropdownMenuItem>
-                                <DropdownMenuItem>Invite code</DropdownMenuItem>
+                                <DropdownMenuItem onClick={}>Invite code</DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>
+                    */}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onSignOut} className="cursor-pointer hover:bg-red-300 dark:hover:bg-red-300 dark:hover:text-zinc-900">

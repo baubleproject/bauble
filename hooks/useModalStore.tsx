@@ -6,6 +6,7 @@ import { create } from 'zustand';
 export type ModalType =
     | 'createProject'
     | 'createTask'
+    | 'inviteMembers'
 
 interface ModalData {
     project?: Project

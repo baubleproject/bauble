@@ -10,6 +10,8 @@ import { Project, Task } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import Loader from "@/components/Loaders/Loader";
 import { formatDate } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useModal } from "@/hooks/useModalStore";
 
 interface Props {
     params: {
@@ -21,6 +23,7 @@ export default function Page({ params }: Props) {
     const [loading, setLoading] = useState(false);
     const [tasks, setTasks] = useState<Task[] | null>(null);
     const [project, setProject] = useState<Project | null>(null);
+    const { onOpen } = useModal()
 
     const id = params.id;
 
@@ -88,6 +91,7 @@ export default function Page({ params }: Props) {
                         <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
+                    <Button className="mx-2 text-sm" onClick={() => onOpen("inviteMembers", { project: project! })}>Invite a Collaborator</Button>
                     <Separator className="text-transparent dark:text-zinc-500 w-full my-3" />
                     <TabsContent value="overview" className="h-full w-full">
                         <OverviewPage tasks={tasks!} className="h-full w-full" />
