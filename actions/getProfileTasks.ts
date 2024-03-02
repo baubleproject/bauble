@@ -10,7 +10,7 @@ interface ProjectMembers {
 
 export async function getProjectTasks({ id, task = false }: ProjectMembers) {
     try {
-        const tasks = await prisma?.task.findMany({
+        const tasks = await db?.task.findMany({
             where: {
                 projectId: id
             }

@@ -118,7 +118,7 @@ export default function CreateTask() {
             const values = { to: date?.to, from: date?.from, ...data }
             await axios.post('/api/tasks', values);
             console.log(values)
-            toast.success("Project has been created")
+            toast.success("Project task has been created")
             form.reset();
             router.refresh();
             onClose();
