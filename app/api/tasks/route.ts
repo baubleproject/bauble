@@ -51,6 +51,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ status: 200 })
     } catch (err) {
         console.log("[ROUTE POST ENDPOINT:]", err)
-        return new NextResponse("Internal Error", { status: 500 })
+        return new NextResponse(`Internal Error ${err}`, { status: 500 })
     }
 }

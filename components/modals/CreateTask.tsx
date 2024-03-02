@@ -77,7 +77,7 @@ export default function CreateTask() {
     const [members, setMembers] = useState<Member[] | null>(null)
     const [date, setDate] = React.useState<DateRange | undefined>({
         from: new Date(),
-        to: addDays(new Date(2022, 0, 20), 20),
+        to: addDays(new Date(), 20),
     })
 
     type PriorityValues = keyof typeof Priority;
@@ -93,7 +93,7 @@ export default function CreateTask() {
     //INFO: useeffect stuff
     useEffect(() => {
         const fetchProjects = async () => {
-            const projects = await getProjects({ limit: 4 })
+            const projects = await getProjects({})
             //const response = await axios.get("/api/projects")
             setProjects(projects)
         }
