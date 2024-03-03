@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 import { GanttPage } from "./_components/GantPage";
 import { getProject } from "@/actions/getProject";
 import { getProjectTasks } from "@/actions/getProfileTasks";
-import { Project, Task } from "@prisma/client";
+import { Member, Project, Task } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import Loader from "@/components/Loaders/Loader";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModalStore";
+import { toast } from "sonner";
+import axios from "axios";
+import { MemberandProfile } from "@/type/MemberandProfile";
 
 interface Props {
     params: {
@@ -23,6 +26,7 @@ export default function Page({ params }: Props) {
     const [loading, setLoading] = useState(false);
     const [tasks, setTasks] = useState<Task[] | null>(null);
     const [project, setProject] = useState<Project | null>(null);
+    const [members, setMembers] = useState<MemberandProfile | null>(null);
     const { onOpen } = useModal()
 
     const id = params.id;
@@ -47,6 +51,17 @@ export default function Page({ params }: Props) {
         }
     };
 
+    const fetchData3 = async () => {
+        try {
+            const response = await axios.get(`/api/projects/${id}/member`)
+            setMembers(response.data)
+            
+        } catch (error) {
+            toast.error("Failure to load data") 
+            console.error("Error fetching tasks:", error);
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -56,6 +71,7 @@ export default function Page({ params }: Props) {
 
                 requests.push(fetchData1());
                 requests.push(fetchData2());
+                requests.push(fetchData3());
 
                 await Promise.all(requests);
 
@@ -94,7 +110,7 @@ export default function Page({ params }: Props) {
                     <Button className="mx-2 text-sm" onClick={() => onOpen("inviteMembers", { project: project! })}>Invite a Collaborator</Button>
                     <Separator className="text-transparent dark:text-zinc-500 w-full my-3" />
                     <TabsContent value="overview" className="h-full w-full">
-                        <OverviewPage tasks={tasks!} className="h-full w-full" />
+                        <OverviewPage members={members!} tasks={tasks!} className="h-full w-full" />
                     </TabsContent>
                     <TabsContent value="gantt" className="h-full w-full">
                         <GanttPage tasks={tasks!} className="h-full w-full" />
