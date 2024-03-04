@@ -15,6 +15,7 @@ import { useModal } from "@/hooks/useModalStore";
 import { toast } from "sonner";
 import axios from "axios";
 import { MemberandProfile } from "@/type/MemberandProfile";
+import { TablePage } from "./_components/TablePage";
 
 interface Props {
     params: {
@@ -102,9 +103,10 @@ export default function Page({ params }: Props) {
                 <Tabs defaultValue="overview" className="w-full h-full">
                     <TabsList className="space-x-2 p-3">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
+                        <TabsTrigger value="kanban">Kanban</TabsTrigger>
+                        <TabsTrigger value="table">Table</TabsTrigger>
                         <TabsTrigger value="gantt">Gantt</TabsTrigger>
                         <TabsTrigger value="calendar">Calendar</TabsTrigger>
-                        <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
                     <Button className="mx-2 text-sm" onClick={() => onOpen("inviteMembers", { project: project! })}>Invite a Collaborator</Button>
@@ -112,6 +114,10 @@ export default function Page({ params }: Props) {
                     <TabsContent value="overview" className="h-full w-full">
                         <OverviewPage members={members!} tasks={tasks!} className="h-full w-full" />
                     </TabsContent>
+                    <TabsContent value="table" className="h-full w-full">
+                        <TablePage members={members!} tasks={tasks!} className="h-full w-full" />
+                    </TabsContent>
+
                     <TabsContent value="gantt" className="h-full w-full">
                         <GanttPage tasks={tasks!} className="h-full w-full" />
                     </TabsContent>
