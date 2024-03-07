@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { TablePage } from "./_components/TablePage";
+import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
 
 interface Props {
     params: {
@@ -25,7 +26,7 @@ interface Props {
 
 export default function Page({ params }: Props) {
     const [loading, setLoading] = useState(false);
-    const [tasks, setTasks] = useState<Task[] | null>(null);
+    const [tasks, setTasks] = useState<TasksandAssignedTo[] | null>(null);
     const [project, setProject] = useState<Project | null>(null);
     const [members, setMembers] = useState<MemberandProfile | null>(null);
     const { onOpen } = useModal()
@@ -56,9 +57,9 @@ export default function Page({ params }: Props) {
         try {
             const response = await axios.get(`/api/projects/${id}/member`)
             setMembers(response.data)
-            
+
         } catch (error) {
-            toast.error("Failure to load data") 
+            toast.error("Failure to load data")
             console.error("Error fetching tasks:", error);
         }
     }
@@ -103,8 +104,8 @@ export default function Page({ params }: Props) {
                 <Tabs defaultValue="overview" className="w-full h-full">
                     <TabsList className="space-x-2 p-3">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="table">Table</TabsTrigger>
+                        <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="gantt">Gantt</TabsTrigger>
                         <TabsTrigger value="calendar">Calendar</TabsTrigger>
                         <TabsTrigger value="settings">Settings</TabsTrigger>

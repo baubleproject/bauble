@@ -1,17 +1,83 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Task } from "@prisma/client"
+import { Member, MemberRole, Task, TaskStatus } from "@prisma/client"
 import { formatDate } from "@/lib/utils"
+import { Hash } from "lucide-react";
+import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
 
-export const columns: ColumnDef<Task>[] = [
+import {
+    ShieldAlert,
+    ShieldCheck,
+} from 'lucide-react';
+import { MemberandProfile } from "@/type/MemberandProfile";
+
+const roleIconMap = {
+    GUEST: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
+    ADMIN: <ShieldAlert className="h-5 w-5 ml-2  text-rose-700" />,
+};
+
+
+const statusMap = {
+    [TaskStatus.OPEN]: {
+        color: "bg-blue-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+    [TaskStatus.CANCELED]: {
+        color: "bg-red-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+
+    [TaskStatus.COMPLETED]: {
+        color: "bg-green-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+
+    [TaskStatus.IN_PROGRESS]: {
+        color: "bg-yellow-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+};
+
+export const columns: ColumnDef<TasksandAssignedTo>[] = [
     {
         accessorKey: "name",
         header: "Name",
+        cell: ({ row }) => {
+            const name: string = row.getValue("name")
+            return <div className="font-semibold">{name}</div>
+        }
+
     },
     {
-        accessorKey: "status",
-        header: "Task Status",
+        accessorKey: "assignedTo",
+        header: "Assigned to",
+        cell: ({ row }) => {
+            const person = row.getValue("assignedTo");
+            let formatted: string | MemberandProfile;
+
+            if (person !== null) {
+                formatted = person as MemberandProfile;
+                const role = (formatted as any).role
+
+                formatted = (formatted as any).profile?.firstname! + " " + (formatted as any).profile?.lastname!
+                return <div className="w-fit flex">
+                    <p>
+                        {formatted as string}
+                    </p>
+                    {roleIconMap[(role as MemberRole)]}
+                </div>;
+            } else {
+                formatted = "Not assigned to anyone";
+                return <div className="font-semibold bg-green-200 dark:bg-green-900 rounded-md w-fit p-2">{formatted.toLowerCase()}</div>;
+            }
+
+        }
+    },
+
+    {
+        accessorKey: "priority",
+        header: "Task Priority",
     },
     {
         accessorKey: "start",
@@ -22,13 +88,28 @@ export const columns: ColumnDef<Task>[] = [
             return <div className="">{formatted}</div>
         }
     },
-   {
+    {
         accessorKey: "end",
         header: "Deadline",
         cell: ({ row }) => {
             const time = row.getValue("end")
             const formatted = formatDate(time as Date)
             return <div className="">{formatted}</div>
+        }
+    },
+    {
+        accessorKey: "status",
+        header: "Task Status",
+        cell: ({ row }) => {
+            const status = row.getValue("status")
+            return (
+                <div className={`py-1 px-3 rounded-lg ${statusMap[status as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                    <p>
+                        {String(status).toLowerCase()}
+                    </p>
+                    {statusMap[status as TaskStatus].icon}
+                </div>
+            )
         }
     },
 

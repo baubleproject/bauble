@@ -1,4 +1,6 @@
 "use client"
+import { columns } from '@/components/tables/TaskTables/columns'
+import { DataTable } from '@/components/tables/TaskTables/data-table'
 import { cn } from '@/lib/utils'
 import { MemberandProfile } from '@/type/MemberandProfile'
 import { Task } from '@prisma/client'

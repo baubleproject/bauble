@@ -13,6 +13,13 @@ export async function getProjectTasks({ id, task = false }: ProjectMembers) {
         const tasks = await db?.task.findMany({
             where: {
                 projectId: id
+            },
+            include: {
+                assignedTo: {
+                    include: {
+                        profile: true
+                    }
+                },
             }
         })
         return tasks
