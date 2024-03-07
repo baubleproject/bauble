@@ -22,10 +22,11 @@ import {
     ShieldCheck,
 } from 'lucide-react';
 import { MemberandProfile } from "@/type/MemberandProfile";
+import { useModal } from "@/hooks/useModalStore"
 
 const roleIconMap = {
-    GUEST: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
-    ADMIN: <ShieldAlert className="h-5 w-5 ml-2  text-rose-700" />,
+    GUEST: null,
+    ADMIN: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
 };
 
 
@@ -128,7 +129,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         id: "actions",
         cell: ({ row }) => {
             const task = row.original
-
+            const { onOpen } = useModal()
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -145,7 +146,9 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                             Copy task ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View task details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => onOpen("taskDetails", { taskId: task.id })}
+                        >View task details</DropdownMenuItem>
                         <DropdownMenuItem>...</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

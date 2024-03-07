@@ -1,16 +1,19 @@
 'use client'
 
-import { Project } from '@prisma/client';
+import { Project, Task } from '@prisma/client';
 import { create } from 'zustand';
 
 export type ModalType =
     | 'createProject'
     | 'createTask'
     | 'inviteMembers'
+    | 'taskDetails'
 
 interface ModalData {
     project?: Project
     projectId?: string
+    taskId?: string
+    task?: Task
 }
 
 interface ModalStore {

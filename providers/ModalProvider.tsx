@@ -5,6 +5,7 @@ import MobileSideBar from "@/components/Layouts/MobileSidebar";
 import CreateProjectModal from "@/components/modals/CreateProject";
 import CreateTask from "@/components/modals/CreateTask";
 import InviteMembersModal from "@/components/modals/InviteMembersModal";
+import TaskDetailsModal from "@/components/modals/TaskDetailsModal";
 
 export function ModalProvider() {
     const [isMounted, setIsMounted] = useState(false);
@@ -23,6 +24,7 @@ export function ModalProvider() {
             <MobileSideBar />
             <CreateProjectModal />
             <InviteMembersModal />
+            <TaskDetailsModal />
         </>
     )
 
