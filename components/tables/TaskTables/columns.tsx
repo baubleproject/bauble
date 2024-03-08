@@ -150,6 +150,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         id: "actions",
         cell: ({ row }) => {
             const task = row.original
+            //@eslint-disable-next-line
             const { onOpen } = useModal()
             return (
                 <DropdownMenu>

@@ -121,6 +121,7 @@ export default function CreateTask() {
             toast.success("Project task has been created")
             form.reset();
             router.refresh();
+            window.location.reload()
             onClose();
 
         } catch (error) {

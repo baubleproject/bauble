@@ -108,7 +108,7 @@ export default function TaskDetailsModal() {
                         <DialogHeader className='h-fit'>
                             <DialogTitle>Task Overview</DialogTitle>
                             <DialogDescription>
-                                Details for the task "{task?.name}"
+                                Details for the task {task?.name}
                             </DialogDescription>
                         </DialogHeader>
                         <div className='flex-1 h-auto space-y-1.5'>
@@ -160,7 +160,7 @@ export default function TaskDetailsModal() {
                                 {
                                     task?.comments?.length! > 0 ? (
                                         task.comments.map(comment => (
-                                            <div className='p-2 bg-zinc-200 dark:bg-zinc-900 rounded-lg w-fit flex h-full space-x-3 my-2'>
+                                            <div key={comment.id} className='p-2 bg-zinc-200 dark:bg-zinc-900 rounded-lg w-fit flex h-full space-x-3 my-2'>
                                                 <div className=' h-full w-7'>
                                                     <div className="cursor-pointer rounded-full w-7 h-7 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${comment.author?.profile.imageUrl})` }}></div>
                                                     {/*
