@@ -29,7 +29,7 @@ export const ProjectFilesSection = ({ take,project, className, ...props }: FileB
             <div className='my-4 flex items-center gap-3'>
                 {
                     files?.map(file => (
-                        <FileCard file={file} />
+                        <FileCard key={file.id} file={file} />
                     ))
                 }
 
