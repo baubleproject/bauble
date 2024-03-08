@@ -17,6 +17,8 @@ import axios from "axios";
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { TablePage } from "./_components/TablePage";
 import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
+import AddProjectFile from "@/components/modals/AddProjectFile";
+import { FilePage } from "./_components/FilesPage";
 
 interface Props {
     params: {
@@ -108,6 +110,7 @@ export default function Page({ params }: Props) {
                         <TabsTrigger value="table">Table</TabsTrigger>
                         <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="gantt">Gantt</TabsTrigger>
+                        <TabsTrigger value="file">Files</TabsTrigger>
                         <TabsTrigger value="calendar">Calendar</TabsTrigger>
                         <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
@@ -120,6 +123,11 @@ export default function Page({ params }: Props) {
                     <TabsContent value="table" className="h-full w-full">
                         <TablePage members={members!} tasks={tasks!} className="h-full w-full" />
                     </TabsContent>
+
+                    <TabsContent value="file" className="h-full w-full">
+                        <FilePage project={project!} />
+                    </TabsContent>
+
 
                     <TabsContent value="gantt" className="h-full w-full">
                         <GanttPage tasks={tasks!} className="h-full w-full" />

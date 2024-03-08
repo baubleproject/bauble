@@ -6,6 +6,7 @@ import CreateProjectModal from "@/components/modals/CreateProject";
 import CreateTask from "@/components/modals/CreateTask";
 import InviteMembersModal from "@/components/modals/InviteMembersModal";
 import TaskDetailsModal from "@/components/modals/TaskDetailsModal";
+import AddProjectFile from "@/components/modals/AddProjectFile";
 
 export function ModalProvider() {
     const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +26,7 @@ export function ModalProvider() {
             <CreateProjectModal />
             <InviteMembersModal />
             <TaskDetailsModal />
+            <AddProjectFile />
         </>
     )
 

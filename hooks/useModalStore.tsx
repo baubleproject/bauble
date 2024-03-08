@@ -8,6 +8,7 @@ export type ModalType =
     | 'createTask'
     | 'inviteMembers'
     | 'taskDetails'
+    | 'addFile'
 
 interface ModalData {
     project?: Project

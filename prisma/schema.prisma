@@ -59,6 +59,7 @@ model Project {
     tasks       Task[]   @relation("ProjectTasks")
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+    files       File[]
 }
 
 model Task {
@@ -94,6 +95,23 @@ model Comment {
     taskID    String
     author    Member?  @relation(fields: [authorId], references: [id])
     authorId  String?
+}
+
+model File {
+    id        String   @id @default(cuid())
+    name      String
+    fileUrl   String
+    type      FileType @default(FILE)
+    createdAt DateTime @default(now())
+    project   Project  @relation(fields: [projectID], references: [id])
+    projectID String
+}
+
+enum FileType {
+    TEXT
+    IMAGE
+    PDF
+    FILE
 }
 
 enum Priority {
