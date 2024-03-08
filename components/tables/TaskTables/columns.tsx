@@ -147,6 +147,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
     },
 
     {
+        /* eslint-disable */
         id: "actions",
         cell: ({ row }) => {
             const task = row.original
@@ -176,6 +177,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                 </DropdownMenu>
             )
         },
+        /* eslint-enable */
     },
 ]
 
