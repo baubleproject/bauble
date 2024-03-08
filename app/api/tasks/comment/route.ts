@@ -12,31 +12,35 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
+        const member = await db.member.findFirst({
+            where: {
+                profileId: profile.id
+            }
+        })
+
+        if (!member) {
+            return new NextResponse("Unauthorized", { status: 401 })
+        }
+
+
         const task = await db?.task.findUnique({
             where: {
                 id: taskId
             }
         })
 
-        console.log("THE TASK:", task)
 
         if (!task) {
             return new NextResponse("Task is not available", { status: 401 })
         }
 
-        await db?.comment.create({
+        console.log("THE TASK POSITION CHANGED:", task)
+        //@ts-ignore
+        await db.comment.create({
             data: {
                 content: comment,
-                task: {
-                    connect: {
-                        id: task.id
-                    }
-                },
-                author: {
-                    connect: {
-                        id: profile.id
-                    }
-                }
+                taskID: task.id,
+                authorId: member.id
             }
         })
         return NextResponse.json({ status: 200 })

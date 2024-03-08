@@ -46,6 +46,7 @@ export default function Page({ params }: Props) {
         try {
             const tasks = await getProjectTasks({ id });
             if (tasks?.length! > 0) {
+                tasks?.reverse()
                 setTasks(tasks!);
             }
         } catch (error) {

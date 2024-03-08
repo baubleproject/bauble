@@ -35,6 +35,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import moment from 'moment';
 
 const FormSchema = z.object({
     comment: z
@@ -153,13 +154,34 @@ export default function TaskDetailsModal() {
                         </div>
                         <div className='flex w-full flex-col border-t-[0.1px] py-3 border-zinc-300 dark:border-zinc-800'>
                             <p className='font-semibold'>Comments</p>
-                            {/*
-                                task?.comments?.length! > 0 ? (null) : (
-                                    <div className='font-light text-sm'>
-                                        There are no comments for this tasks.
-                                    </div>
-                                )
-                            */}
+                            <div className='max-h-80 overflow-auto'>
+                                {
+                                    task?.comments?.length! > 0 ? (
+                                        task.comments.map(comment => (
+                                            <div className='p-2 bg-zinc-200 rounded-lg w-fit flex h-full gap-3 my-2'>
+                                                <div className='bg-red-300 h-[100%] min-w-6'>
+                                                    {/*
+                                                    <div className="cursor-pointer rounded-full w-7 h-7 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${comment.author?.profile.imageUrl})` }}></div>
+                                                    */}
+                                                </div>
+                                                <div className='bg-green-700'>
+                                                    <div className='flex gap-2 items-center'>
+                                                        <p className='text-zinc-700 text-xs font-xs'>{truncateText(comment.author?.profile?.firstname! + " " + comment.author?.profile?.lastname!, 30)}</p>
+                                                        <p>•</p>
+                                                        <p className='text-zinc-600 text-xs font-xs'>{moment(comment.createdAt).startOf('day').fromNow()}</p>
+
+                                                    </div>
+                                                    <p className='text-sm' >{comment.content}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className='font-light text-sm'>
+                                            There are no comments for this tasks.
+                                        </div>
+                                    )
+                                }
+                            </div>
                             <div className='flex flex-col mt-2 w-full items-end justify-end'>
                                 <Form {...form}>
                                     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-1.5">

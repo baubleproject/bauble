@@ -20,19 +20,23 @@ export async function getTasksById({ id }: TaskProps) {
                         profile: true
                     }
                 },
-                // comments: {
-                //     include: {
-                //         author: true
-                //     }
-                // }
+                comments: {
+                    include: {
+                        author:{
+                            include:{
+                                profile: true
+                            }
+                        }
+                    }
+                }
             },
-            orderBy:{
-                createdAt:"desc"
+            orderBy: {
+                createdAt: "desc"
             }
         })
         return tasks
     } catch (err) {
-        console.log("SERVER ACTION GETTASKBYID",err)
+        console.log("SERVER ACTION GETTASKBYID", err)
         return null
     }
 }
