@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     try {
         const response = await req.json()
         console.log(response)
-        const { name, description, projectId, priority, to, from, memberId } = response
+        const { name, description, projectId, priority, to, from, assignedTo } = response
 
         const profile = await currentProfile()
 
@@ -35,11 +35,12 @@ export async function POST(req: Request) {
                 priority,
                 start: from,
                 end: to,
-                // assignedTo: {
-                //     connect: {
-                //         id: memberId ? memberId.toString : null
-                //     }
-                // },
+                //memberId: assignedTo,
+                assignedTo: {
+                    connect: {
+                        id: assignedTo
+                    }
+                },
                 project: {
                     connect: {
                         id: projectId

@@ -56,6 +56,7 @@ import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getProjectMembers } from "@/actions/getProjectMembers";
 
 const FormSchema = z.object({
     projectId: z.string({}).optional(),
@@ -65,7 +66,8 @@ const FormSchema = z.object({
     description: z.string().optional(),
     priority: z.string({
         required_error: "The task priority is required"
-    })
+    }),
+    assignedTo: z.string()
 })
 
 
@@ -74,7 +76,9 @@ const FormSchema = z.object({
 export default function CreateTask() {
     //INFO: state
     const [projects, setProjects] = useState<Project[] | null>(null)
-    const [members, setMembers] = useState<Member[] | null>(null)
+    //const [members, setMembers] = useState<Member[] | null>(null)
+    const [members, setMembers] = useState<Awaited<ReturnType<typeof getProjectMembers>>>(null)
+    const [memberIsReady, setMemberIsReady] = useState(false)
     const [date, setDate] = React.useState<DateRange | undefined>({
         from: new Date(),
         to: addDays(new Date(), 20),
@@ -90,9 +94,13 @@ export default function CreateTask() {
     //INFO: was the projectId passed, if it was then we dont need to show the select input to choose the project.
     const projectPassedIn = data?.projectId
 
+
     //INFO: useeffect stuff
     useEffect(() => {
         const fetchProjects = async () => {
+            if (projectPassedIn || form.getValues("projectId")) {
+                setMemberIsReady(true)
+            }
             const projects = await getProjects({})
             //const response = await axios.get("/api/projects")
             setProjects(projects)
@@ -106,6 +114,18 @@ export default function CreateTask() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
+
+
+    useEffect(() => {
+        const fetchMembers = async () => {
+            if (projectPassedIn || form.getValues("projectId")) {
+                setMemberIsReady(true)
+            }
+            const members = await getProjectMembers({ id: form?.getValues("projectId") ? form?.getValues("projectId")! : projectPassedIn! })
+            setMembers(members)
+        }
+        fetchMembers()
+    }, [form.getValues().projectId, projectPassedIn])
 
     const router = useRouter(); // initialize router
 
@@ -220,6 +240,39 @@ export default function CreateTask() {
                                 />
                             ) : (null)
                         }
+
+                        {
+                            memberIsReady ? (
+
+                                <FormField
+                                    control={form.control}
+                                    name="assignedTo"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Choose assignee</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select who you want to work on the task" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {
+                                                        members?.map((member, idx) => (
+                                                            <SelectItem key={idx} value={member?.id}>{member?.profile.firstname + " " + member?.profile.lastname}</SelectItem>
+                                                        ))
+                                                    }
+                                                </SelectContent>
+                                            </Select>
+                                            <FormDescription>
+                                            Pick someone to work on the task.
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                            ) : (null)}
 
                         <FormField
                             control={form.control}
