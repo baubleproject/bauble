@@ -58,18 +58,19 @@ export default function TaskDetailsModal() {
     const [loadingState, setLoadingState] = useState<boolean>(false)
     const { taskId } = data
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoadingState(true)
-                const task = await getTasksById({ id: taskId! })
-                setTask(task)
-            } catch (e) {
-                console.log(e)
-            } finally {
-                setLoadingState(false)
-            }
+    const fetchData = async () => {
+        try {
+            setLoadingState(true)
+            const task = await getTasksById({ id: taskId! })
+            task?.comments.reverse()
+            setTask(task)
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setLoadingState(false)
         }
+    }
+    useEffect(() => {
         fetchData()
     }, [taskId])
 
@@ -85,8 +86,9 @@ export default function TaskDetailsModal() {
         try {
             const values = { taskId: task?.id, ...data }
             await axios.post('/api/tasks/comment', values);
-            toast.success("task comment has been added")
             form.reset();
+            onClose()
+            fetchData()
             router.refresh();
             onOpen("taskDetails", { taskId: task?.id })
         } catch (error) {
@@ -158,17 +160,17 @@ export default function TaskDetailsModal() {
                                 {
                                     task?.comments?.length! > 0 ? (
                                         task.comments.map(comment => (
-                                            <div className='p-2 bg-zinc-200 rounded-lg w-fit flex h-full gap-3 my-2'>
-                                                <div className='bg-red-300 h-[100%] min-w-6'>
-                                                    {/*
+                                            <div className='p-2 bg-zinc-200 dark:bg-zinc-900 rounded-lg w-fit flex h-full space-x-3 my-2'>
+                                                <div className=' h-full w-7'>
                                                     <div className="cursor-pointer rounded-full w-7 h-7 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${comment.author?.profile.imageUrl})` }}></div>
+                                                    {/*
                                                     */}
                                                 </div>
-                                                <div className='bg-green-700'>
+                                                <div className=''>
                                                     <div className='flex gap-2 items-center'>
-                                                        <p className='text-zinc-700 text-xs font-xs'>{truncateText(comment.author?.profile?.firstname! + " " + comment.author?.profile?.lastname!, 30)}</p>
+                                                        <p className='text-zinc-700 dark:text-zinc-100 text-xs font-xs'>{truncateText(comment.author?.profile?.firstname! + " " + comment.author?.profile?.lastname!, 30)}</p>
                                                         <p>•</p>
-                                                        <p className='text-zinc-600 text-xs font-xs'>{moment(comment.createdAt).startOf('day').fromNow()}</p>
+                                                        <p className='text-zinc-600 dark:text-zinc-100 text-xs font-xs'>{moment(comment.createdAt).startOf('day').fromNow()}</p>
 
                                                     </div>
                                                     <p className='text-sm' >{comment.content}</p>
