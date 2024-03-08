@@ -1,17 +1,19 @@
 "use client"
+import { ProjectFilesSection } from '@/components/sections/ProjectFiles'
 import { columns } from '@/components/tables/TaskTables/columns'
 import { DataTable } from '@/components/tables/TaskTables/data-table'
 import { cn } from '@/lib/utils'
 import { MemberandProfile } from '@/type/MemberandProfile'
-import { Task } from '@prisma/client'
+import { Project, Task } from '@prisma/client'
 import React, { HTMLAttributes } from 'react'
 
 interface OverviewBoardProps extends HTMLAttributes<HTMLDivElement> {
     tasks: Task[]
     members: MemberandProfile
+    project:Project
 }
 
-export const OverviewPage = ({ members, tasks, className, ...props }: OverviewBoardProps) => {
+export const OverviewPage = ({ project,members, tasks, className, ...props }: OverviewBoardProps) => {
     return (
         <section {...props} className={cn("", className)}>
             {/*Overview page*/}
@@ -34,6 +36,7 @@ export const OverviewPage = ({ members, tasks, className, ...props }: OverviewBo
                     ))
                 }
             </div>
+            <ProjectFilesSection take={5} project={project}  />
         </section>
     )
 }

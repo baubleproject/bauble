@@ -91,7 +91,7 @@ export default function Page({ params }: Props) {
         fetchData();
     }, []);
 
-    if (loading) {
+    if (loading || !project || !members) {
         return <Loader />
     }
 
@@ -118,7 +118,7 @@ export default function Page({ params }: Props) {
                     <Button className="mx-2 text-sm" onClick={() => onOpen("createTask", { projectId: project?.id })}>Create a task</Button>
                     <Separator className="text-transparent dark:text-zinc-500 w-full my-3" />
                     <TabsContent value="overview" className="h-full w-full">
-                        <OverviewPage members={members!} tasks={tasks!} className="h-full w-full" />
+                        <OverviewPage project={project} members={members!} tasks={tasks!} className="h-full w-full" />
                     </TabsContent>
                     <TabsContent value="table" className="h-full w-full">
                         <TablePage members={members!} tasks={tasks!} className="h-full w-full" />

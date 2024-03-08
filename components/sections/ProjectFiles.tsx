@@ -2,22 +2,21 @@
 import { cn } from '@/lib/utils'
 import { Project } from '@prisma/client'
 import React, { HTMLAttributes, useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useModal } from "@/hooks/useModalStore";
 import { getProjectFiles } from '@/actions/getProjectFiles'
 import FileCard from '@/components/custom/FileCard'
+
 interface FileBoardProps extends HTMLAttributes<HTMLDivElement> {
     project: Project
+    take:number
 }
 
-export const FilePage = ({ project, className, ...props }: FileBoardProps) => {
+export const ProjectFilesSection = ({ take,project, className, ...props }: FileBoardProps) => {
 
-    const { onOpen } = useModal()
     const [files, setFIles] = useState<Awaited<ReturnType<typeof getProjectFiles>>>(null)
 
     useEffect(() => {
         const fetch = async () => {
-            const files = await getProjectFiles({ projectId: project.id })
+            const files = await getProjectFiles({ projectId: project.id, take })
             setFIles(files)
         }
         fetch()
@@ -25,8 +24,7 @@ export const FilePage = ({ project, className, ...props }: FileBoardProps) => {
 
     return (
         <section {...props} className={cn("", className)}>
-            <p className='text-lg font-semibold -tracking-wider'>Project Files</p>
-            <Button className="text-sm" onClick={() => onOpen("addFile", { projectId: project?.id })}>Add a file</Button>
+            <p className='text-lg font-semibold -tracking-wider'>Files</p>
 
             <div className='my-4 flex items-center gap-3'>
                 {
