@@ -25,6 +25,9 @@ export async function getTasksById({ id }: TaskProps) {
                 //         author: true
                 //     }
                 // }
+            },
+            orderBy:{
+                createdAt:"desc"
             }
         })
         return tasks
