@@ -33,8 +33,8 @@ export async function POST(req: Request) {
                 name,
                 description,
                 priority,
-                start: to,
-                end: from,
+                start: from,
+                end: to,
                 // assignedTo: {
                 //     connect: {
                 //         id: memberId ? memberId.toString : null

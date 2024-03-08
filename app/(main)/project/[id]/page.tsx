@@ -111,6 +111,7 @@ export default function Page({ params }: Props) {
                         <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
                     <Button className="mx-2 text-sm" onClick={() => onOpen("inviteMembers", { project: project! })}>Invite a Collaborator</Button>
+                    <Button className="mx-2 text-sm" onClick={() => onOpen("createTask", { projectId: project?.id })}>Create a task</Button>
                     <Separator className="text-transparent dark:text-zinc-500 w-full my-3" />
                     <TabsContent value="overview" className="h-full w-full">
                         <OverviewPage members={members!} tasks={tasks!} className="h-full w-full" />

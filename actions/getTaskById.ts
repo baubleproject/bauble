@@ -9,6 +9,7 @@ interface TaskProps {
 
 export async function getTasksById({ id }: TaskProps) {
     try {
+        console.log(id)
         const tasks = await db?.task.findFirst({
             where: {
                 id
@@ -19,11 +20,16 @@ export async function getTasksById({ id }: TaskProps) {
                         profile: true
                     }
                 },
+                // comments: {
+                //     include: {
+                //         author: true
+                //     }
+                // }
             }
         })
         return tasks
     } catch (err) {
-        console.log(err)
+        console.log("SERVER ACTION GETTASKBYID",err)
         return null
     }
 }

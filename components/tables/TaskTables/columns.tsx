@@ -12,7 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Member, MemberRole, Task, TaskStatus } from "@prisma/client"
+import { Member, MemberRole, Priority, Task, TaskStatus } from "@prisma/client"
 import { formatDate } from "@/lib/utils"
 import { Hash } from "lucide-react";
 import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
@@ -29,8 +29,29 @@ const roleIconMap = {
     ADMIN: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
 };
 
+export const priorityMap = {
+    [Priority.URGENT]: {
+        color: "bg-red-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+    [Priority.LOW]: {
+        color: "bg-blue-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
 
-const statusMap = {
+    [Priority.HIGH]: {
+        color: "bg-red-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+
+    [Priority.MEDIUM]: {
+        color: "bg-yellow-900",
+        icon: <Hash className=" h-3 w-3" />,
+    },
+};
+
+
+export const statusMap = {
     [TaskStatus.OPEN]: {
         color: "bg-blue-900",
         icon: <Hash className=" h-3 w-3" />,

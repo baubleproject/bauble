@@ -1,30 +1,73 @@
 "use client"
 import { useModal } from '@/hooks/useModalStore'
-import { Task } from '@prisma/client';
+import { TaskStatus } from '@prisma/client';
 import React, { useEffect, useState } from 'react'
-
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogFooter
 } from '@/components/ui/dialog';
 import { getTasksById } from '@/actions/getTaskById';
+import { Separator } from '@radix-ui/react-separator';
+import { dmsans } from '@/lib/font';
+import { formatDate } from '@/lib/utils';
+import { statusMap, priorityMap } from '../tables/TaskTables/columns';
+import Loader from '../Loaders/Loader';
+import { Calendar, MoreHorizontal } from 'lucide-react';
+import { truncateText } from '@/lib/utils';
+import { MdMoreVert } from "react-icons/md";
+import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
+import { z } from 'zod';
+import axios from 'axios';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
+const FormSchema = z.object({
+    comment: z
+        .string()
+        .min(10, {
+            message: "Bio must be at least 10 characters.",
+        })
+        .max(160, {
+            message: "Bio must not be longer than 30 characters.",
+        }),
+})
 
 export default function TaskDetailsModal() {
-    const { data, onClose, type, isOpen } = useModal()
+
+    const router = useRouter();
+    const { onOpen, data, onClose, type, isOpen } = useModal()
     const isModalOpen = isOpen && type === 'taskDetails'; // is it open ? is to create a project ?
     type TaskType = Awaited<ReturnType<typeof getTasksById>>
     const [task, setTask] = useState<TaskType>(null)
+    const [loadingState, setLoadingState] = useState<boolean>(false)
     const { taskId } = data
 
     useEffect(() => {
         const fetchData = async () => {
-            const task = await getTasksById({ id: taskId! })
-            setTask(task)
+            try {
+                setLoadingState(true)
+                const task = await getTasksById({ id: taskId! })
+                setTask(task)
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setLoadingState(false)
+            }
         }
         fetchData()
     }, [taskId])
@@ -33,15 +76,116 @@ export default function TaskDetailsModal() {
         onClose();
     };
 
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+    })
+
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        try {
+            const values = { taskId: task?.id, ...data }
+            await axios.post('/api/tasks/comment', values);
+            toast.success("task comment has been added")
+            form.reset();
+            router.refresh();
+            onOpen("taskDetails", { taskId: task?.id })
+        } catch (error) {
+            console.log(error);
+            toast("failed to create task")
+        }
+    }
+
+
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-            <DialogContent className='min-h-52 md:min-h-[25rem]'>
-                <DialogHeader>
-                    <DialogTitle>Task Details</DialogTitle>
-                    <DialogDescription>
-                        Details for the task "{task?.name}"
-                    </DialogDescription>
-                </DialogHeader>
+            <DialogContent className={`${dmsans.className} min-h-52 md:min-h-[25rem] flex flex-col`}>
+                {!task || loadingState ? (
+                    <Loader className='h-full w-full' />
+                ) : (
+                    <>
+                        <DialogHeader className='h-fit'>
+                            <DialogTitle>Task Overview</DialogTitle>
+                            <DialogDescription>
+                                Details for the task "{task?.name}"
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className='flex-1 h-auto space-y-1.5'>
+                            <div className='flex items-center gap-2'>
+                                <p className='text-zinc-600 font-light text-sm'>Task name:</p>
+                                <p className='font-semibold'>{task?.name}</p>
+                            </div>
+
+                            <div className='flex items-center gap-3'>
+                                <p className='text-zinc-600 font-light text-sm'>Task Description:</p>
+                                <p className='font-semibold'>{task?.description}</p>
+                            </div>
+                            <div className='text-sm font-light flex items-center gap-2'>
+                                <Calendar className='inline w-4 h-4 self-center text-zinc-600 ' /> {" "} {formatDate(task?.start!)} {" - "}  {formatDate(task?.end!)}
+                            </div>
+                            <div className='flex gap-1.5'>
+                                <div className={`py-1 my-1 px-3 text-xs rounded-lg ${statusMap[task?.status].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                                    <p>
+                                        {String(task?.status).toLowerCase()}
+                                    </p>
+                                    {statusMap[task?.status].icon}
+                                </div>
+                                <div className={`py-1 my-1 px-3 text-xs rounded-lg ${priorityMap[task?.priority].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                                    <p>
+                                        {String(task?.priority).toLowerCase()}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className='flex items-center w-full gap-3'>
+                                <p>Assigned to</p>
+                                {
+                                    task?.memberId ? (
+                                        <div className='flex items-center gap-2 bg-zinc-300 dark:bg-zinc-700 rounded-md px-2 py-1'>
+                                            <div className="cursor-pointer rounded-full w-4 h-4 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${task?.assignedTo?.profile?.imageUrl})` }}></div>
+                                            <p>{truncateText(task?.assignedTo?.profile?.firstname! + task?.assignedTo?.profile?.lastname!, 30)}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="font-semibold bg-green-200 dark:bg-green-900 text-sm rounded-md w-fit p-2">Not assigned to anyone</div>
+                                    )
+                                }
+                            </div>
+
+
+                        </div>
+                        <div className='flex w-full flex-col border-t-[0.1px] py-3 border-zinc-300 dark:border-zinc-800'>
+                            <p className='font-semibold'>Comments</p>
+                            {/*
+                                task?.comments?.length! > 0 ? (null) : (
+                                    <div className='font-light text-sm'>
+                                        There are no comments for this tasks.
+                                    </div>
+                                )
+                            */}
+                            <div className='flex flex-col mt-2 w-full items-end justify-end'>
+                                <Form {...form}>
+                                    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-1.5">
+                                        <FormField
+                                            control={form.control}
+                                            name="comment"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <Textarea
+                                                            placeholder="do you have anything to say about this task?"
+                                                            className="resize-none"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <Button type="submit">Submit</Button>
+                                    </form>
+                                </Form>
+                            </div>
+                        </div>
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     )
