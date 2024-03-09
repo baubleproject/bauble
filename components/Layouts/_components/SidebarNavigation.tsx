@@ -3,21 +3,24 @@ import useSidebarStore from "@/store/SideBarStore";
 import { BiHomeAlt2, BiCalendarAlt } from "react-icons/bi";
 import { RiSettings6Line } from "react-icons/ri";
 import NavigationItem from "./NavigationItem";
+import { ImHome } from "react-icons/im";
+import { IoCalendar } from "react-icons/io5";
+import { AiFillSetting } from "react-icons/ai";
 
 const links = [
     {
         name: "home",
-        icon: BiHomeAlt2,
+        icon: ImHome ,
         description: "Go home"
     },
     {
         name: "calendar",
-        icon: BiCalendarAlt,
+        icon: IoCalendar,
         description: "Go to calendar"
     },
     {
         name: "settings",
-        icon: RiSettings6Line,
+        icon: AiFillSetting,
         description: "Go to settings"
     },
 ]

@@ -90,11 +90,11 @@ export default function UserSidebarButton() {
     }
 
     const routeToProfile = () => {
-        router.push(`/dashboard/profile/${profile.id}`)
+        router.push(`/profile/${profile.id}`)
     }
 
     return (
-        <div onClick={routeToProfile} className='w-full flex items-center justify-center gap-2 px-0 cursor-pointer bg-zinc-300 dark:bg-zinc-900 hover:bg-zinc-400 dark:hover:bg-zinc-800 transition-colors duration-300 py-1.5 rounded-md'>
+        <div onClick={routeToProfile} className='w-full flex items-center justify-center gap-2 px-0 cursor-pointer bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-400 dark:hover:bg-zinc-800 transition-colors duration-300 py-1.5 rounded-md'>
             <div className="rounded-full w-10 h-10 bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${profile?.imageUrl})` }}></div>
             <div className={`${isVisible && (!isCollapsed || !isMobileCollapsed )? "block" : "hidden"} flex flex-col gap-1 transition-opacity duration-300`}>
                 <p className='text-xs font-semibold'>{truncateText(`${profile?.lastname}${" "}${profile?.firstname}`, 18)}</p>

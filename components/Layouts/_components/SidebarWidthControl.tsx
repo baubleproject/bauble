@@ -9,7 +9,7 @@ export default function SideBarControl() {
     return (
         <div className={`items-center hidden md:flex ${isCollapsed ? "justify-center" : "justify-between"} w-full`}>
             <div className=''></div>
-            <div onClick={toggleSidebarCollapse} className='p-2 px-3 rounded-md bg-zinc-300 dark:bg-zinc-800 text-myPrimary dark:text-white cursor-pointer'>
+            <div onClick={toggleSidebarCollapse} className='p-2 px-3 rounded-md text-myPrimary dark:text-white cursor-pointer'>
                 {isCollapsed ? (
                     <TbLayoutSidebarRightCollapse className='w-6 h-6' />
                 ) : (
