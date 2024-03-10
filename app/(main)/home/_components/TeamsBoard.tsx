@@ -37,7 +37,7 @@ export default function TeamsBoard({ className, ...props }: TeamsBoardProps) {
     return (
         <div className={`w-full flex flex-col h-full bg-zinc-100 dark:bg-zinc-950 ${className}`} {...props}>
             <p className={`border-b-[0.05px] border-zinc-300 dark:border-zinc-700 p-3 text-xl font-light -tracking-wide ${dmsans.className}`}>Projects</p>
-            <div className='w-full h-full p-3 flex items-start justify-start gap-1.5 flex-wrap content-start'>
+            <div className='w-full h-full p-3 px-1 flex items-start justify-start gap-1.5 flex-wrap content-start'>
                 <div onClick={createProjectModalOpen} className='md:w-1/12 h-1/5 sm:hidden dark:bg-zinc-900 dark:hover:bg-zinc-800 transition-colors duration-300 cursor-pointer flex justify-center items-center gap-2 px-2 rounded-xl border-2 border-zinc-400 dark:border-zinc-600 border-dashed'>
                     <GrAddCircle className='font-light text-lg text-zinc-500 dark:text-zinc-300' />
                 </div>

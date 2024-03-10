@@ -9,11 +9,6 @@ import Loader from '@/components/Loaders/Loader';
 import { formatDate, truncateText } from '@/lib/utils';
 import { priorityMap } from '@/components/tables/TaskTables/columns';
 import { Priority } from '@prisma/client';
-// import { Project } from '@prisma/client';
-// import { formatDate, truncateText } from '@/lib/utils';
-// import Loader from '@/components/Loaders/Loader';
-// import { useRouter } from 'next/navigation';
-
 
 interface TaskBoardProps extends HTMLAttributes<HTMLDivElement> { }
 
@@ -53,10 +48,10 @@ export default function TaskBoard({ className, ...props }: TaskBoardProps) {
                         <p className='-tracking-wider'>You have no task pending</p>
                     </div>
                 ) : (
-                    <div className='w-full h-full p-2 dark:text-white flex items-center gap-2 flex-wrap justify-start content-start'>
+                    <div className='w-full h-full p-2 px-1 dark:text-white flex items-center gap-2 flex-wrap justify-start content-start'>
                         {
                             tasks?.map((task) => (
-                                <div className='w-fit p-1 px-2 space-y-1.5 rounded-lg cursor-pointer border-[0.1px] border-zinc-300 dark:border-zinc-800' onClick={() => onOpen("taskDetails", { taskId: task.id })}>
+                                <div key={task.id} className='w-fit p-1 px-2 space-y-1.5 rounded-lg cursor-pointer border-[0.1px] border-zinc-300 dark:border-zinc-800' onClick={() => onOpen("taskDetails", { taskId: task.id })}>
                                     <div className='flex items-center justify-start gap-3'>
                                         <p className='text-xs font-semibold'>{task.project.name}</p>
                                         <p className='text-xs font-extralight'>{formatDate(task.end)}</p>
@@ -65,7 +60,7 @@ export default function TaskBoard({ className, ...props }: TaskBoardProps) {
                                         <div className={`p-1 rounded-lg ${priorityMap[task.priority as Priority].color} w-fit text-white font-semibold flex items-center justify-center gap-1`} />
 
                                         <p className='text-xs'>
-                                            {truncateText(task.name, 35)}
+                                            {truncateText(task.name, 25)}
                                         </p>
                                     </div>
                                 </div>
