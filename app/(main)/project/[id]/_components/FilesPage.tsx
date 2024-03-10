@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useModal } from "@/hooks/useModalStore";
 import { getProjectFiles } from '@/actions/getProjectFiles'
 import FileCard from '@/components/custom/FileCard'
+import { AddCustomButton } from '@/components/custom/AddButton'
 interface FileBoardProps extends HTMLAttributes<HTMLDivElement> {
     project: Project
 }
@@ -23,12 +24,13 @@ export const FilePage = ({ project, className, ...props }: FileBoardProps) => {
         fetch()
     }, [])
 
+    /*  <Button className="text-sm" onClick={() => onOpen("addFile", { projectId: project?.id })}>Add a file</Button> */
     return (
         <section {...props} className={cn("", className)}>
             <p className='text-lg font-semibold -tracking-wider'>Project Files</p>
-            <Button className="text-sm" onClick={() => onOpen("addFile", { projectId: project?.id })}>Add a file</Button>
 
             <div className='my-4 flex items-center gap-3'>
+                <AddCustomButton onClick={() => onOpen("addFile", { projectId: project.id })} className='' />
                 {
                     files?.map(file => (
                         <FileCard key={file.id} file={file} />

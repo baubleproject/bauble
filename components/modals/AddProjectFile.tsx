@@ -23,6 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { FileUpload } from '../custom/fileUpload';
+import useReloadState from '@/hooks/useReload';
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -38,11 +39,12 @@ export default function AddProjectFile() {
     const { isOpen, onClose, data, type, onOpen } = useModal();
     const isModalOpen = isOpen && type === 'addFile';
     const { projectId } = data
+    const {ReloadPage} = useReloadState()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fileUrl: " ",
+            fileUrl: "",
             name: ""
         },
     });
@@ -72,8 +74,9 @@ export default function AddProjectFile() {
         try {
             const data = { projectId, fileType, ...values }
             await axios.post('/api/files', data);
-            form.reset();
             onClose()
+            //@eslint-disable-next-line
+            ReloadPage()
         } catch (err) {
             console.log(err)
         }
