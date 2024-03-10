@@ -38,7 +38,7 @@ const CalenderPage = ({ tasks }: CalendarPageProps) => {
     return num ? (
       <div className="notes-month">
         <section>{num}</section>
-        <span>Backlog number</span>
+        {/*  <span>Backlog number</span> */}
       </div>
     ) : null;
   };

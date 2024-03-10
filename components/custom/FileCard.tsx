@@ -1,4 +1,3 @@
-
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,12 +6,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import useReloadState from "@/hooks/useReload"
 
 
 import { cn, formatDate } from '@/lib/utils'
 import { File } from '@prisma/client'
 import axios from "axios"
 import { FileIcon } from 'lucide-react'
+import { useRouter } from "next/navigation"
 import React, { HTMLAttributes } from 'react'
 import { RiMore2Fill } from "react-icons/ri";
 import { toast } from "sonner"
@@ -23,10 +24,15 @@ interface FileCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export default function FileCard({ file, className }: FileCardProps) {
+    
+    const router = useRouter()
+    const {useReload} = useReloadState()
 
     const deleteFile = async () => {
         try {
             axios.delete(`/api/files/${file.id}`)
+            toast.success("File has been deleted")
+            useReload()
         } catch (error) {
             toast.error("Error deleting file")
             console.log(error)

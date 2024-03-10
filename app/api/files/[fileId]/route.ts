@@ -2,6 +2,9 @@ import { currentProfile } from "@/actions/currentProfile";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+import { UTApi } from "uploadthing/server"
+
+export const utapi = new UTApi();
 export async function DELETE(req: Request, { params }: { params: { fileId: string } }
 ) {
     try {
@@ -12,20 +15,35 @@ export async function DELETE(req: Request, { params }: { params: { fileId: strin
                 status: 401,
             });
         }
-        const task = await db.task.delete({
+        console.log(params.fileId)
+        const file = await db.file.findFirst({
             where: {
                 id: params.fileId,
             },
         });
-        console.log(task)
-        if (!task) {
-            return new NextResponse('Internal Server Error', {
-                status: 500,
+        if (!file) {
+            return new NextResponse('File not found', {
+                status: 404,
             });
         }
-        return NextResponse.json(task);
+
+        const newUrl = file.fileUrl.substring(file.fileUrl.lastIndexOf("/") + 1);
+        await utapi.deleteFiles(newUrl)
+        
+        await db.file.delete({
+            where: {
+                id: params.fileId
+            }
+        })
+
+        return NextResponse.json(file);
 
     } catch (error) {
+
+        console.log('[FILE ID DELETE]', error);
+        return new NextResponse('Internal Server Error', {
+            status: 500,
+        });
 
     }
 }

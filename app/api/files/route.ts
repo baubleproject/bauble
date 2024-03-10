@@ -28,6 +28,8 @@ export async function POST(req: Request) {
             }
         })
 
+
+
         return NextResponse.json(file)
     } catch (err) {
         console.log("[TEAMS POST ENDPOINT:]", err)
