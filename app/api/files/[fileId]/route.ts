@@ -15,7 +15,7 @@ export async function DELETE(req: Request, { params }: { params: { fileId: strin
                 status: 401,
             });
         }
-        console.log(params.fileId)
+
         const file = await db.file.findFirst({
             where: {
                 id: params.fileId,
@@ -26,6 +26,8 @@ export async function DELETE(req: Request, { params }: { params: { fileId: strin
                 status: 404,
             });
         }
+
+        //TODO: check if the user that wants to delete the file is an admin
 
         const newUrl = file.fileUrl.substring(file.fileUrl.lastIndexOf("/") + 1);
         await utapi.deleteFiles(newUrl)
