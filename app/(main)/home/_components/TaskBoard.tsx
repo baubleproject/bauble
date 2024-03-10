@@ -53,10 +53,10 @@ export default function TaskBoard({ className, ...props }: TaskBoardProps) {
                         <p className='-tracking-wider'>You have no task pending</p>
                     </div>
                 ) : (
-                    <div className='w-full h-full space-y-2 p-2 dark:text-white '>
+                    <div className='w-full h-full p-2 dark:text-white flex items-center gap-2 flex-wrap justify-start content-start'>
                         {
                             tasks?.map((task) => (
-                                <div className='w-fit p-1 px-2 rounded-lg cursor-pointer border-[0.1px] border-zinc-300 dark:border-zinc-800' onClick={() => onOpen("taskDetails", { taskId: task.id })}>
+                                <div className='w-fit p-1 px-2 space-y-1.5 rounded-lg cursor-pointer border-[0.1px] border-zinc-300 dark:border-zinc-800' onClick={() => onOpen("taskDetails", { taskId: task.id })}>
                                     <div className='flex items-center justify-start gap-3'>
                                         <p className='text-xs font-semibold'>{task.project.name}</p>
                                         <p className='text-xs font-extralight'>{formatDate(task.end)}</p>
