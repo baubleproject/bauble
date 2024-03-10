@@ -1,77 +1,80 @@
 import { Badge, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import { Task } from "@prisma/client";
+import { Task, TaskStatus } from "@prisma/client";
 import React from "react";
+import { truncateText } from "@/lib/utils";
+import { statusMap } from "@/components/tables/TaskTables/columns";
+import { useModal } from "@/hooks/useModalStore";
 
 interface CalendarPageProps {
-  tasks: Task[];
+    tasks: Task[];
 }
 
 const getListData = (value: Dayjs, tasks: Task[]) => {
-  let listData = tasks
-    .filter(
-      (task) =>
-        dayjs(task.start).isSame(value, "day") ||
-        dayjs(task.end).isSame(value, "day")
-    )
-    .map((task) => ({
-      type: task.priority, // assuming priority can be 'warning', 'success', etc.
-      content: `${task.name}`,
-    }));
+    let listData = tasks
+        .filter(
+            (task) =>
+                dayjs(task.start).isSame(value, "day") ||
+                dayjs(task.end).isSame(value, "day")
+        )
+        .map((task) => ({
+            type: task.status, // assuming priority can be 'warning', 'success', etc.
+            content: `${task.name}`,
+            id: task.id
+        }));
 
-  return listData || [];
+    return listData || [];
 };
 
 const getMonthData = (value: Dayjs, tasks: Task[]) => {
-  let monthData = tasks.filter(
-    (task) =>
-      dayjs(task.start).isSame(value, "month") ||
-      dayjs(task.end).isSame(value, "month")
-  ).length;
+    let monthData = tasks.filter(
+        (task) =>
+            dayjs(task.start).isSame(value, "month") ||
+            dayjs(task.end).isSame(value, "month")
+    ).length;
 
-  return monthData || 0;
+    return monthData || 0;
 };
 
 const CalenderPage = ({ tasks }: CalendarPageProps) => {
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value, tasks);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        {/*  <span>Backlog number</span> */}
-      </div>
-    ) : null;
-  };
+    const monthCellRender = (value: Dayjs) => {
+        const num = getMonthData(value, tasks);
+        return num ? (
+            <div className="notes-month">
+                <section>{num}</section>
+                {/*  <span>Backlog number</span> */}
+            </div>
+        ) : null;
+    };
 
-  const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value, tasks);
-    return (
-      <ul className="events">
-        {listData.map((item, index) => (
-          <li key={index}>
-            <Badge
-              status={
-                item.type as
-                  | "success"
-                  | "error"
-                  | "default"
-                  | "processing"
-                  | "warning"
-              }
-              text={item.content}
-            />
-          </li>
-        ))}
-      </ul>
-    );
-  };
-  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
-    if (info.type === "date") return dateCellRender(current);
-    if (info.type === "month") return monthCellRender(current);
-    return info.originNode;
-  };
+    const dateCellRender = (value: Dayjs) => {
+        const listData = getListData(value, tasks);
+        const { onOpen } = useModal()
+        return (
+            <ul className="events">
+                {listData.map((item, index) => (
+                    <div onClick={() => onOpen("taskDetails", { taskId: item.id })} key={index} className={`my-1 py-1 px-3 rounded-lg ${statusMap[item.type as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                        <p className="text-xs">
+                            {truncateText(item.content, 25)}
+                        </p>
+                    </div>
 
-  return <Calendar cellRender={cellRender} />;
+                    // <div key={index} className="my-1.5">
+                    //     {truncateText(item.content, 20)}
+                    // </div>
+                ))}
+            </ul>
+        );
+    };
+    const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+        if (info.type === "date") return dateCellRender(current);
+        if (info.type === "month") return monthCellRender(current);
+        return info.originNode;
+    };
+
+    return <section className="md:w-[97%] mx-auto">
+        <Calendar cellRender={cellRender} />;
+    </section>
 };
 
 export default CalenderPage;

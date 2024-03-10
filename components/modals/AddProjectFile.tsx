@@ -75,6 +75,7 @@ export default function AddProjectFile() {
             const data = { projectId, fileType, ...values }
             await axios.post('/api/files', data);
             onClose()
+            //@eslint-disable-next-line
             useReload()
         } catch (err) {
             console.log(err)

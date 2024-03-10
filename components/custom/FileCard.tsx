@@ -38,6 +38,7 @@ export default function FileCard({ file, className }: FileCardProps) {
         try {
             axios.delete(`/api/files/${file.id}`)
             toast.success("File has been deleted")
+            //@eslint-disable-next-line
             useReload()
         } catch (error) {
             toast.error("Error deleting file")

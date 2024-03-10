@@ -82,8 +82,8 @@ export default function Page({ params }: Props) {
 
                 await Promise.all(requests);
 
-                console.log(project);
-                console.log(tasks);
+                // console.log(project);
+                // console.log(tasks);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -106,8 +106,8 @@ export default function Page({ params }: Props) {
 
                 await Promise.all(requests);
 
-                console.log(project);
-                console.log(tasks);
+                // console.log(project);
+                // console.log(tasks);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
