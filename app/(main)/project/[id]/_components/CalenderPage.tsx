@@ -53,15 +53,11 @@ const CalenderPage = ({ tasks }: CalendarPageProps) => {
         return (
             <ul className="events">
                 {listData.map((item, index) => (
-                    <div onClick={() => onOpen("taskDetails", { taskId: item.id })} key={index} className={`my-1 py-1 px-3 rounded-lg ${statusMap[item.type as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                    <div onClick={() => onOpen("taskDetails", { taskId: item.id })} key={index} className={`my-1.5 py-0.5 px-3 rounded-sm ${statusMap[item.type as TaskStatus].color} w-fit text-white font-light flex items-center justify-center gap-1`}>
                         <p className="text-xs">
                             {truncateText(item.content, 25)}
                         </p>
                     </div>
-
-                    // <div key={index} className="my-1.5">
-                    //     {truncateText(item.content, 20)}
-                    // </div>
                 ))}
             </ul>
         );
@@ -73,7 +69,7 @@ const CalenderPage = ({ tasks }: CalendarPageProps) => {
     };
 
     return <section className="md:w-[97%] mx-auto">
-        <Calendar cellRender={cellRender} />;
+        <Calendar cellRender={cellRender} />
     </section>
 };
 
