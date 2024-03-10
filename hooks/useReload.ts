@@ -3,12 +3,12 @@ import create from 'zustand';
 
 interface StateState {
     reloadFlag:boolean;
-    useReload():void;
+    ReloadPage():void;
 }
 
 export const useReloadState = create<StateState>((set) => ({
     reloadFlag: false,
-    useReload(){
+    ReloadPage(){
         set((state:any) => ({ reloadFlag: !state.reloadFlag }))
     }
 }));

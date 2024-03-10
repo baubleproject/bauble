@@ -39,7 +39,7 @@ export default function AddProjectFile() {
     const { isOpen, onClose, data, type, onOpen } = useModal();
     const isModalOpen = isOpen && type === 'addFile';
     const { projectId } = data
-    const {useReload} = useReloadState()
+    const {ReloadPage} = useReloadState()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -76,7 +76,7 @@ export default function AddProjectFile() {
             await axios.post('/api/files', data);
             onClose()
             //@eslint-disable-next-line
-            useReload()
+            ReloadPage()
         } catch (err) {
             console.log(err)
         }

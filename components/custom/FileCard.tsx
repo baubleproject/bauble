@@ -32,14 +32,14 @@ interface FileCardProps extends HTMLAttributes<HTMLDivElement> {
 export default function FileCard({ file, className }: FileCardProps) {
 
     const router = useRouter()
-    const { useReload } = useReloadState()
+    const { ReloadPage } = useReloadState()
 
     const deleteFile = async () => {
         try {
             axios.delete(`/api/files/${file.id}`)
             toast.success("File has been deleted")
             //@eslint-disable-next-line
-            useReload()
+            ReloadPage()
         } catch (error) {
             toast.error("Error deleting file")
             console.log(error)

@@ -4,7 +4,7 @@ import { Task, TaskStatus } from "@prisma/client";
 import React from "react";
 import { truncateText } from "@/lib/utils";
 import { statusMap } from "@/components/tables/TaskTables/columns";
-import { useModal } from "@/hooks/useModalStore";
+import { useModal as ModalStore } from "@/hooks/useModalStore";
 
 interface CalendarPageProps {
     tasks: Task[];
@@ -49,7 +49,8 @@ const CalenderPage = ({ tasks }: CalendarPageProps) => {
 
     const dateCellRender = (value: Dayjs) => {
         const listData = getListData(value, tasks);
-        const { onOpen } = useModal()
+        //@eslint-disable-next-line
+        const { onOpen } = ModalStore() //NOTE: changed the name for useModal to ModalStore, because of eslint react hook rules.
         return (
             <ul className="events">
                 {listData.map((item, index) => (

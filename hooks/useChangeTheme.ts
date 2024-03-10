@@ -3,12 +3,12 @@ import create from 'zustand';
 
 interface StateState {
     themeChangedFlag: boolean;
-    useChangeModeTheme(): void;
+    ChangeModeTheme(): void;
 }
 
 export const useChangeTheme = create<StateState>((set) => ({
     themeChangedFlag: false,
-    useChangeModeTheme() {
+    ChangeModeTheme() {
         set((state: StateState) => ({ themeChangedFlag: !state.themeChangedFlag }))
     }
 }));

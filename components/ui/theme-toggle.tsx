@@ -15,11 +15,11 @@ import useChangeTheme from "@/hooks/useChangeTheme"
 
 export function ModeToggle() {
     const { setTheme } = useTheme()
-    const { useChangeModeTheme } = useChangeTheme()
+    const { ChangeModeTheme } = useChangeTheme()
 
     const changeTheme = (theme: any) => {
         setTheme(theme)
-        useChangeModeTheme()
+        ChangeModeTheme()
     }
 
     return (
