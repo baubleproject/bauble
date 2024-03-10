@@ -31,7 +31,7 @@ export default async function page() {
                     <TeamsBoard className="min-h-full" />
                 </div>
                 <div className="w-full h-72 overflow-hidden rounded-2xl border-[0.06px] dark:hover:border-[1px] border-zinc-300 dark:border-zinc-700">
-                    <TaskBoard className="h-full" />
+                    <TaskBoard />
                 </div>
                 {/*
                 <div className="w-full  h-96 overflow-auto sm:w-full bg-mySecondary">
