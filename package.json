@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 {
   "name": "bauble",
   "version": "0.1.0",
@@ -72,4 +71,3 @@
     "typescript": "^5"
   }
 }
->>>>>>> 0f4d4dacabb1b7d6ff96995b69393170a61f032e
