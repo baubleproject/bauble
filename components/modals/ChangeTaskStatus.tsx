@@ -27,37 +27,18 @@ import {
     FormDescription
 } from '@/components/ui/form';
 
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-
-import { Calendar } from "@/components/ui/calendar"
-
-//import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Member, Project, Task, TaskStatus } from '@prisma/client';
+import { Task, TaskStatus } from '@prisma/client';
 import { useModal } from "@/hooks/useModalStore";
 import React, { useEffect, useState } from 'react'
-import { getProjects } from '@/actions/ProjectsActions'
-import { addDays, format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { DateRange } from "react-day-picker"
 import { Button } from '../ui/button';
-import { Priority } from "@prisma/client";
-//import { toast } from 'sonner';
-//import Loader from "../Loaders/Loader";
-import { cn } from "@/lib/utils";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { getProjectMembers } from "@/actions/getProjectMembers";
 import { getTasksByIdSimple } from "@/actions/getTaskById";
+import Loader from "../Loaders/Loader";
 
 const FormSchema = z.object({
     status: z.string({
@@ -80,12 +61,20 @@ export default function ChangeTaskStatus() {
     //INFO: was the projectId passed, if it was then we dont need to show the select input to choose the project.
     const taskId = data?.taskId
 
+    const [loadingTask, setLoadingTask] = useState(false)
 
     //INFO: useeffect stuff
     useEffect(() => {
         const fetchProjects = async () => {
-            const task = await getTasksByIdSimple({ id: taskId! })
-            setTask(task)
+            try {
+                setLoadingTask(true)
+                const task = await getTasksByIdSimple({ id: taskId! })
+                setTask(task)
+            } catch (error) {
+
+            } finally {
+                setLoadingTask(false)
+            }
         }
         fetchProjects()
     }, [isModalOpen])
@@ -122,49 +111,68 @@ export default function ChangeTaskStatus() {
         onClose();
     };
 
+    // if (!task || loadingTask) {
+    //     return <Loader />
+    // }
+
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-            <DialogContent className='min-h-52 md:min-h-[25rem]'>
+            <DialogContent className='min-h-44 md:min-h-[15rem]'>
                 <DialogHeader>
                     <DialogTitle>Change task status</DialogTitle>
                     <DialogDescription>
-                        change the status of specified task
+                        {
+                            !loadingTask && task ? (
+                                <p>
+                                    change the status of specified task ${task?.name ? task.name : ""}
+                                </p>
+                            ) : (null)
+                        }
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel></FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder={task?.status.toLowerCase()} />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {
-                                                TaskStatusArray?.map((priority, idx) => (
-                                                    <SelectItem key={idx} value={priority}>{priority.toLowerCase()}</SelectItem>
-                                                ))
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                    <FormDescription>
-                                        change the task status
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                    {
+                        !loadingTask && task ? (
 
-                        <DialogFooter>
-                            <Button disabled={loadingState} type="submit">Update status</Button>
-                        </DialogFooter>
-                    </form>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                <FormField
+                                    control={form.control}
+                                    name="status"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel></FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder={task?.status.toLowerCase()} />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent defaultValue={task.status}>
+                                                    {
+                                                        TaskStatusArray?.map((priority, idx) => (
+                                                            <SelectItem key={idx} value={priority}>{priority.toLowerCase()}</SelectItem>
+                                                        ))
+                                                    }
+                                                </SelectContent>
+                                            </Select>
+                                            <FormDescription>
+                                                change the task status
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <DialogFooter>
+                                    <Button disabled={loadingState} type="submit">Update status</Button>
+                                </DialogFooter>
+                            </form>
+                        ) : (
+                            <div className="flex items-center justify-center w-full ">
+                                <Loader />
+                            </div>
+                        )
+                    }
                 </Form>
 
             </DialogContent>

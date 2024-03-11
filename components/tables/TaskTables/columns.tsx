@@ -139,7 +139,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
             const status = row.getValue("status")
             const task = row.original
             return (
-                <div onClick={() => onOpen("taskStatus", { taskId: task.id })} className={`py-1 px-3 rounded-lg ${statusMap[status as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                <div onClick={() => onOpen("taskStatus", { taskId: task.id })} className={`py-1 px-3 cursor-pointer rounded-lg ${statusMap[status as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
                     <p>
                         {String(status).toLowerCase()}
                     </p>
