@@ -54,7 +54,7 @@ const CalenderPage = ({ tasks }: CalendarPageProps) => {
         return (
             <ul className="events">
                 {listData.map((item, index) => (
-                    <div onClick={() => onOpen("taskDetails", { taskId: item.id })} key={index} className={`my-1.5 py-0.5 px-3 rounded-sm ${statusMap[item.type as TaskStatus].color} w-fit text-white font-light flex items-center justify-center gap-1`}>
+                    <div onClick={() => onOpen("taskDetails", { taskId: item.id })} key={index} className={`my-1.5 py-0.5 px-3 rounded-sm ${statusMap[item.type as TaskStatus].color} w-10/12 mx-auto text-white font-light flex items-center justify-center gap-1`}>
                         <p className="text-xs">
                             {truncateText(item.content, 25)}
                         </p>
