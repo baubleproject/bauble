@@ -116,6 +116,7 @@ export default function CreateTask() {
     })
 
 
+
     useEffect(() => {
         const fetchMembers = async () => {
             if (projectPassedIn || form.getValues("projectId")) {
@@ -126,6 +127,8 @@ export default function CreateTask() {
         }
         fetchMembers()
     }, [form.getValues().projectId, projectPassedIn])
+
+    const loadingState = form.formState.isSubmitting
 
     const router = useRouter(); // initialize router
 
@@ -265,7 +268,7 @@ export default function CreateTask() {
                                                 </SelectContent>
                                             </Select>
                                             <FormDescription>
-                                            Pick someone to work on the task.
+                                                Pick someone to work on the task.
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -342,7 +345,7 @@ export default function CreateTask() {
                         </div>
 
                         <DialogFooter>
-                            <Button type="submit">Create a new Task</Button>
+                            <Button disabled={loadingState} type="submit">Create a new Task</Button>
                         </DialogFooter>
                     </form>
                 </Form>

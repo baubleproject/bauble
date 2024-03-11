@@ -9,6 +9,7 @@ export type ModalType =
     | 'inviteMembers'
     | 'taskDetails'
     | 'addFile'
+    | 'taskStatus'
 
 interface ModalData {
     project?: Project

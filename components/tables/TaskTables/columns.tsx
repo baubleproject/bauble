@@ -134,9 +134,11 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         accessorKey: "status",
         header: "Task Status",
         cell: ({ row }) => {
+            const { onOpen } = useModal()
             const status = row.getValue("status")
+            const task = row.original
             return (
-                <div className={`py-1 px-3 rounded-lg ${statusMap[status as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
+                <div onClick={() => onOpen("taskStatus", { taskId: task.id })} className={`py-1 px-3 rounded-lg ${statusMap[status as TaskStatus].color} w-fit text-white font-semibold flex items-center justify-center gap-1`}>
                     <p>
                         {String(status).toLowerCase()}
                     </p>
@@ -172,6 +174,10 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                         <DropdownMenuItem
                             onClick={() => onOpen("taskDetails", { taskId: task.id })}
                         >View task details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => onOpen("taskStatus", { taskId: task.id })}
+                        >update task status</DropdownMenuItem>
+
                         <DropdownMenuItem>...</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

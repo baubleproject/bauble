@@ -82,6 +82,8 @@ export default function AddProjectFile() {
         }
     };
 
+    const loadingState = form.formState.isSubmitting
+
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="overflow-hidden">
@@ -143,7 +145,7 @@ export default function AddProjectFile() {
                             <Button
                                 className="font-bold disabled:bg-slate-300"
                                 variant="default"
-                                disabled={loading || submitLoading}
+                                disabled={loading || submitLoading || loadingState}
                             >
                                 Add File
                             </Button>
