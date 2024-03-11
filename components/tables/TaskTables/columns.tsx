@@ -22,7 +22,7 @@ import {
     ShieldCheck,
 } from 'lucide-react';
 import { MemberandProfile } from "@/type/MemberandProfile";
-import { useModal } from "@/hooks/useModalStore"
+import { useModal as ModalState } from "@/hooks/useModalStore"
 
 const roleIconMap = {
     GUEST: null,
@@ -135,7 +135,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         header: "Task Status",
         cell: ({ row }) => {
             //@eslint-disable-next-line
-            const { onOpen } = useModal()
+            const { onOpen } = ModalState()
             const status = row.getValue("status")
             const task = row.original
             return (
@@ -155,7 +155,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         cell: ({ row }) => {
             const task = row.original
             //@eslint-disable-next-line
-            const { onOpen } = useModal()
+            const { onOpen } = ModalState()
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
