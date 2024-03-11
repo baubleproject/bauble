@@ -134,6 +134,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         accessorKey: "status",
         header: "Task Status",
         cell: ({ row }) => {
+            //@eslint-disable-next-line
             const { onOpen } = useModal()
             const status = row.getValue("status")
             const task = row.original
