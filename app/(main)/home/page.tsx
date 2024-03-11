@@ -26,7 +26,7 @@ export default async function page() {
           Good {timeOfDay}, {profile?.lastname} {profile?.firstname}
         </p>
       </section>
-      {/* <Dashboard />   */}
+      {/* <Dashboard /> */}
 
       {/* WTF: */}
       <section className="md:w-2/3 mx-auto flex flex-col md:grid-cols-2 md:grid w-full gap-3">
