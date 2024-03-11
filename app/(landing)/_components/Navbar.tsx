@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 
 export const Navbar = () => {
 
-  const [profile, setProfile] = useState<Profile | null>(null);
+    const [profile, setProfile] = useState<Profile | null>(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -31,7 +31,9 @@ export const Navbar = () => {
     return (
         <div className="fixed top-0 w-full h-14 px-4 border-b border-transparent shadow-sm dark:bg-black bg-white flex items-center">
             <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between ">
-                <div className="flex-1">Hello</div>
+                <div className="flex-1">
+                    <Logo className="w-24 h-9" />
+                </div>
                 <div className="flex-1 space-x-4  flex flex-row items-center justify-end w-full ">
                     <Button
                         className=" bg-myPrimary hover:bg-green-900 transition"

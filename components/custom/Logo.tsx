@@ -1,10 +1,17 @@
 
-import React from 'react'
+import { cn } from "@/lib/utils"
+import bg from "/public/logo/png/logo-no-background.png"
+import React, { HTMLAttributes } from 'react'
 
-export default function Logo() {
+interface LogoProps extends HTMLAttributes<HTMLDivElement> {}
+
+export default function Logo({ className, ...props }: LogoProps) {
     return (
-        <div className='bg-myPrimary px-4 py-2 rounded-xl'>
-            <p className='font-bold -tracking-wider text-white'>Bauble</p>
+        <div {...props} className={cn(`w-12 h-6 flex items-center justify-center`, className)}>
+            <div className={`w-full h-full bg-contain bg-center bg-no-repeat`} style={{
+                backgroundImage: `url(${bg.src})`,
+            }} >
+            </div>
         </div>
     )
 }

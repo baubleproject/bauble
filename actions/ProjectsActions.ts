@@ -7,7 +7,7 @@ interface ProjectsProps {
     limit?: number
 }
 
-export async function getProjects({ limit }: ProjectsProps): Promise<Project[] | null> {
+export async function getProjects({ limit }: ProjectsProps){
     const profile = await currentProfile()
     if (!profile) {
         return null
@@ -22,9 +22,12 @@ export async function getProjects({ limit }: ProjectsProps): Promise<Project[] |
                 }
             },
         },
+        include: {
+            tasks: true
+        },
         take: limit ? limit : 6,
-        orderBy:{
-            createdAt:"desc"
+        orderBy: {
+            createdAt: "desc"
         }
     })
     return projects
