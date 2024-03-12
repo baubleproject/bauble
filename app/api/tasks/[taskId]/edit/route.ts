@@ -8,7 +8,7 @@ export async function PUT(
     { params }: { params: { taskId: string } }
 ) {
     try {
-        const { status } = await req.json();
+        const { status, name } = await req.json();
 
         // Get the profile of the person
         const profile = await currentProfile();
@@ -53,7 +53,8 @@ export async function PUT(
                     id: task.id
                 },
                 data: {
-                    status: status
+                    status: status,
+                    name: name
                 }
             });
             return NextResponse.json({ status: 200 });

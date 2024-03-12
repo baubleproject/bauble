@@ -1,5 +1,5 @@
 "use client"
-// eslint-disable 
+/* eslint-disable */
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import { GrFormEdit } from "react-icons/gr";
@@ -32,13 +32,14 @@ import {
 } from 'lucide-react';
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { useModal as ModalState } from "@/hooks/useModalStore"
-import { useState } from "react"
+import * as React from "react"
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm as FormUse } from "react-hook-form";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter as RouterUse } from "next/navigation";
+import * as Reloader from "@/hooks/useReload";
 
 const roleIconMap = {
     GUEST: null,
@@ -99,10 +100,11 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => {
-            const [editing, setEditing] = useState(false)
-            const [loading, setLoading] = useState(false)
+            const [editing, setEditing] = React.useState(false)
+            const [loading, setLoading] = React.useState(false)
             const name: string = row.getValue("name")
             const task = row.original
+            const {ReloadPage} = Reloader.useReloadState()
 
             const router = RouterUse()
 
@@ -117,7 +119,8 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                     toast.success("task status has been updated")
                     form.reset();
                     router.refresh();
-                    window.location.reload()
+                    ReloadPage()
+                    //window.location.reload()
                     setEditing(false)
                 } catch (error) {
                     console.log(error);
@@ -131,7 +134,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
             return editing ? (
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className=" flex items-center gap-1">
                         <FormField
                             control={form.control}
                             name="name"
@@ -273,4 +276,4 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
     },
 ]
 
-// eslint-enable 
+/* eslint-enable */
