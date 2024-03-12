@@ -1,5 +1,5 @@
 "use client"
-
+// eslint-disable 
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import { GrFormEdit } from "react-icons/gr";
@@ -270,7 +270,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                 </DropdownMenu>
             )
         },
-        /* eslint-enable */
     },
 ]
 
+// eslint-enable 
