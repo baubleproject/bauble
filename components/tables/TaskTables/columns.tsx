@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
-
+import { GrFormEdit } from "react-icons/gr";
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -16,13 +16,29 @@ import { Member, MemberRole, Priority, Task, TaskStatus } from "@prisma/client"
 import { formatDate } from "@/lib/utils"
 import { Hash } from "lucide-react";
 import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
-
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    FormDescription
+} from '@/components/ui/form';
+import { Input } from "@/components/ui/input";
 import {
     ShieldAlert,
     ShieldCheck,
 } from 'lucide-react';
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { useModal as ModalState } from "@/hooks/useModalStore"
+import { useState } from "react"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm as FormUse } from "react-hook-form";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter as RouterUse } from "next/navigation";
 
 const roleIconMap = {
     GUEST: null,
@@ -72,13 +88,83 @@ export const statusMap = {
     },
 };
 
+const FormSchema = z.object({
+    name: z.string({
+        required_error: "The task status is required"
+    }),
+})
+
 export const columns: ColumnDef<TasksandAssignedTo>[] = [
     {
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => {
+            const [editing, setEditing] = useState(false)
+            const [loading, setLoading] = useState(false)
             const name: string = row.getValue("name")
-            return <div className="font-semibold">{name}</div>
+            const task = row.original
+
+            const router = RouterUse()
+
+            const form = FormUse<z.infer<typeof FormSchema>>({
+                resolver: zodResolver(FormSchema),
+            })
+
+            const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+                try {
+                    setLoading(true)
+                    await axios.put(`/api/tasks/${task.id}/edit`, data);
+                    toast.success("task status has been updated")
+                    form.reset();
+                    router.refresh();
+                    window.location.reload()
+                    setEditing(false)
+                } catch (error) {
+                    console.log(error);
+                    toast("failed to update task")
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+
+            return editing ? (
+
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder={task.name}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="font-semibold text-red-500" />
+                                </FormItem>
+                            )}
+                        ></FormField>
+
+                        <Button disabled={loading || form.formState.isSubmitting} type="submit">
+                            <GrFormEdit />
+                        </Button>
+                    </form>
+                </Form>
+
+            ) : (
+                <div onClick={() => setEditing(true)} className="font-semibold flex items-center gap-0.5">
+                    <p>
+                        {name}
+                    </p>
+                    <div className="rounded-lg bg-zinc-300 p-0.5">
+                        <GrFormEdit />
+                    </div>
+                </div >
+            )
+
         }
 
     },

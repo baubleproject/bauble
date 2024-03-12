@@ -94,7 +94,7 @@ export default function ChangeTaskStatus() {
     //INFO: events, submit, close, etc
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         try {
-            await axios.put(`/api/tasks/${taskId}/status`, data);
+            await axios.put(`/api/tasks/${taskId}/edit`, data);
             toast.success("task status has been updated")
             form.reset();
             router.refresh();
