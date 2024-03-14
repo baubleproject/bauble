@@ -16,7 +16,7 @@ export default function SideBarControl() {
         isCollapsed ? "justify-center" : "justify-between"
       } w-full`}
     >
-      <div className="flex-1">
+      <div className={`${isCollapsed ? "hidden" : "flex-1"}`}>
         <Logo className="w-24 h-9" />
       </div>
       <div
