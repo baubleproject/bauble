@@ -8,6 +8,7 @@ import InviteMembersModal from "@/components/modals/InviteMembersModal";
 import TaskDetailsModal from "@/components/modals/TaskDetailsModal";
 import AddProjectFile from "@/components/modals/AddProjectFile";
 import ChangeTaskStatus from "@/components/modals/ChangeTaskStatus";
+import ChangeMemberRole from "@/components/modals/ChangeMemberStatus";
 
 export function ModalProvider() {
     const [isMounted, setIsMounted] = useState(false);
@@ -29,6 +30,7 @@ export function ModalProvider() {
             <TaskDetailsModal />
             <AddProjectFile />
             <ChangeTaskStatus />
+            <ChangeMemberRole /> 
         </>
     )
 

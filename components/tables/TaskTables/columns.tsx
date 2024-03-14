@@ -31,13 +31,13 @@ import {
     ShieldCheck,
 } from 'lucide-react';
 import { MemberandProfile } from "@/type/MemberandProfile";
-import { useModal as ModalState } from "@/hooks/useModalStore"
 import * as React from "react"
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm as FormUse } from "react-hook-form";
 import axios from "axios";
 import { toast } from "sonner";
+import { useModal as ModalState } from "@/hooks/useModalStore"
 import { useRouter as RouterUse } from "next/navigation";
 import * as Reloader from "@/hooks/useReload";
 

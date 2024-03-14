@@ -10,10 +10,10 @@ interface TaskProps {
 export async function getProjectMembers({ id }: TaskProps) {
     try {
         const members = await db.member.findMany({
-            where:{
+            where: {
                 projectId: id
             },
-            include:{
+            include: {
                 profile: true
             }
         })
@@ -23,3 +23,23 @@ export async function getProjectMembers({ id }: TaskProps) {
         return null
     }
 }
+
+export async function getMember({ id }: TaskProps) {
+    try {
+        //const profile = await currentProfile()
+        const members = await db.member.findFirst({
+            where: {
+                id: id,
+            },
+            include: {
+                profile: true
+            }
+        })
+        return members
+    } catch (err) {
+        console.log("SERVER ACTION GET PROJECT MEMBERS", err)
+        return null
+    }
+}
+
+export type MemberwithProfile = Awaited<ReturnType<typeof getMember>>

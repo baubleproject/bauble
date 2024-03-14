@@ -21,6 +21,7 @@ import AddProjectFile from "@/components/modals/AddProjectFile";
 import { FilePage } from "./_components/FilesPage";
 import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
+import SettingsPage from "./_components/SettingsPage";
 
 interface Props {
     params: {
@@ -172,6 +173,11 @@ export default function Page({ params }: Props) {
                             className="h-full w-full"
                         />
                     </TabsContent>
+
+                    <TabsContent value="settings" className="h-full w-full">
+                        <SettingsPage project={project} />
+                    </TabsContent>
+
 
                     <TabsContent value="file" className="h-full w-full">
                         <FilePage project={project!} />

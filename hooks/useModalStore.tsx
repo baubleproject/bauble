@@ -10,12 +10,14 @@ export type ModalType =
     | 'taskDetails'
     | 'addFile'
     | 'taskStatus'
+    | 'memberStatus'
 
 interface ModalData {
     project?: Project
     projectId?: string
     taskId?: string
     task?: Task
+    memberId?: string
 }
 
 interface ModalStore {
