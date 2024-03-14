@@ -29,7 +29,7 @@ export default async function page() {
       {/* <Dashboard /> */}
 
       {/* WTF: */}
-      <section className="md:w-2/3 mx-auto flex flex-col md:grid-cols-2 md:grid w-full gap-3">
+      <section className="md:w-3/4 mx-auto flex flex-col md:grid-cols-2 md:grid w-full gap-3">
         <div className="w-full h-72 overflow-hidden rounded-2xl border-[0.06px] dark:hover:border-[1px] border-zinc-300 dark:border-zinc-700">
           <TeamsBoard className="min-h-full" />
         </div>
