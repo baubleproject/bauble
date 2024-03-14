@@ -71,6 +71,7 @@ export default function CreateProjectModal() {
 
     const loading = form.formState.isSubmitting; // while the form is submitting
 
+
     const handleClose = () => {
         // what happens when the modal closes
         form.reset();

@@ -4,6 +4,7 @@ import { Task } from '@prisma/client'
 import { useEffect, useRef } from 'react'
 import Gantt from 'frappe-gantt'
 import React, { HTMLAttributes } from 'react'
+import { Button } from 'antd'
 
 interface GanttBoardProps extends HTMLAttributes<HTMLDivElement> {
     tasks: Task[]
@@ -22,7 +23,7 @@ export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
             dependencies: '', // If dependencies are null or undefined, set an empty string
         }));
 
-        if (ganttContainerRef.current) {
+        if (tasks.length > 0 && ganttContainerRef.current) {
             const gantt = new Gantt(ganttContainerRef.current, mappedTasks ? mappedTasks : [], {
                 view_mode: "Month",
                 date_format: "MM/DD/YYYY",
@@ -37,10 +38,21 @@ export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
 
     return (
         <section {...props} className={cn("", className)}>
-            <div className='max-w-[95%] mx-auto overflow-x-auto'>
-                <div className='max-w-full' ref={ganttContainerRef} />
-            </div>
-        </section>
+            {
+                tasks.length <= 0 ? (
+                    <div className='max-w-[95%] mx-auto overflow-x-auto flex flex-col items-center justify-center gap-3'>
+                        <p>There are no tasks in the project.</p>
+                        <Button>Create a task</Button>
+
+                    </div>
+                ) : (
+
+                    <div className='max-w-[95%] mx-auto overflow-x-auto'>
+                        <div className='max-w-full' ref={ganttContainerRef} />
+                    </div>
+                )
+            }
+        </section >
     );
 }
 

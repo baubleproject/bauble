@@ -21,6 +21,7 @@ import AddProjectFile from "@/components/modals/AddProjectFile";
 import { FilePage } from "./_components/FilesPage";
 import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
+import SettingsPage from "./_components/SettingsPage";
 
 interface Props {
   params: {
