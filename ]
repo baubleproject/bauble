@@ -274,13 +274,12 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
             const onTaskDelete = async () => {
                 try {
                     await axios.delete(`/api/tasks/${task.id}/delete`);
-                    toast.success("tast has been deleted");
+                    toast.success("task status has been updated");
                     router.refresh();
                     ReloadPage();
                     //window.location.reload()
                 } catch (error) {
                     console.log(error);
-                    toast.success(error as string);
                 }
             };
 
@@ -308,7 +307,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                         <DropdownMenuItem
                             onClick={() => onOpen("taskStatus", { taskId: task.id })}
                         >
-                            Update task status
+                            update task status
                         </DropdownMenuItem>
 
                         <DropdownMenuItem className="bg-red-300 hover:bg-red-500 hover:dark:bg-red-800 dark:bg-red-600" onClick={onTaskDelete} >Delete Task (admin only)</DropdownMenuItem>
