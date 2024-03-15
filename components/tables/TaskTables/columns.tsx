@@ -109,15 +109,8 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
         resolver: zodResolver(FormSchema),
       });
 
-      const formRef = useRef<ElementRef<"form">>(null);
-      const inputRef = useRef<ElementRef<"input">>(null);
-
       const enableEditing = () => {
         setEditing(true);
-        setTimeout(() => {
-          inputRef.current?.focus();
-          inputRef.current?.select();
-        });
       };
 
       const disableEditing = () => {
@@ -140,13 +133,10 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
           setLoading(false);
         }
       };
-      const onBlur = () => {
-        formRef.current?.requestSubmit();
-      };
 
       const onKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          formRef.current?.requestSubmit();
+          setEditing(false)
         }
       };
 
@@ -155,7 +145,6 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
       return editing ? (
         <Form {...form}>
           <form
-            ref={formRef}
             onSubmit={form.handleSubmit(onSubmit)}
             className=" flex items-center gap-1"
           >
@@ -166,10 +155,8 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                 <FormItem>
                   <FormControl>
                     <Input
-                      ref={inputRef}
-                      onBlur={onBlur}
                       placeholder={task.name}
-                      //   {...field}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage className="font-semibold text-red-500" />
