@@ -105,7 +105,7 @@ const CalenderPage = () => {
     }
 
     return <section className="md:w-[97%] mx-auto">
-        <p className={`${dmsans.className} tracking-tight md:text-xl font-semibold`}>My Calendar</p>
+        <p className={`${dmsans.className} mb-5 tracking-tight md:text-xl font-semibold`}>My Calendar</p>
         <Calendar cellRender={cellRender} />
     </section>
 };
