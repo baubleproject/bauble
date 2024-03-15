@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button"
 export const roleIconMap = {
     GUEST: null,
     ADMIN: <ShieldCheck className="h-5 w-5 text-indigo-700" />,
+    LEADER: <ShieldCheck className="h-5 w-5 text-red-700" />,
 };
 
 export const SettingMemberColumns: ColumnDef<MemberwithProfile>[] = [
