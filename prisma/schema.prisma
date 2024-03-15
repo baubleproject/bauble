@@ -25,6 +25,7 @@ model Profile {
 }
 
 enum MemberRole {
+    LEADER
     ADMIN
     GUEST
 }

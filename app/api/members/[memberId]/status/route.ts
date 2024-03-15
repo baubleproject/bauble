@@ -46,6 +46,10 @@ export async function PUT(
             return new NextResponse('Member not found', { status: 404 });
         }
 
+        if (member.project.createdBy == member.id){
+            return new NextResponse('Cannot update the project leader', { status: 404 });
+        }
+
         // Check if the user is an admin or the person assigned to the task
         if (ourMember?.role == MemberRole.ADMIN) {
             // Change the task status
