@@ -24,9 +24,9 @@ export async function POST(req: Request) {
             return new NextResponse("Project is not available", { status: 401 })
         }
 
-        // if (project.createdBy != profile.id) {
-        //     return new NextResponse("A task can only be created by an admin in the team", { status: 401 })
-        // }
+        if (project.createdBy != profile.id  ) { //INFO: i guess this means only the project leader can create a task
+            return new NextResponse("A task can only be created by an admin in the team", { status: 401 })
+        }
 
         const member = await db.member.findFirst({
             where:{
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
             }
         })
 
-        if (member?.role != MemberRole.ADMIN){
+        if (member?.role != MemberRole.ADMIN){ //INFO: and thus means only admins can create a task too
             return new NextResponse("Only admins can create tasks", { status: 401 })
         }
 
@@ -46,10 +46,10 @@ export async function POST(req: Request) {
                 priority,
                 start: from,
                 end: to,
-                //memberId: assignedTo,
+                //memberId: assignedTo, //NOTE: next line more efficient tbh.
                 assignedTo: {
                     connect: {
-                        id: assignedTo
+                        id: assignedTo ?? assignedTo
                     }
                 },
                 project: {
