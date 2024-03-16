@@ -30,9 +30,7 @@ export const OverviewPage = ({
                 ))
             */}
       <p className="text-lg font-semibold -tracking-wider">Project Roles</p>
-      <div className="whitespace-nowrap px-3 py-1 text-lg font-semibold ring-offset-background transition-all">
-        Admin(s)
-      </div>
+      <div className="text-lg font-semibold -tracking-wider">Admin(s)</div>
       <div className="w-full min-h-14 flex items-start justify-start py-2 gap-3">
         {members?.map(
           (t) =>
@@ -57,9 +55,7 @@ export const OverviewPage = ({
             )
         )}
       </div>
-      <div className="whitespace-nowrap px-3 py-1 text-lg font-semibold ring-offset-background transition-all">
-        Member(s)
-      </div>
+      <div className="text-lg font-semibold -tracking-wider">Member(s)</div>
       <div className="w-full min-h-14 flex items-start justify-start py-2 gap-3">
         {members?.map(
           (t) =>
