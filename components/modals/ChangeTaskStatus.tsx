@@ -98,9 +98,7 @@ export default function ChangeTaskStatus() {
             toast.success("task status has been updated")
             form.reset();
             router.refresh();
-            window.location.reload()
             onClose();
-
         } catch (error) {
             console.log(error);
             toast("failed to update task")

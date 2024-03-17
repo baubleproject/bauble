@@ -1,7 +1,7 @@
 "use client"
 import { useModal } from '@/hooks/useModalStore'
 import { TaskStatus } from '@prisma/client';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     Form,
     FormControl,
@@ -40,11 +40,11 @@ import moment from 'moment';
 const FormSchema = z.object({
     comment: z
         .string()
-        .min(10, {
-            message: "Bio must be at least 10 characters.",
+        .min(3, {
+            message: "comment must be at least 3 characters.",
         })
-        .max(160, {
-            message: "Bio must not be longer than 30 characters.",
+        .max(100, {
+            message: "comment must not be longer than 100 characters.",
         }),
 })
 
@@ -70,6 +70,7 @@ export default function TaskDetailsModal() {
             setLoadingState(false)
         }
     }
+
     useEffect(() => {
         fetchData()
     }, [taskId])
@@ -87,13 +88,10 @@ export default function TaskDetailsModal() {
             const values = { taskId: task?.id, ...data }
             await axios.post('/api/tasks/comment', values);
             form.reset();
-            onClose()
             fetchData()
-            router.refresh();
-            onOpen("taskDetails", { taskId: task?.id })
         } catch (error) {
             console.log(error);
-            toast("failed to create task")
+            toast("failed to add comment")
         }
     }
 

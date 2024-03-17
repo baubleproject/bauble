@@ -17,11 +17,11 @@ import axios from "axios";
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { TablePage } from "./_components/TablePage";
 import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
-import AddProjectFile from "@/components/modals/AddProjectFile";
 import { FilePage } from "./_components/FilesPage";
 import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
 import SettingsPage from "./_components/SettingsPage";
+import DiscussionPage from "./_components/DiscussionPage";
 
 interface Props {
     params: {
@@ -70,51 +70,30 @@ export default function Page({ params }: Props) {
         }
     };
 
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+
+            const requests = [];
+
+            requests.push(fetchData1());
+            requests.push(fetchData2());
+            requests.push(fetchData3());
+
+            await Promise.all(requests);
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-
-                const requests = [];
-
-                requests.push(fetchData1());
-                requests.push(fetchData2());
-                requests.push(fetchData3());
-
-                await Promise.all(requests);
-
-                // console.log(project);
-                // console.log(tasks);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, []);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-
-                const requests = [];
-
-                requests.push(fetchData1());
-                requests.push(fetchData2());
-                requests.push(fetchData3());
-
-                await Promise.all(requests);
-
-                // console.log(project);
-                // console.log(tasks);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, [reloadFlag]);
 
@@ -141,6 +120,15 @@ export default function Page({ params }: Props) {
                         <TabsTrigger value="gantt">Gantt</TabsTrigger>
                         <TabsTrigger value="file">Files</TabsTrigger>
                         <TabsTrigger value="calendar">Calendar</TabsTrigger>
+                        {/*
+
+                            <TabsTrigger value="discussion">Discussion</TabsTrigger>
+                    <TabsContent value="discussion" className="h-full w-full">
+                        <DiscussionPage
+                            project={project}
+                        />
+                    </TabsContent>
+                            */}
                         <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
                     <Button
@@ -164,6 +152,7 @@ export default function Page({ params }: Props) {
                             className="h-full w-full"
                         />
                     </TabsContent>
+
                     <TabsContent value="table" className="h-full w-full">
                         <TablePage
                             members={members!}

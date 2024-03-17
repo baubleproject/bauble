@@ -44,23 +44,25 @@ model Member {
 
     tasks    Task[]    @relation("AssignedToMember")
     comments Comment[]
+    message  Message[]
 
     @@index([profileId])
     @@index([projectId])
 }
 
 model Project {
-    id          String   @id @default(uuid())
+    id          String    @id @default(uuid())
     name        String
-    imageUrl    String   @default("https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") @db.Text
-    inviteCode  String   @unique
+    imageUrl    String    @default("https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") @db.Text
+    inviteCode  String    @unique
     description String? // Description of the project
     createdBy   String // ID of the user who created the project
     members     Member[]
-    tasks       Task[]   @relation("ProjectTasks")
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    tasks       Task[]    @relation("ProjectTasks")
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
     files       File[]
+    messages    Message[]
 }
 
 model Task {
@@ -105,6 +107,19 @@ model File {
     type      FileType @default(FILE)
     createdAt DateTime @default(now())
     project   Project  @relation(fields: [projectID], references: [id])
+    projectID String
+}
+
+model Message {
+    id String @id @default(cuid())
+
+    content String
+    createdAt DateTime @default(now())
+
+    author   Member? @relation(fields: [authorId], references: [id])
+    authorId String?
+
+    project   Project @relation(fields: [projectID], references: [id])
     projectID String
 }
 

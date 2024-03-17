@@ -39,9 +39,10 @@ import { useRouter as RouterUse } from "next/navigation";
 import * as Reloader from "@/hooks/useReload";
 import { useRef, ElementRef } from "react";
 import { useEventListener } from "usehooks-ts";
+import { revalidatePath } from "next/cache";
 const roleIconMap = {
     GUEST: null,
-    LEADER:<ShieldCheck className="h-5 w-5 ml-2 text-red-700" />,
+    LEADER: <ShieldCheck className="h-5 w-5 ml-2 text-red-700" />,
     ADMIN: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
 };
 
@@ -275,9 +276,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                 try {
                     await axios.delete(`/api/tasks/${task.id}/delete`);
                     toast.success("tast has been deleted");
-                    router.refresh();
-                    ReloadPage();
-                    //window.location.reload()
+                    //ReloadPage();
                 } catch (error) {
                     console.log(error);
                     toast.success(error as string);
