@@ -6,6 +6,7 @@ import NavigationItem from "./NavigationItem";
 import { ImHome } from "react-icons/im";
 import { IoCalendar } from "react-icons/io5";
 import { AiFillSetting } from "react-icons/ai";
+import { FaQuoteRight } from "react-icons/fa6";
 
 const links = [
     {
@@ -23,6 +24,11 @@ const links = [
         icon: AiFillSetting,
         description: "Go to settings"
     },
+    {
+        name:"faq",
+        icon: FaQuoteRight,
+        description: "Go to faq"
+    }
 ]
 
 
