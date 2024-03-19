@@ -13,6 +13,9 @@ export async function getProject({ id, task = false }: ProjectMembers) {
         const project = await db.project.findUnique({
             where: {
                 id
+            },
+            include: {
+                members: true
             }
         })
         return project

@@ -11,6 +11,7 @@ export type ModalType =
     | 'addFile'
     | 'taskStatus'
     | 'memberStatus'
+    | 'updateTask'
 
 interface ModalData {
     project?: Project

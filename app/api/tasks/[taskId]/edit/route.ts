@@ -1,6 +1,6 @@
 import { currentProfile } from '@/actions/currentProfile';
 import { db } from '@/lib/db';
-import { MemberRole } from '@prisma/client';
+import { MemberRole, Task } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function PUT(
@@ -8,7 +8,8 @@ export async function PUT(
     { params }: { params: { taskId: string } }
 ) {
     try {
-        const { status, name } = await req.json();
+        const data:Task = await req.json();
+        const {status, name } = data
 
         // Get the profile of the person
         const profile = await currentProfile();
@@ -52,10 +53,7 @@ export async function PUT(
                 where: {
                     id: task.id
                 },
-                data: {
-                    status: status,
-                    name: name
-                }
+                data
             });
             return NextResponse.json({ status: 200 });
         } else {
@@ -63,7 +61,7 @@ export async function PUT(
         }
 
     } catch (error) {
-        console.error('[SERVER CHANGE STATUS ERROR]', error);
+        console.error('[SERVER CHANGE PROJECT DETAILS ERROR]', error);
         return new NextResponse('Internal Server Error', {
             status: 500,
         });

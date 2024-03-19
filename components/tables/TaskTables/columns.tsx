@@ -304,11 +304,19 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                         >
                             View task details
                         </DropdownMenuItem>
+                        {/*
                         <DropdownMenuItem
                             onClick={() => onOpen("taskStatus", { taskId: task.id })}
                         >
                             Update task status
                         </DropdownMenuItem>
+                            */}
+                        <DropdownMenuItem
+                            onClick={() => onOpen("updateTask", { task: task })}
+                        >
+                            Update task details
+                        </DropdownMenuItem>
+
 
                         <DropdownMenuItem className="bg-red-300 hover:bg-red-500 hover:dark:bg-red-800 dark:bg-red-600" onClick={onTaskDelete} >Delete Task (admin only)</DropdownMenuItem>
                     </DropdownMenuContent>
