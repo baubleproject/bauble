@@ -10,7 +10,7 @@ import { faqData as FAQDATA } from "@/lib/faq"
 
 import React, { useEffect, useState } from 'react'
 
-export default function page() {
+export default function Page() {
     const faqData = FAQDATA.faqs
 
     const [faq, setFaq] = useState(faqData)
