@@ -54,3 +54,37 @@ export async function getTasksById({ id }: TaskProps) {
         return null
     }
 }
+
+export async function getPlentyTasksById({ id }: TaskProps) {
+    try {
+        console.log(id)
+        const tasks = await db?.task.findMany({
+            where: {
+                projectId:id
+            },
+            include: {
+                assignedTo: {
+                    include: {
+                        profile: true
+                    }
+                },
+                comments: {
+                    include: {
+                        author: {
+                            include: {
+                                profile: true
+                            }
+                        }
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+        })
+        return tasks
+    } catch (err) {
+        console.log("SERVER ACTION GETTASKBYID", err)
+        return null
+    }
+}

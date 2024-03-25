@@ -21,7 +21,7 @@ import { FilePage } from "./_components/FilesPage";
 import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
 import SettingsPage from "./_components/SettingsPage";
-import DiscussionPage from "./_components/DiscussionPage";
+import KanbanPage from "./_components/KanbanPage";
 
 interface Props {
     params: {
@@ -114,22 +114,15 @@ export default function Page({ params }: Props) {
             <div className="w-full h-full">
                 <Tabs defaultValue="overview" className="w-full h-full">
                     <TabsList className="space-x-2 p-3">
+
                         <TabsTrigger value="overview">Overview</TabsTrigger>
                         <TabsTrigger value="table">Table</TabsTrigger>
                         <TabsTrigger value="kanban">Kanban</TabsTrigger>
                         <TabsTrigger value="gantt">Gantt</TabsTrigger>
                         <TabsTrigger value="file">Files</TabsTrigger>
                         <TabsTrigger value="calendar">Calendar</TabsTrigger>
-                        {/*
-
-                            <TabsTrigger value="discussion">Discussion</TabsTrigger>
-                    <TabsContent value="discussion" className="h-full w-full">
-                        <DiscussionPage
-                            project={project}
-                        />
-                    </TabsContent>
-                            */}
                         <TabsTrigger value="settings">Settings</TabsTrigger>
+
                     </TabsList>
                     <Button
                         className="mx-2 text-sm"
@@ -150,6 +143,12 @@ export default function Page({ params }: Props) {
                             members={members!}
                             tasks={tasks!}
                             className="h-full w-full"
+                        />
+                    </TabsContent>
+
+                    <TabsContent value="kanban" className="h-full w-full">
+                        <KanbanPage
+                            project={project}
                         />
                     </TabsContent>
 
