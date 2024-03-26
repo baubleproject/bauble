@@ -37,8 +37,6 @@ export async function DELETE(
                 profile: true
             }
         });
-        console.log(member)
-        console.log("THE TASK:", task)
         if (!member) {
             return new NextResponse('Member not found', { status: 404 });
         }
@@ -48,10 +46,17 @@ export async function DELETE(
             // Change the task status
             await db.task.delete({
                 where: {
-                    id: task.id
+                    id: params.taskId
                 }
             });
-            return NextResponse.json({ status: 200 });
+            
+            const tasks = await db.task.findMany({
+                where:{
+                    projectId: task.project?.id
+                }
+            })
+
+            return NextResponse.json({ status: 200, data: tasks });
         } else {
             return new NextResponse('Only admins can delete tasks', { status: 401 });
         }

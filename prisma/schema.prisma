@@ -94,7 +94,7 @@ model Comment {
     id        String   @id @default(cuid())
     content   String
     createdAt DateTime @default(now())
-    task      Task     @relation(fields: [taskID], references: [id])
+    task      Task     @relation(fields: [taskID], references: [id], onDelete: Cascade)
     taskID    String
     author    Member?  @relation(fields: [authorId], references: [id])
     authorId  String?
@@ -113,7 +113,7 @@ model File {
 model Message {
     id String @id @default(cuid())
 
-    content String
+    content   String
     createdAt DateTime @default(now())
 
     author   Member? @relation(fields: [authorId], references: [id])

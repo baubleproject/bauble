@@ -12,21 +12,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Member, MemberRole, Priority, Task, TaskStatus } from "@prisma/client";
+import { MemberRole, Priority, TaskStatus } from "@prisma/client";
 import { formatDate } from "@/lib/utils";
 import { Hash } from "lucide-react";
-import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
-    FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ShieldAlert, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { MemberandProfile } from "@/type/MemberandProfile";
 import * as React from "react";
 import { z } from "zod";
@@ -36,9 +33,9 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useModal as ModalState } from "@/hooks/useModalStore";
 import { useRouter as RouterUse } from "next/navigation";
-import * as Reloader from "@/hooks/useReload";
 import { useEventListener } from "usehooks-ts";
 import { TaskType } from "@/components/Cards/KanbanTaskCard";
+import TaskStore from "@/store/TaskState";
 
 const roleIconMap = {
     GUEST: null,
@@ -103,7 +100,7 @@ export const columns: ColumnDef<TaskType>[] = [
             const [loading, setLoading] = React.useState(false);
             const name: string = row.getValue("name");
             const task = row.original;
-            const { ReloadPage } = Reloader.useReloadState();
+            const { updateTask } = TaskStore()
 
             const router = RouterUse();
 
@@ -118,18 +115,27 @@ export const columns: ColumnDef<TaskType>[] = [
             const disableEditing = () => {
                 setEditing(false);
             };
+
+
+
             const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+                const oldTask = task;
+                const newTask = { ...task, ...data }
                 try {
+
+                    //INFO: ux
                     setLoading(true);
+                    updateTask(task?.id!, newTask)
+                    disableEditing();
+                    setLoading(false);
+
+                    //INFO: actually update the task
                     await axios.put(`/api/tasks/${task?.id}/edit`, data);
                     toast.success("task status has been updated");
                     form.reset();
-                    router.refresh();
-                    ReloadPage();
-                    //window.location.reload()
-                    return disableEditing();
                 } catch (error) {
                     console.log(error);
+                    updateTask(task?.id!, oldTask)
                     toast("failed to update task");
                 } finally {
                     setLoading(false);
@@ -267,16 +273,15 @@ export const columns: ColumnDef<TaskType>[] = [
         id: "actions",
         cell: ({ row }) => {
             const task = row.original;
-            //@eslint-disable-next-line
+
             const { onOpen } = ModalState();
-            const { ReloadPage } = Reloader.useReloadState();
-            const router = RouterUse();
+            const { setTasks } = TaskStore()
 
             const onTaskDelete = async () => {
                 try {
-                    await axios.delete(`/api/tasks/${task?.id}/delete`);
+                    const response = await axios.delete(`/api/tasks/${task?.id}/delete`);
+                    setTasks(response.data)
                     toast.success("tast has been deleted");
-                    //ReloadPage();
                 } catch (error) {
                     console.log(error);
                     toast.success(error as string);
