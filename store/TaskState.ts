@@ -13,6 +13,8 @@ interface TaskStore {
     updateTask: (taskId: string, updatedTask: Partial<TaskType>) => void;
 
     removeTask: (taskId: string) => void;
+
+    filterTasksById: (taskId: string) => void;
 }
 
 const useTaskStore = create<TaskStore>((set) => ({
@@ -20,7 +22,6 @@ const useTaskStore = create<TaskStore>((set) => ({
     setTasks: (tasks) => set({ tasks }),
     draggedTask: "",
     setDraggedTask: (id: string) => {
-        console.log(id)
         set({ draggedTask: id });
     },
     addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
@@ -34,6 +35,11 @@ const useTaskStore = create<TaskStore>((set) => ({
         set((state) => ({
             tasks: state.tasks.filter((task) => task?.id !== taskId),
         })),
+    filterTasksById(taskId) {
+        set((state) => ({
+            tasks: state.tasks.filter((task) => task?.id === taskId),
+        }));
+    },
 }));
 
 export default useTaskStore;

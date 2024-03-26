@@ -275,14 +275,21 @@ export const columns: ColumnDef<TaskType>[] = [
             const task = row.original;
 
             const { onOpen } = ModalState();
-            const { setTasks } = TaskStore()
+            const { setTasks, tasks } = TaskStore()
 
             const onTaskDelete = async () => {
+
+                const oldTask = tasks
+
+                const newTask = tasks.filter(t => {
+                    return t?.id !== task?.id
+                })
                 try {
-                    const response = await axios.delete(`/api/tasks/${task?.id}/delete`);
-                    setTasks(response.data)
+                    setTasks(newTask)
+                    await axios.delete(`/api/tasks/${task?.id}/delete`);
                     toast.success("tast has been deleted");
                 } catch (error) {
+                    setTasks(oldTask)
                     console.log(error);
                     toast.success(error as string);
                 }
