@@ -1,43 +1,43 @@
-import { Badge, Calendar, CalendarProps } from "antd";
+import {  Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import { Task, TaskStatus } from "@prisma/client";
+import {  TaskStatus } from "@prisma/client";
 import React from "react";
 import { truncateText } from "@/lib/utils";
 import { statusMap } from "@/components/tables/TaskTables/columns";
 import { useModal as ModalStore } from "@/hooks/useModalStore";
 import { TaskType } from "@/actions/getTaskById";
+import useTaskStore from "@/store/TaskState";
 
-interface CalendarPageProps {
-    tasks: TaskType[];
-}
-
-const getListData = (value: Dayjs, tasks: Task[]) => {
+const getListData = (value: Dayjs, tasks: TaskType[]) => {
     let listData = tasks
         .filter(
             (task) =>
-                dayjs(task.start).isSame(value, "day") ||
-                dayjs(task.end).isSame(value, "day")
+                dayjs(task?.start).isSame(value, "day") ||
+                dayjs(task?.end).isSame(value, "day")
         )
         .map((task) => ({
-            type: task.status, // assuming priority can be 'warning', 'success', etc.
-            content: `${task.name}`,
-            id: task.id
+            type: task?.status, // assuming priority can be 'warning', 'success', etc.
+            content: `${task?.name}`,
+            id: task?.id
         }));
 
     return listData || [];
 };
 
-const getMonthData = (value: Dayjs, tasks: Task[]) => {
+const getMonthData = (value: Dayjs, tasks: TaskType[]) => {
     let monthData = tasks.filter(
         (task) =>
-            dayjs(task.start).isSame(value, "month") ||
-            dayjs(task.end).isSame(value, "month")
+            dayjs(task?.start).isSame(value, "month") ||
+            dayjs(task?.end).isSame(value, "month")
     ).length;
 
     return monthData || 0;
 };
 
-const CalenderPage = ({ tasks }: CalendarPageProps) => {
+const CalenderPage = () => {
+
+    const { tasks } = useTaskStore()
+
     const monthCellRender = (value: Dayjs) => {
         const num = getMonthData(value, tasks);
         return num ? (

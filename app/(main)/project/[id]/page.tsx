@@ -5,8 +5,7 @@ import { OverviewPage } from "./_components/OverviewPage";
 import { useEffect, useState } from "react";
 import { GanttPage } from "./_components/GantPage";
 import { getProject } from "@/actions/getProject";
-import { getProjectTasks } from "@/actions/getProfileTasks";
-import { Member, Project, Task } from "@prisma/client";
+import {  Project  } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import Loader from "@/components/Loaders/Loader";
 import { formatDate } from "@/lib/utils";
@@ -16,13 +15,12 @@ import { toast } from "sonner";
 import axios from "axios";
 import { MemberandProfile } from "@/type/MemberandProfile";
 import { TablePage } from "./_components/TablePage";
-import { TasksandAssignedTo } from "@/type/TaskandAssignedTo";
 import { FilePage } from "./_components/FilesPage";
 import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
 import SettingsPage from "./_components/SettingsPage";
 import KanbanPage from "./_components/KanbanPage";
-import { TaskType, getPlentyTasksById } from "@/actions/getTaskById";
+import { getPlentyTasksById } from "@/actions/getTaskById";
 import useTaskStore from "@/store/TaskState";
 
 interface Props {
@@ -158,7 +156,6 @@ export default function Page({ params }: Props) {
 
                     <TabsContent value="table" className="h-full w-full">
                         <TablePage
-                            members={members!}
                             className="h-full w-full"
                         />
                     </TabsContent>
@@ -171,7 +168,7 @@ export default function Page({ params }: Props) {
                         <FilePage project={project!} />
                     </TabsContent>
                     <TabsContent value="calendar" className="h-full w-full">
-                        <CalenderPage tasks={tasks!} />
+                        <CalenderPage />
                     </TabsContent>
 
                     <TabsContent value="gantt" className="h-full w-full">
