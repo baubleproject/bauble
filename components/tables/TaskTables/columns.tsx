@@ -12,7 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MemberRole, Priority, TaskStatus } from "@prisma/client";
+import { Member, MemberRole, Priority, TaskStatus } from "@prisma/client";
 import { formatDate } from "@/lib/utils";
 import { Hash } from "lucide-react";
 import {
@@ -193,35 +193,26 @@ export const columns: ColumnDef<TaskType>[] = [
             );
         },
     },
+
     {
         accessorKey: "assignedTo",
         header: "Assigned to",
         cell: ({ row }) => {
-            const person = row.getValue("assignedTo");
-            let formatted: string | MemberandProfile;
+            const person: any = row.getValue("assignedTo");
+            let formatted: string | MemberandProfile = "Not assigned to anyone";
+            let role: MemberRole = MemberRole.GUEST;
 
-            if (person !== null) {
-                formatted = person as MemberandProfile;
-                const role = (formatted as any).role;
-
-                formatted =
-                    (formatted as any).profile?.firstname! +
-                    " " +
-                    (formatted as any).profile?.lastname!;
-                return (
-                    <div className="w-fit flex">
-                        <p>{formatted as string}</p>
-                        {roleIconMap[role as MemberRole]}
-                    </div>
-                );
-            } else {
-                formatted = "Not assigned to anyone";
-                return (
-                    <div className="font-semibold bg-green-200 dark:bg-green-900 rounded-md w-fit p-2">
-                        {formatted.toLowerCase()}
-                    </div>
-                );
+            if (person != null) {
+                formatted = `${person.profile?.firstname} ${person.profile?.lastname}`;
+                role = person.role;
             }
+
+            return (
+                <div className="flex items-center">
+                    <p>{formatted}</p>
+                    {roleIconMap[role]}
+                </div>
+            );
         },
     },
 
@@ -247,6 +238,7 @@ export const columns: ColumnDef<TaskType>[] = [
             return <div className="">{formatted}</div>;
         },
     },
+
     {
         accessorKey: "status",
         header: "Task Status",
@@ -255,18 +247,21 @@ export const columns: ColumnDef<TaskType>[] = [
             const { onOpen } = ModalState();
             const status = row.getValue("status");
             const task = row.original;
+
+            const statusInfo = statusMap[status as TaskStatus] || { color: "bg-gray-400", icon: null };
+
             return (
                 <div
                     onClick={() => onOpen("taskStatus", { taskId: task?.id })}
-                    className={`py-1 px-3 cursor-pointer rounded-lg ${statusMap[status as TaskStatus].color
-                        } w-fit text-white font-semibold flex items-center justify-center gap-1`}
+                    className={`py-1 px-3 cursor-pointer rounded-lg ${statusInfo.color} w-fit text-white font-semibold flex items-center justify-center gap-1`}
                 >
                     <p>{String(status).toLowerCase()}</p>
-                    {statusMap[status as TaskStatus].icon}
+                    {statusInfo.icon}
                 </div>
             );
         },
     },
+
 
     {
         /* eslint-disable */

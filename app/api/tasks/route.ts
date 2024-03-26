@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             return new NextResponse("Only admins can create tasks", { status: 401 })
         }
 
-        await db.task.create({
+        const task = await db.task.create({
             data: {
                 name,
                 description,
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
             }
         })
 
-        return NextResponse.json({ status: 200 })
+        return NextResponse.json({ status: 200, data:task })
     } catch (err) {
         console.log("[ROUTE POST ENDPOINT:]", err)
         return new NextResponse(`Internal Error ${err}`, { status: 500 })

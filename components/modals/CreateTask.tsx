@@ -57,6 +57,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getProjectMembers } from "@/actions/getProjectMembers";
+import useTaskStore from "@/store/TaskState";
+import { TaskType } from "@/actions/getTaskById";
 
 const FormSchema = z.object({
     projectId: z.string({}).optional(),
@@ -115,7 +117,7 @@ export default function CreateTask() {
         resolver: zodResolver(FormSchema),
     })
 
-
+    const { setTasks, tasks } = useTaskStore()
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -135,17 +137,25 @@ export default function CreateTask() {
     //INFO: events, submit, close, etc
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         try {
-            if (projectPassedIn) {
-                data.projectId = projectPassedIn
-            }
-            const values = { to: date?.to, from: date?.from, ...data }
-            await axios.post('/api/tasks', values);
-            toast.success("Project task has been created")
-            form.reset();
-            router.refresh();
-            window.location.reload()
-            onClose();
+            let updatedTasks = [...tasks]; // Copy current tasks array
 
+            if (projectPassedIn) {
+                data.projectId = projectPassedIn;
+            }
+
+            const values = { to: date?.to, from: date?.from, ...data };
+            const response = await axios.post('/api/tasks', values);
+            const taskData: TaskType = response.data;
+
+            updatedTasks.push(taskData); // Add the new task to the copied array
+
+            // Update tasks state with the new array
+            //setTasks(updatedTasks);
+            router.refresh()
+
+            toast.success("Project task has been created");
+            form.reset();
+            onClose();
         } catch (error) {
             console.log(error);
             toast("failed to create task")
