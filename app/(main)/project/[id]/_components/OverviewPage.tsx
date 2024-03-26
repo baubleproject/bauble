@@ -1,4 +1,5 @@
 "use client";
+import { TaskType } from "@/actions/getTaskById";
 import { ProjectFilesSection } from "@/components/sections/ProjectFiles";
 import { roleIconMap } from "@/components/tables/SettingsTables/Members/columns";
 import { columns } from "@/components/tables/TaskTables/columns";
@@ -9,7 +10,7 @@ import { MemberRole, Project, Task } from "@prisma/client";
 import React, { HTMLAttributes } from "react";
 
 interface OverviewBoardProps extends HTMLAttributes<HTMLDivElement> {
-    tasks: Task[];
+    tasks: TaskType[];
     members: MemberandProfile;
     project: Project;
 }

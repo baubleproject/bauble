@@ -26,13 +26,11 @@ import { useState } from "react"
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    numberOfColums?: number
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    numberOfColums = 3
 }: DataTableProps<TData, TValue>) {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(

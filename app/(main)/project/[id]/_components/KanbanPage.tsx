@@ -1,6 +1,6 @@
 import { getPlentyTasksById } from "@/actions/getTaskById";
 import KanbanColumns from "@/components/sections/KanbanColumns";
-import useKanbanStore from "@/store/KanbanState";
+import useTaskStore from "@/store/TaskState";
 import { Project, TaskStatus } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,8 +16,8 @@ export default function KanbanPage({ project }: KanbanProps) {
 
     const [loading, setLoading] = useState<boolean>(false)
 
-    const tasks = useKanbanStore(state => state.tasks);
-    const setTasks = useKanbanStore(state => state.setTasks);
+    const tasks = useTaskStore(state => state.tasks);
+    const setTasks = useTaskStore(state => state.setTasks);
 
     // status array stuff
     type StatusValuesProto = keyof typeof TaskStatus
@@ -38,7 +38,7 @@ export default function KanbanPage({ project }: KanbanProps) {
         }
 
         fetchTasks()
-    }, [])
+    }, [tasks])
 
    
     return (

@@ -4,7 +4,7 @@ import { useModal } from '@/hooks/useModalStore'
 import { truncateText } from '@/lib/utils'
 import React from 'react'
 import { priorityMap } from '../tables/TaskTables/columns'
-import useKanbanStore from "@/store/KanbanState";
+import useTaskStore from "@/store/TaskState";
 
 export type TaskType = Awaited<ReturnType<typeof getTasksById>>
 
@@ -17,7 +17,7 @@ export default function KanbanTaskCard({ task }: KanbanTaskCard) {
     const countOfComments = task?.comments.length ? task?.comments.length : 0
 
     const { onOpen } = useModal()
-    const { setDraggedTask } = useKanbanStore()
+    const { setDraggedTask } = useTaskStore()
 
     const openModal = () => {
         onOpen("taskDetails", { taskId: task?.id })

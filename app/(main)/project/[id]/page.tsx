@@ -22,6 +22,8 @@ import CalenderPage from "./_components/CalenderPage";
 import useReloadState from "@/hooks/useReload";
 import SettingsPage from "./_components/SettingsPage";
 import KanbanPage from "./_components/KanbanPage";
+import { TaskType, getPlentyTasksById } from "@/actions/getTaskById";
+import useTaskStore from "@/store/TaskState";
 
 interface Props {
     params: {
@@ -31,11 +33,14 @@ interface Props {
 
 export default function Page({ params }: Props) {
     const [loading, setLoading] = useState(false);
-    const [tasks, setTasks] = useState<TasksandAssignedTo[] | null>(null);
     const [project, setProject] = useState<Project | null>(null);
     const [members, setMembers] = useState<MemberandProfile | null>(null);
     const { onOpen } = useModal();
     const { reloadFlag } = useReloadState();
+
+
+    const tasks = useTaskStore(state => state.tasks);
+    const setTasks = useTaskStore(state => state.setTasks);
 
     const id = params.id;
 
@@ -48,11 +53,10 @@ export default function Page({ params }: Props) {
         }
     };
 
-    const fetchData2 = async () => {
+    const fetchData2 = async () => { // this function is for getting the tasks of the preset project
         try {
-            const tasks = await getProjectTasks({ id });
+            const tasks = await getPlentyTasksById({ id });
             if (tasks?.length! > 0) {
-                tasks?.reverse();
                 setTasks(tasks!);
             }
         } catch (error) {
@@ -155,7 +159,6 @@ export default function Page({ params }: Props) {
                     <TabsContent value="table" className="h-full w-full">
                         <TablePage
                             members={members!}
-                            tasks={tasks!}
                             className="h-full w-full"
                         />
                     </TabsContent>

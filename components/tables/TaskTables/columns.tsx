@@ -37,9 +37,9 @@ import { toast } from "sonner";
 import { useModal as ModalState } from "@/hooks/useModalStore";
 import { useRouter as RouterUse } from "next/navigation";
 import * as Reloader from "@/hooks/useReload";
-import { useRef, ElementRef } from "react";
 import { useEventListener } from "usehooks-ts";
-import { revalidatePath } from "next/cache";
+import { TaskType } from "@/components/Cards/KanbanTaskCard";
+
 const roleIconMap = {
     GUEST: null,
     LEADER: <ShieldCheck className="h-5 w-5 ml-2 text-red-700" />,
@@ -94,7 +94,7 @@ const FormSchema = z.object({
     }),
 });
 
-export const columns: ColumnDef<TasksandAssignedTo>[] = [
+export const columns: ColumnDef<TaskType>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -121,7 +121,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
             const onSubmit = async (data: z.infer<typeof FormSchema>) => {
                 try {
                     setLoading(true);
-                    await axios.put(`/api/tasks/${task.id}/edit`, data);
+                    await axios.put(`/api/tasks/${task?.id}/edit`, data);
                     toast.success("task status has been updated");
                     form.reset();
                     router.refresh();
@@ -157,7 +157,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            placeholder={task.name}
+                                            placeholder={task?.name}
                                             {...field}
                                         />
                                     </FormControl>
@@ -251,7 +251,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
             const task = row.original;
             return (
                 <div
-                    onClick={() => onOpen("taskStatus", { taskId: task.id })}
+                    onClick={() => onOpen("taskStatus", { taskId: task?.id })}
                     className={`py-1 px-3 cursor-pointer rounded-lg ${statusMap[status as TaskStatus].color
                         } w-fit text-white font-semibold flex items-center justify-center gap-1`}
                 >
@@ -274,7 +274,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
 
             const onTaskDelete = async () => {
                 try {
-                    await axios.delete(`/api/tasks/${task.id}/delete`);
+                    await axios.delete(`/api/tasks/${task?.id}/delete`);
                     toast.success("tast has been deleted");
                     //ReloadPage();
                 } catch (error) {
@@ -294,13 +294,13 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(task.id)}
+                            onClick={() => navigator.clipboard.writeText(task?.id!)}
                         >
                             Copy task ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={() => onOpen("taskDetails", { taskId: task.id })}
+                            onClick={() => onOpen("taskDetails", { taskId: task?.id })}
                         >
                             View task details
                         </DropdownMenuItem>
@@ -312,7 +312,7 @@ export const columns: ColumnDef<TasksandAssignedTo>[] = [
                         </DropdownMenuItem>
                             */}
                         <DropdownMenuItem
-                            onClick={() => onOpen("updateTask", { task: task })}
+                            onClick={() => onOpen("updateTask", { task: task! })}
                         >
                             Update task details
                         </DropdownMenuItem>

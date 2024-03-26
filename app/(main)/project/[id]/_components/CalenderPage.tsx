@@ -5,9 +5,10 @@ import React from "react";
 import { truncateText } from "@/lib/utils";
 import { statusMap } from "@/components/tables/TaskTables/columns";
 import { useModal as ModalStore } from "@/hooks/useModalStore";
+import { TaskType } from "@/actions/getTaskById";
 
 interface CalendarPageProps {
-    tasks: Task[];
+    tasks: TaskType[];
 }
 
 const getListData = (value: Dayjs, tasks: Task[]) => {

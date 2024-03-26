@@ -22,11 +22,13 @@ export default function SideBarControl() {
                 onClick={toggleSidebarCollapse}
                 className="p-2 px-3 rounded-md text-myPrimary dark:text-white cursor-pointer"
             >
-                {isCollapsed ? (
-                    <TbLayoutSidebarRightCollapse className="w-6 h-6" />
-                ) : (
-                    <TbLayoutSidebarLeftCollapse className="w-6 h-6" />
-                )}
+                <div className="">
+                    {isCollapsed ? (
+                        <TbLayoutSidebarRightCollapse className="w-6 h-6" />
+                    ) : (
+                        <TbLayoutSidebarLeftCollapse className="w-6 h-6" />
+                    )}
+                </div>
             </div>
         </div>
     );

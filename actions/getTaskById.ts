@@ -55,6 +55,9 @@ export async function getTasksById({ id }: TaskProps) {
     }
 }
 
+
+export type TaskType = Awaited<ReturnType<typeof getTasksById>>
+
 export async function getPlentyTasksById({ id }: TaskProps) {
     try {
         console.log(id)

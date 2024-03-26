@@ -2,7 +2,7 @@
 import React, { HTMLAttributes, useMemo, useEffect, useState } from 'react'
 import KanbanTaskCard, { TaskType } from '../Cards/KanbanTaskCard'
 import { Separator } from '../ui/separator'
-import useKanbanStore from '@/store/KanbanState';
+import useTaskStore from '@/store/TaskState';
 import axios from "axios";
 import { TaskStatus } from '@prisma/client';
 
@@ -11,7 +11,7 @@ interface KanbanColumns extends HTMLAttributes<HTMLDivElement> {
 }
 export default function KanbanColumns({ status, ...props }: KanbanColumns) {
 
-    const { draggedTask, tasks, setTasks } = useKanbanStore();
+    const { draggedTask, tasks, setTasks } = useTaskStore();
     const [filteredTasks, setFilteredTasks] = useState<typeof tasks>([])
 
     const handleTaskDrop = async (taskId: string, newStatus: string) => {

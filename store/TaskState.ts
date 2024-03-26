@@ -1,17 +1,21 @@
 import create from 'zustand';
 import { TaskType } from '@/components/Cards/KanbanTaskCard';
 
-interface KanbanStore {
+interface TaskStore {
     tasks: TaskType[];
     setTasks: (tasks: TaskType[]) => void;
+
     draggedTask: string;
     setDraggedTask: (id: string) => void;
+
     addTask: (task: TaskType) => void;
+
     updateTask: (taskId: string, updatedTask: Partial<TaskType>) => void;
+
     removeTask: (taskId: string) => void;
 }
 
-const useKanbanStore = create<KanbanStore>((set) => ({
+const useTaskStore = create<TaskStore>((set) => ({
     tasks: [],
     setTasks: (tasks) => set({ tasks }),
     draggedTask: "",
@@ -32,5 +36,5 @@ const useKanbanStore = create<KanbanStore>((set) => ({
         })),
 }));
 
-export default useKanbanStore;
+export default useTaskStore;
 

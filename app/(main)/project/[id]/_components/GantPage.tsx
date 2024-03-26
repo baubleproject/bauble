@@ -5,9 +5,10 @@ import { useEffect, useRef } from 'react'
 import Gantt from 'frappe-gantt'
 import React, { HTMLAttributes } from 'react'
 import { Button } from 'antd'
+import { TaskType } from '@/actions/getTaskById'
 
 interface GanttBoardProps extends HTMLAttributes<HTMLDivElement> {
-    tasks: Task[]
+    tasks: TaskType[]
 }
 
 export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
@@ -15,19 +16,18 @@ export const GanttPage = ({ tasks, className, ...props }: GanttBoardProps) => {
 
     useEffect(() => {
         const mappedTasks = tasks?.map(task => ({
-            id: task.id,
-            name: task.name,
-            start: task.start.toISOString().split('T')[0], // Convert Date object to ISO string
-            end: task.end.toISOString().split('T')[0], // Convert Date object to ISO string
-            progress: 50,
-            dependencies: '', // If dependencies are null or undefined, set an empty string
+            id: task?.id!,
+            name: task?.name!,
+            start: task?.start.toISOString().split('T')[0]!,
+            end: task?.end.toISOString().split('T')[0]!, // Convert Date object to ISO string
+            progress: 100!,
+            dependencies: ''!,
         }));
 
-        if (tasks.length > 0 && ganttContainerRef.current) {
-            const gantt = new Gantt(ganttContainerRef.current, mappedTasks ? mappedTasks : [], {
+        if (tasks?.length > 0 && ganttContainerRef.current) {
+            const gantt = new Gantt(ganttContainerRef.current, mappedTasks, {
                 view_mode: "Month",
                 date_format: "MM/DD/YYYY",
-
             });
 
             return () => {
